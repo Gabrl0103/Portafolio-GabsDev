@@ -12,12 +12,25 @@ export default function Navbar() {
 
   // Resalta el enlace de la sección visible.
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`)),
-      { rootMargin: "-40% 0px -55% 0px" },
-    );
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`)), {
+      rootMargin: "-40% 0px -55% 0px",
+    });
     document.querySelectorAll("[data-sec]").forEach((s) => io.observe(s));
     return () => io.disconnect();
+  }, []);
+
+  // Cierra el menú al tocar fuera o con Escape.
+  useEffect(() => {
+    const onDown = (e: PointerEvent) => {
+      if (menu.current?.open && !menu.current.contains(e.target as Node)) menu.current.removeAttribute("open");
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && menu.current?.removeAttribute("open");
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   const closeMenu = () => menu.current?.removeAttribute("open");
@@ -35,20 +48,23 @@ export default function Navbar() {
           </span>
         </a>
 
-        <nav className="flex items-center gap-0.5 max-[1100px]:hidden" aria-label="Secciones">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              aria-current={active === l.href ? "true" : undefined}
-              className={cx(
-                "rounded-full px-[15px] py-2.5 text-sm/[1.5] font-medium tracking-normal transition-[background,color] duration-300 hover:text-fg",
-                active === l.href ? "bg-glass2 text-fg" : "text-mut",
-              )}
-            >
-              {l.label}
-            </a>
-          ))}
+        {/* Solo las 4 secciones principales; todas están en el menú. */}
+        <nav className="flex items-center gap-0.5 max-[860px]:hidden" aria-label="Secciones principales">
+          {navLinks
+            .filter((l) => l.main)
+            .map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                aria-current={active === l.href ? "true" : undefined}
+                className={cx(
+                  "rounded-full px-[15px] py-2.5 text-sm/[1.5] font-medium tracking-normal transition-[background,color] duration-300 hover:text-fg",
+                  active === l.href ? "bg-glass2 text-fg" : "text-mut",
+                )}
+              >
+                {l.label}
+              </a>
+            ))}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -56,27 +72,37 @@ export default function Navbar() {
           <a className={button({ variant: "primary", size: "sm" })} href={site.cv} download>
             CV <DownloadIcon />
           </a>
-          <details className="group relative hidden max-[1100px]:block" ref={menu}>
+          <details className="group relative" ref={menu}>
             <summary
-              className={cx(button({ size: "icon" }), "list-none group-open:bg-none group-open:bg-acc group-open:text-acc-ink [&::-webkit-details-marker]:hidden")}
-              aria-label="Abrir menú"
+              className={cx(
+                button({ size: "icon" }),
+                "list-none group-open:bg-none group-open:bg-acc group-open:text-acc-ink [&::-webkit-details-marker]:hidden",
+              )}
+              aria-label="Todas las secciones"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                 <path d="M3 6h12M3 12h12" />
               </svg>
             </summary>
-            <div className="glass absolute top-[52px] right-0 flex min-w-[210px] flex-col rounded-[22px] border border-transparent p-2">
+            <nav
+              aria-label="Todas las secciones"
+              className="glass absolute top-[52px] right-0 flex min-w-[210px] flex-col rounded-[22px] border border-transparent p-2 [background:color-mix(in_srgb,var(--bg2)_90%,transparent)]"
+            >
               {navLinks.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={closeMenu}
-                  className="rounded-[14px] px-4 py-3.5 text-sm/[1.5] font-medium tracking-normal text-soft hover:bg-glass2"
+                  aria-current={active === l.href ? "true" : undefined}
+                  className={cx(
+                    "rounded-[14px] px-4 py-3.5 text-sm/[1.5] font-medium tracking-normal hover:bg-glass2",
+                    active === l.href ? "bg-glass2 text-fg" : "text-soft",
+                  )}
                 >
                   {l.label}
                 </a>
               ))}
-            </div>
+            </nav>
           </details>
         </div>
       </div>

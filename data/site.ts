@@ -19,14 +19,15 @@ export const site = {
   year: 2026,
 } as const;
 
+/** Todas las secciones. `main` = visibles en la barra; el resto vive en el menú. */
 export const navLinks = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#sobre-mi", label: "Sobre mí" },
-  { href: "#proyectos", label: "Proyectos" },
-  { href: "#testimonios", label: "Testimonios" },
-  { href: "#experiencia", label: "Experiencia" },
-  { href: "#habilidades", label: "Habilidades" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "#inicio", label: "Inicio", main: false },
+  { href: "#sobre-mi", label: "Sobre mí", main: true },
+  { href: "#proyectos", label: "Proyectos", main: true },
+  { href: "#testimonios", label: "Testimonios", main: false },
+  { href: "#experiencia", label: "Experiencia", main: true },
+  { href: "#habilidades", label: "Habilidades", main: false },
+  { href: "#contacto", label: "Contacto", main: true },
 ] as const;
 
 export const tools = ["Next.js", "TypeScript", "Tailwind CSS", "JavaScript", "Python", "Django", "Git", "Vercel"];
