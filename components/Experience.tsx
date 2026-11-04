@@ -1,10 +1,11 @@
 import { experience } from "@/data/experience";
 import type { ExperienceKind } from "@/types";
 import SectionHead from "./SectionHead";
+import { BriefcaseIcon, CapIcon } from "./Icons";
 
-const groups: { kind: ExperienceKind; title: string; icon: string }[] = [
-  { kind: "academica", title: "Académica", icon: "🎓" },
-  { kind: "laboral", title: "Laboral", icon: "💼" },
+const groups: { kind: ExperienceKind; title: string; Icon: typeof CapIcon }[] = [
+  { kind: "academica", title: "Académica", Icon: CapIcon },
+  { kind: "laboral", title: "Laboral", Icon: BriefcaseIcon },
 ];
 
 export default function Experience() {
@@ -16,8 +17,8 @@ export default function Experience() {
         {groups.map((g) => (
           <div key={g.kind} className="flex flex-col gap-8">
             <h3 className="rv flex items-center gap-3 text-2xl font-semibold tracking-tight md:text-3xl">
-              <span aria-hidden="true" className="flex size-11 items-center justify-center rounded-full bg-glass2 text-xl">
-                {g.icon}
+              <span aria-hidden="true" className="flex size-11 flex-none items-center justify-center rounded-full bg-glass2 text-acc">
+                <g.Icon size={20} />
               </span>
               Experiencia {g.title.toLowerCase()}
             </h3>

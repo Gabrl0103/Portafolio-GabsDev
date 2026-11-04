@@ -4,7 +4,7 @@ import { useState } from "react";
 import { site } from "@/data/site";
 import Hid, { Koi } from "./fx/Hid";
 import TypeTitle from "./fx/TypeTitle";
-import { GithubIcon, LinkedinIcon, MailIcon, WhatsappIcon } from "./Icons";
+import { CheckIcon, GithubIcon, LinkedinIcon, MailIcon, PinIcon, WhatsappIcon } from "./Icons";
 import { button, cx } from "./ui";
 
 /** Si defines NEXT_PUBLIC_FORMSPREE_ID el formulario envía por Formspree; si no, abre el correo. */
@@ -103,13 +103,17 @@ export default function Contact() {
               </a>
             </li>
           ))}
-          <li className="mt-auto px-4 pt-4 pb-2 text-sm text-mut">📍 {site.city}</li>
+          <li className="mt-auto flex items-center gap-2 px-4 pt-4 pb-2 text-sm text-mut">
+            <PinIcon size={15} /> {site.city}
+          </li>
         </ul>
 
         <form noValidate onSubmit={onSubmit} className="glass rv flex flex-col gap-4 rounded-[30px] p-6 md:p-8" aria-label="Formulario de contacto">
           {status === "sent" ? (
             <div role="status" className="flex flex-1 flex-col items-center justify-center gap-4 py-10 text-center">
-              <span className="flex size-16 items-center justify-center rounded-full bg-acc text-3xl text-acc-ink">✓</span>
+              <span className="flex size-16 items-center justify-center rounded-full bg-acc text-acc-ink">
+                <CheckIcon />
+              </span>
               <p className="m-0 text-2xl font-semibold tracking-tight">¡Mensaje enviado!</p>
               <p className="m-0 max-w-[36ch] text-soft">
                 {FORMSPREE_ID ? "Gracias por escribir. Te respondo pronto." : "Se abrió tu app de correo con el mensaje listo para enviar."}

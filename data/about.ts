@@ -23,7 +23,7 @@ export const chapters: Chapter[] = [
   },
 ];
 
-export const facts = ["📍 Pasto, CO", "🎓 5.º semestre", "🍦 Fundador de Neveo", "💻 Web, móvil y escritorio"];
+export const facts = ["Pasto, Colombia", "5.º semestre", "Fundador de Neveo", "Web, móvil y escritorio"];
 
 /** Sección adicional: niveles aproximados de 0 a 100. Ajústalos a tu criterio. */
 export const skillGroups: SkillGroup[] = [

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { testimonials } from "@/data/testimonials";
 import SectionHead from "./SectionHead";
+import { StarIcon } from "./Icons";
 
 const initials = (name: string) =>
   name
@@ -27,9 +28,10 @@ export default function Testimonials() {
               &rdquo;
             </span>
             {t.rating && (
-              <span className="text-sm tracking-[.2em] text-acc" aria-label={`${t.rating} de 5 estrellas`}>
-                {"★".repeat(t.rating)}
-                <span className="text-line2">{"★".repeat(5 - t.rating)}</span>
+              <span className="flex gap-1" role="img" aria-label={`${t.rating} de 5 estrellas`}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <StarIcon key={n} className={n <= t.rating! ? "text-acc" : "text-line2"} />
+                ))}
               </span>
             )}
             <blockquote className="m-0 flex-1 text-lg leading-relaxed text-soft">“{t.quote}”</blockquote>
