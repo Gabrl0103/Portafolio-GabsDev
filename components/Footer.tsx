@@ -1,12 +1,11 @@
 import { navLinks, site } from "@/data/site";
 import Hid from "./fx/Hid";
 import ReplayIntro from "./fx/ReplayIntro";
-import { ArrowUpIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from "./Icons";
+import { ArrowUpIcon, GithubIcon, InstagramIcon, MailIcon } from "./Icons";
 import { button } from "./ui";
 
 const socials = [
   { label: "GitHub", href: site.github, Icon: GithubIcon },
-  { label: "LinkedIn", href: site.linkedin, Icon: LinkedinIcon },
   { label: "Instagram de Neveo", href: site.instagram, Icon: InstagramIcon },
   { label: "Correo", href: `mailto:${site.email}`, Icon: MailIcon },
 ].filter((s) => s.href);

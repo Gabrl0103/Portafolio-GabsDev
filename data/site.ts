@@ -12,8 +12,6 @@ export const site = {
   email: "[tu-correo@ejemplo.com]",
   whatsapp: "", // Ej: "573001234567" (opcional)
   github: "https://github.com/Gabrl0103",
-  /** Deja "" para ocultar el botón hasta tener el enlace. */
-  linkedin: "",
   /** Instagram de Neveo. Deja "" para ocultarlo. */
   instagram: "",
   cv: "/cv.pdf",
@@ -31,6 +29,7 @@ export const navLinks = [
   { href: "#testimonios", label: "Testimonios", main: false },
   { href: "#experiencia", label: "Experiencia", main: true },
   { href: "#habilidades", label: "Habilidades", main: false },
+  { href: "#lado-b", label: "Lado B", main: false },
   { href: "#contacto", label: "Contacto", main: true },
 ] as const;
 

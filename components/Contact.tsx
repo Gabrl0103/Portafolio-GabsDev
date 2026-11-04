@@ -7,7 +7,7 @@ import BookCall from "./contact/BookCall";
 import MessageTab from "./contact/MessageTab";
 import { FakeCursor, SelectionFrame } from "./Frame";
 import Hid, { Koi } from "./fx/Hid";
-import { GithubIcon, InstagramIcon, LinkedinIcon, MailIcon, PinIcon, WhatsappIcon } from "./Icons";
+import { GithubIcon, InstagramIcon, MailIcon, PinIcon, WhatsappIcon } from "./Icons";
 import { button, cx, wrap } from "./ui";
 
 const TABS = [
@@ -23,7 +23,6 @@ export default function Contact() {
     { label: `Correo: ${site.email}`, href: `mailto:${site.email}`, Icon: MailIcon },
     ...(site.whatsapp ? [{ label: "WhatsApp", href: `https://wa.me/${site.whatsapp}`, Icon: WhatsappIcon }] : []),
     { label: "GitHub", href: site.github, Icon: GithubIcon },
-    { label: "LinkedIn", href: site.linkedin, Icon: LinkedinIcon },
     { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
   ].filter((s) => s.href);
 
