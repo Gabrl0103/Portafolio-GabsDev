@@ -27,26 +27,22 @@ export default function Hero() {
       className={cx(wrap, "relative flex flex-wrap items-center gap-14 pt-[150px] pb-[100px] max-[860px]:pt-[130px] max-[860px]:pb-[70px]")}
     >
       <div className="flex min-w-0 flex-[1_1_520px] flex-col gap-7">
-        <div className="rv flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-medium tracking-normal text-mut">
-          <b className="font-medium text-acc">Portafolio {site.year}</b>
+        <div className="rv flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] font-medium tracking-normal text-mut">
+          {/* Avatar pequeño: la guía pide foto o avatar en el inicio */}
+          <span className="flex items-center gap-2.5">
+            <Image
+              src={site.photo}
+              alt={`Foto de ${site.name}`}
+              width={28}
+              height={28}
+              priority
+              unoptimized={site.photo.endsWith(".svg")}
+              className="size-7 rounded-full object-cover ring-1 ring-acc ring-offset-2 ring-offset-bg"
+            />
+            <b className="font-medium text-acc">Portafolio {site.year}</b>
+          </span>
           <Clock />
           <span>Ingeniería de Software</span>
-        </div>
-
-        <div className="rv flex items-center gap-4">
-          <Image
-            src={site.photo}
-            alt={`Foto de ${site.name}`}
-            width={64}
-            height={64}
-            priority
-            unoptimized={site.photo.endsWith(".svg")}
-            className="size-16 rounded-full object-cover shadow-[0_0_0_3px_var(--bg),0_0_0_4px_var(--acc)]"
-          />
-          <div className="leading-tight">
-            <p className="m-0 text-lg font-semibold text-fg">{site.name}</p>
-            <p className="m-0 text-sm text-mut">{site.role}</p>
-          </div>
         </div>
 
         {/* Cada línea sube desde abajo cuando termina la intro (<html class="ready">). */}
