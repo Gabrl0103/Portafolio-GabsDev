@@ -5,6 +5,7 @@ export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo";
 
 export interface ProjectLink {
   label: string;
+  /** Deja "" mientras no exista: se muestra como "Próximamente". */
   href: string;
 }
 

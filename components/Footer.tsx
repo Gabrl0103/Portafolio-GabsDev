@@ -9,7 +9,7 @@ const socials = [
   { label: "LinkedIn", href: site.linkedin, Icon: LinkedinIcon },
   { label: "Instagram de Neveo", href: site.instagram, Icon: InstagramIcon },
   { label: "Correo", href: `mailto:${site.email}`, Icon: MailIcon },
-];
+].filter((s) => s.href);
 
 /** Pie de página con créditos de cine. */
 export default function Footer() {

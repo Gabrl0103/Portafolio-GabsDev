@@ -25,7 +25,7 @@ export default function Contact() {
     { label: "GitHub", href: site.github, Icon: GithubIcon },
     { label: "LinkedIn", href: site.linkedin, Icon: LinkedinIcon },
     { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
-  ];
+  ].filter((s) => s.href);
 
   return (
     <section id="contacto" className={cx(wrap, "relative py-28 md:py-36")} data-sec>

@@ -11,9 +11,11 @@ export const site = {
   semester: "5.º semestre",
   email: "[tu-correo@ejemplo.com]",
   whatsapp: "", // Ej: "573001234567" (opcional)
-  github: "https://github.com/[tu-usuario]",
-  linkedin: "https://linkedin.com/in/[tu-usuario]",
-  instagram: "https://instagram.com/[neveo]",
+  github: "https://github.com/Gabrl0103",
+  /** Deja "" para ocultar el botón hasta tener el enlace. */
+  linkedin: "",
+  /** Instagram de Neveo. Deja "" para ocultarlo. */
+  instagram: "",
   cv: "/cv.pdf",
   photo: "/images/avatar.svg",
   /** Foto de la sección Sobre mí (vertical 4:5). Cambia por tu foto, p. ej. "/images/gabs.jpg". */

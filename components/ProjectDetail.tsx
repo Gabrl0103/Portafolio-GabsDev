@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Project } from "@/types";
 import ProjectArt from "./ProjectArt";
-import { button, chip, cx } from "./ui";
+import ProjectLinkButton from "./ProjectLinkButton";
+import { chip, cx } from "./ui";
 
 const sections: [keyof Project["detail"], string][] = [
   ["problema", "Problema"],
@@ -101,12 +102,8 @@ export default function ProjectDetail({ project: current, onClose }: { project: 
               ))}
             </div>
             <div className="mt-[30px] flex flex-wrap gap-2.5">
-              <a className={button()} href={project.primary.href} target="_blank" rel="noopener noreferrer">
-                {project.primary.label} ↗
-              </a>
-              <a className={button({ variant: "primary" })} href={project.secondary.href} target="_blank" rel="noopener noreferrer">
-                {project.secondary.label} ↗
-              </a>
+              <ProjectLinkButton link={project.primary} size="md" />
+              <ProjectLinkButton link={project.secondary} size="md" variant="primary" />
             </div>
           </div>
         )}
