@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 /** Hora actual de Pasto (America/Bogota). */
-export default function Clock() {
+export default function Clock({ prefix = "Pasto · " }: { prefix?: string }) {
   const [time, setTime] = useState("00:00");
 
   useEffect(() => {
@@ -19,8 +19,9 @@ export default function Clock() {
   }, []);
 
   return (
-    <span id="clock" className="font-cine">
-      Pasto · {time}
+    <span className="font-cine">
+      {prefix}
+      {time}
     </span>
   );
 }

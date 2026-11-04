@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { intro, profile, stats } from "@/data/about";
-import { experience } from "@/data/experience";
+import { intro, now, profile, stats } from "@/data/about";
 import { site } from "@/data/site";
 import Hid, { Koi } from "./fx/Hid";
-import TypeTitle from "./fx/TypeTitle";
+import RevealTitle from "./fx/RevealTitle";
 import { FakeCursor } from "./Frame";
-import { BriefcaseIcon, CapIcon } from "./Icons";
-import { cx } from "./ui";
+import Clock from "./Clock";
+import { PinIcon } from "./Icons";
+import { cx, wrap } from "./ui";
 
-const CARDS = ["Perfil", "Sobre mí", "En números", "Experiencia"] as const;
+const CARDS = ["Perfil", "Sobre mí", "En números", "Ahora mismo"] as const;
 const N = CARDS.length;
 
 /** Posiciones de los dos cursores (en % del escenario) para cada tarjeta activa. */
@@ -114,11 +114,13 @@ export default function About() {
   const cursor = CURSORS[active];
 
   return (
-    <section id="sobre-mi" ref={sec} className="relative h-[400vh]" data-sec aria-label="Sobre mí">
+    <section id="sobre-mi" data-koi="soft" ref={sec} className="relative h-[400vh]" data-sec aria-label="Sobre mí">
       <div className="sticky top-0 h-svh overflow-hidden">
-        <div className="rv pointer-events-none absolute inset-x-0 top-24 z-[5] flex flex-col items-center gap-1.5 text-center">
-          <span className="text-base font-semibold tracking-[-.01em] text-acc">Sobre mí</span>
-          <TypeTitle text="Quién está detrás" className="text-[clamp(22px,2.4vw,32px)] font-medium text-mut" />
+        <div className="rv pointer-events-none absolute inset-x-0 top-24 z-[5]">
+          <div className={cx(wrap, "flex flex-col items-start gap-1")}>
+            <span className="text-base font-semibold tracking-[-.01em] text-acc">Sobre mí</span>
+            <RevealTitle text="Quién está detrás" className="text-[clamp(24px,2.6vw,34px)]" />
+          </div>
         </div>
 
         {/* Escenario entre el título y los indicadores */}
@@ -155,7 +157,7 @@ export default function About() {
                       {i === 0 && <ProfileCard on={on} />}
                       {i === 1 && <IntroCard on={on} />}
                       {i === 2 && <StatsCard play={seen[2]} />}
-                      {i === 3 && <ExperienceCard on={on} />}
+                      {i === 3 && <NowCard on={on} />}
                     </div>
                   </article>
                 </div>
@@ -313,26 +315,57 @@ function CountUp({ to, play, delay }: { to: number; play: boolean; delay: number
   return <>{n}</>;
 }
 
-function ExperienceCard({ on }: { on: boolean }) {
-  // Lo actual primero (lo laboral antes que lo académico) y los marcadores [..] al final.
-  const rank = (e: (typeof experience)[number]) => (e.title.startsWith("[") ? 4 : 0) + (e.end === "Hoy" ? 0 : 2) + (e.kind === "laboral" ? 0 : 1);
-  const items = [...experience].sort((a, b) => rank(a) - rank(b)).slice(0, 4);
+/** Lo que estás haciendo hoy: en qué trabajas, qué aprendes y tu disponibilidad. */
+function NowCard({ on }: { on: boolean }) {
+  const rows = [
+    {
+      label: "Construyendo",
+      value: now.building,
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />
+        </svg>
+      ),
+    },
+    {
+      label: "Aprendiendo",
+      value: now.learning,
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5v-15ZM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5v-15Z" />
+        </svg>
+      ),
+    },
+    {
+      label: "Disponibilidad",
+      value: now.availability,
+      icon: (
+        <span className="relative flex size-2.5">
+          <span className="absolute inset-0 animate-ping rounded-full bg-acc opacity-60" />
+          <span className="relative size-2.5 rounded-full bg-acc" />
+        </span>
+      ),
+    },
+    {
+      label: "Desde",
+      value: (
+        <>
+          {now.place} · <Clock prefix="" />
+        </>
+      ),
+      icon: <PinIcon size={18} />,
+    },
+  ];
   return (
     <ul className="m-0 flex h-full list-none flex-col p-0 px-[clamp(16px,2vw,24px)]">
-      {items.map((e, i) => {
-        const Icon = e.kind === "laboral" ? BriefcaseIcon : CapIcon;
+      {rows.map((r, i) => {
         const s = stagger(on, i);
         return (
-          <li key={i} className={cx("flex flex-1 items-center gap-3 py-2", i < items.length - 1 && "border-b border-line", s.className)} style={s.style}>
-            <span className="flex size-10 flex-none items-center justify-center rounded-xl bg-glass2 text-acc">
-              <Icon size={18} />
-            </span>
+          <li key={r.label} className={cx("flex flex-1 items-center gap-3 py-2", i < rows.length - 1 && "border-b border-line", s.className)} style={s.style}>
+            <span className="flex size-10 flex-none items-center justify-center rounded-xl bg-glass2 text-acc">{r.icon}</span>
             <div className="min-w-0">
-              <p className="m-0 truncate text-[15px] leading-tight font-semibold text-fg">{e.title}</p>
-              <p className="m-0 truncate text-[11px] text-mut">
-                {e.place} · {e.start}–{e.end}
-              </p>
-              <p className="m-0 mt-0.5 line-clamp-2 text-xs leading-snug text-soft [@media(max-height:720px)]:hidden">{e.description}</p>
+              <p className="m-0 text-[11px] text-mut">{r.label}</p>
+              <p className="m-0 text-[15px] leading-snug font-medium text-fg">{r.value}</p>
             </div>
           </li>
         );

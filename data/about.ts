@@ -17,6 +17,14 @@ export const intro = {
   openTo: ["Prácticas", "Freelance", "Proyectos", "Colaboraciones"],
 };
 
+/** Tarjeta "Ahora mismo" */
+export const now = {
+  building: "Skillmap, Firemap y una app para smartwatch",
+  learning: "[Qué estás aprendiendo ahora]",
+  availability: "Disponible para prácticas y freelance",
+  place: "Pasto, Colombia",
+};
+
 /** Tarjeta "En números" (datos reales; actualízalos cuando cambien) */
 export const stats: Stat[] = [
   { value: 5, suffix: ".º", label: "semestre de Ingeniería" },
