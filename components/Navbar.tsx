@@ -7,11 +7,17 @@ import SoundToggle from "./SoundToggle";
 import { DownloadIcon } from "./Icons";
 import { button, cx } from "./ui";
 
+/**
+ * Navegación en dos partes:
+ * - Arriba (fija): tu nombre con la sección actual a la izquierda; tema, CV y menú ☰ a la derecha.
+ * - Abajo (fija): una pastilla pequeña con las 4 secciones principales.
+ * Todo aparece cuando termina la intro (<html class="ready">).
+ */
 export default function Navbar() {
   const [active, setActive] = useState("#inicio");
   const menu = useRef<HTMLDetailsElement>(null);
 
-  // Resalta el enlace de la sección visible.
+  // Sección visible
   useEffect(() => {
     const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`)), {
       rootMargin: "-40% 0px -55% 0px",
@@ -35,50 +41,44 @@ export default function Navbar() {
   }, []);
 
   const closeMenu = () => menu.current?.removeAttribute("open");
+  const current = navLinks.find((l) => l.href === active);
 
   return (
-    // Baja desde arriba cuando termina la intro (<html class="ready">).
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 -translate-y-[120%] pt-[calc(12px+env(safe-area-inset-top,0px))] pr-[max(16px,env(safe-area-inset-right,0px))] pl-[max(16px,env(safe-area-inset-left,0px))] transition-transform delay-300 duration-900 ease-out-soft in-[.ready]:translate-y-0">
-      <div className="glass pointer-events-auto mx-auto flex max-w-[1080px] items-center justify-between gap-3 rounded-full border border-transparent py-2 pr-2 pl-[22px] max-[480px]:pl-4">
-        <a className="flex min-h-11 items-center gap-3 text-[22px] font-semibold tracking-[-.02em]" href="#inicio" aria-label={`${site.name}, inicio`}>
+    <>
+      {/* Degradado sutil para que el texto de arriba se lea sobre el contenido */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-40 h-24 bg-linear-to-b from-bg/85 to-transparent opacity-0 transition-opacity duration-700 in-[.ready]:opacity-100"
+      />
+
+      {/* Arriba: fijo */}
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-3 pt-[calc(14px+env(safe-area-inset-top,0px))] pr-[max(16px,env(safe-area-inset-right,0px))] pl-[max(20px,env(safe-area-inset-left,0px))] opacity-0 transition-[opacity,translate] delay-300 duration-900 ease-out-soft -translate-y-3 in-[.ready]:translate-y-0 in-[.ready]:opacity-100 md:pr-[max(24px,env(safe-area-inset-right,0px))] md:pl-[max(28px,env(safe-area-inset-left,0px))]">
+        <a href="#inicio" aria-label={`${site.name}, inicio`} className="pointer-events-auto flex min-h-11 items-center gap-2 text-[17px] font-semibold tracking-[-.02em] text-fg">
           GABS
-          <span className="flex gap-1" aria-hidden="true">
+          <span className="flex gap-[3px]" aria-hidden="true">
             {[0, 1, 2, 3].map((i) => (
-              <i key={i} className="block h-3 w-0.5 bg-fg" />
+              <i key={i} className="block h-2.5 w-[1.5px] bg-fg" />
             ))}
           </span>
+          {/* Sección actual, como una ruta */}
+          {current && current.href !== "#inicio" && (
+            <span key={current.href} className="flex animate-pv-up items-center gap-2 font-medium text-mut [animation-duration:.6s] max-[380px]:hidden">
+              <span aria-hidden="true" className="text-line2">
+                /
+              </span>
+              {current.label}
+            </span>
+          )}
         </a>
 
-        {/* Solo las 4 secciones principales; todas están en el menú. */}
-        <nav className="flex items-center gap-0.5 max-[860px]:hidden" aria-label="Secciones principales">
-          {navLinks
-            .filter((l) => l.main)
-            .map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                aria-current={active === l.href ? "true" : undefined}
-                className={cx(
-                  "rounded-full px-[15px] py-2.5 text-sm/[1.5] font-medium tracking-normal transition-[background,color] duration-300 hover:text-fg",
-                  active === l.href ? "bg-glass2 text-fg" : "text-mut",
-                )}
-              >
-                {l.label}
-              </a>
-            ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
+        <div className="pointer-events-auto flex items-center gap-2">
           <ThemeToggle />
           <a className={button({ variant: "primary", size: "sm" })} href={site.cv} download>
             CV <DownloadIcon />
           </a>
           <details className="group relative" ref={menu}>
             <summary
-              className={cx(
-                button({ size: "icon" }),
-                "list-none group-open:bg-none group-open:bg-acc group-open:text-acc-ink [&::-webkit-details-marker]:hidden",
-              )}
+              className={cx(button({ size: "icon" }), "list-none group-open:bg-none group-open:bg-acc group-open:text-acc-ink [&::-webkit-details-marker]:hidden")}
               aria-label="Todas las secciones"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -107,7 +107,29 @@ export default function Navbar() {
             </div>
           </details>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Abajo: las 4 secciones principales */}
+      <nav
+        aria-label="Secciones principales"
+        className="glass fixed bottom-[calc(16px+env(safe-area-inset-bottom,0px))] left-1/2 z-50 flex -translate-x-1/2 translate-y-6 items-center gap-0.5 rounded-full p-1 opacity-0 transition-[opacity,translate] delay-500 duration-900 ease-out-soft in-[.ready]:translate-y-0 in-[.ready]:opacity-100"
+      >
+        {navLinks
+          .filter((l) => l.main)
+          .map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              aria-current={active === l.href ? "true" : undefined}
+              className={cx(
+                "rounded-full px-4 py-2 text-sm/[1.5] font-medium tracking-normal whitespace-nowrap transition-[background,color] duration-300 max-[400px]:px-3 max-[400px]:text-[13px]",
+                active === l.href ? "bg-acc text-acc-ink" : "text-soft hover:text-fg",
+              )}
+            >
+              {l.label}
+            </a>
+          ))}
+      </nav>
+    </>
   );
 }
