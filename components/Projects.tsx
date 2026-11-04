@@ -1,218 +1,250 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { projects } from "@/data/projects";
 import type { Project } from "@/types";
-import ProjectArt from "./ProjectArt";
 import ProjectDetail from "./ProjectDetail";
 import ProjectGrid from "./ProjectGrid";
 import ProjectLinkButton from "./ProjectLinkButton";
+import ProjectScreen from "./ProjectScreen";
 import Hid, { Koi } from "./fx/Hid";
 import TypeTitle from "./fx/TypeTitle";
-import { button, chip, cx } from "./ui";
+import { button, chip, cx, wrap } from "./ui";
 
 const N = projects.length;
 const pad = (n: number) => String(n).padStart(2, "0");
-
-/** Posición relativa de cada tarjeta respecto a la actual: 0, 1, -1 o lejos. */
-function posOf(j: number, cur: number) {
-  const o = ((j - cur + N + N / 2) % N) - N / 2;
-  return o === 0 ? "0" : o === 1 ? "1" : o === -1 ? "-1" : "far";
-}
+type View = "carousel" | "grid";
 
 export default function Projects() {
-  const [cur, setCur] = useState(0);
+  const [view, setView] = useState<View>("carousel");
   const [detail, setDetail] = useState<Project | null>(null);
   const [mounted, setMounted] = useState(false);
-  const stage = useRef<HTMLDivElement>(null);
-  const startX = useRef<number | null>(null);
-
-  const show = useCallback((i: number) => setCur(((i % N) + N) % N), []);
   const close = useCallback(() => setDetail(null), []);
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 0);
-    // Deslizar con el dedo o el mouse para cambiar de proyecto.
-    const onUp = (e: PointerEvent) => {
-      if (startX.current === null) return;
-      const dx = e.clientX - startX.current;
-      startX.current = null;
-      if (Math.abs(dx) > 60) setCur((c) => (((c + (dx < 0 ? 1 : -1)) % N) + N) % N);
-    };
-    addEventListener("pointerup", onUp);
-    return () => {
-      clearTimeout(t);
-      removeEventListener("pointerup", onUp);
-    };
+    return () => clearTimeout(t);
   }, []);
 
-  // Inclinación 3D y brillo que siguen al cursor.
-  function onMove(e: React.PointerEvent) {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const on = stage.current?.querySelector<HTMLElement>('[data-pos="0"]');
-    const t = on?.querySelector<HTMLElement>("[data-tilt]");
-    const sh = on?.querySelector<HTMLElement>("[data-shot]");
-    if (!on || !t || !sh) return;
-    const r = on.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    const c = (v: number) => Math.max(-0.6, Math.min(0.6, v));
-    t.style.setProperty("--ry", `${(c(x) * 16).toFixed(2)}deg`);
-    t.style.setProperty("--rx", `${(c(-y) * 11).toFixed(2)}deg`);
-    t.style.setProperty("--ix", `${(-x * 16).toFixed(1)}px`);
-    t.style.setProperty("--iy", `${(-y * 10).toFixed(1)}px`);
-    sh.style.setProperty("--lx", `${((x + 0.5) * 100).toFixed(1)}%`);
-    sh.style.setProperty("--ly", `${((y + 0.5) * 100).toFixed(1)}%`);
-  }
-  function onLeave() {
-    stage.current?.querySelectorAll<HTMLElement>("[data-tilt]").forEach((t) => {
-      t.style.setProperty("--rx", "0deg");
-      t.style.setProperty("--ry", "0deg");
-    });
-  }
-
   return (
-    <section id="proyectos" className="relative" data-sec>
-      {/* Escaparate: un proyecto a la vez */}
-      <div className="relative h-svh min-h-[600px] overflow-hidden">
-        <div className="rv pointer-events-none absolute inset-x-0 top-24 z-[6] flex flex-col items-center gap-1.5 text-center max-[860px]:top-[84px]">
+    <section id="proyectos" className="relative py-28 md:py-32" data-sec>
+      <div className={cx(wrap, "flex flex-wrap items-end justify-between gap-x-6 gap-y-4")}>
+        <div className="rv flex flex-col gap-2">
           <span className="text-base font-semibold tracking-[-.01em] text-acc">Proyectos</span>
-          <TypeTitle text="Lo que he construido" className="text-[clamp(22px,2.4vw,32px)] font-medium text-mut" />
+          <TypeTitle text="Lo que he construido" />
+          <p className="m-0 max-w-[48ch] text-[17px] leading-[1.55] text-soft">Cada proyecto con su código en GitHub y su demo en línea.</p>
         </div>
-
-        <div
-          className="absolute inset-0"
-          role="region"
-          aria-roledescription="carrusel"
-          aria-label="Proyectos"
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight") show(cur + 1);
-            else if (e.key === "ArrowLeft") show(cur - 1);
-          }}
-        >
-          <div
-            className="absolute inset-0 overflow-hidden"
-            ref={stage}
-            onPointerDown={(e) => (startX.current = e.clientX)}
-            onPointerMove={onMove}
-            onPointerLeave={onLeave}
-          >
-            {projects.map((p, j) => {
-              const pos = posOf(j, cur);
-              const isCur = pos === "0";
-              return (
-                <article
-                  key={p.id}
-                  data-pos={pos}
-                  inert={!isCur}
-                  aria-roledescription="diapositiva"
-                  aria-label={`${j + 1} de ${N}: ${p.title}`}
-                  className="group pointer-events-none absolute inset-0 w-full opacity-0 transition-opacity duration-900 ease-[ease] data-[pos=0]:pointer-events-auto data-[pos=0]:opacity-100"
-                >
-                  {/* Recuadro de vidrio: al tocarlo se abre el detalle. */}
-                  <div
-                    data-tilt
-                    onClick={(e) => isCur && !(e.target as HTMLElement).closest("a,button") && setDetail(p)}
-                    className="glass absolute inset-x-0 top-[70px] bottom-0 m-auto block h-[min(520px,58vh)] w-[min(1080px,90vw)] cursor-pointer overflow-hidden rounded-[38px] hover:shadow-[inset_0_1px_0_var(--gl-hi),inset_0_0_0_1px_var(--gl-edge),0_40px_80px_-30px_var(--shadow)] max-[860px]:top-[150px] max-[860px]:bottom-auto max-[860px]:mx-auto max-[860px]:my-0 max-[860px]:h-[calc(100%-296px)] max-[860px]:w-[calc(100%-28px)]"
-                  >
-                    <div
-                      data-shot
-                      className="absolute inset-0 overflow-hidden rounded-[inherit] bg-[radial-gradient(60%_80%_at_74%_50%,color-mix(in_srgb,var(--acc)_22%,transparent),transparent_72%)] after:pointer-events-none after:absolute after:inset-0 after:z-[2] after:bg-[radial-gradient(520px_circle_at_var(--lx,70%)_var(--ly,40%),rgba(255,255,255,.1),transparent_62%)] after:opacity-90 after:mix-blend-soft-light"
-                    >
-                      {p.image ? (
-                        <Image src={p.image} alt={`Captura de ${p.title}`} fill sizes="(max-width: 860px) 100vw, 1080px" className="object-cover" />
-                      ) : (
-                        <>
-                          <span className="glass-flat absolute top-5 right-[22px] z-[3] rounded-full px-2.5 py-1.5 text-xs/[1.5] font-medium tracking-normal text-soft max-[860px]:hidden">
-                            Vista de ejemplo
-                          </span>
-                          <ProjectArt
-                            art={p.art}
-                            className="absolute top-1/2 right-[4%] aspect-[480/300] h-auto w-[52%] transition-transform duration-500 ease-out-soft [transform:translateY(-48%)_perspective(1100px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] group-data-[pos=0]:animate-pv-in max-[860px]:top-[6%] max-[860px]:right-[5%] max-[860px]:w-[90%] max-[860px]:[transform:none] max-[860px]:group-data-[pos=0]:animate-pv-in-m"
-                          />
-                        </>
-                      )}
-                    </div>
-
-                    <div className="absolute bottom-[clamp(24px,3.4vw,44px)] left-[clamp(24px,3.4vw,48px)] z-[3] flex w-[min(44%,430px)] flex-col justify-between gap-[22px] transition-transform duration-600 ease-out-soft [transform:translate(var(--ix,0px),var(--iy,0px))] max-[860px]:right-5 max-[860px]:bottom-5 max-[860px]:left-5 max-[860px]:w-auto max-[860px]:gap-3">
-                      <div className="flex flex-col gap-3.5 group-data-[pos=0]:animate-pv-up">
-                        <h3 className="text-[clamp(34px,4.6vw,66px)] leading-none tracking-[-.04em] max-[860px]:text-[clamp(30px,9vw,44px)]">{p.title}</h3>
-                        <p className="m-0 line-clamp-3 max-w-[34ch] text-[clamp(15px,1.3vw,18px)] leading-[1.45] text-soft max-[860px]:hidden [@media(max-height:620px)]:hidden">
-                          {p.description}
-                        </p>
-                        <div className="flex flex-wrap gap-2 max-[860px]:[&>span:not(:first-child)]:hidden">
-                          <span className={chip}>{p.kind}</span>
-                          {p.tags.map((t, k) => (
-                            <span key={k} className={chip}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="relative z-[4] flex flex-wrap gap-2.5 self-start group-data-[pos=0]:animate-pv-up group-data-[pos=0]:[animation-delay:.12s]">
-                        <button type="button" className={cx(button({ variant: "primary", size: "sm" }), "max-[860px]:hidden")} onClick={() => setDetail(p)}>
-                          Ver proyecto
-                        </button>
-                        <ProjectLinkButton link={p.primary} />
-                        <ProjectLinkButton link={p.secondary} />
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          <div className="absolute inset-x-0 bottom-9 z-[6] flex flex-wrap items-center justify-center gap-3.5 max-[860px]:bottom-4 max-[860px]:gap-x-3 max-[860px]:gap-y-2 max-[860px]:px-3">
-            <button className={button({ size: "icon" })} type="button" aria-label="Proyecto anterior" onClick={() => show(cur - 1)}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                <path d="M14 8H2M7 3 2 8l5 5" />
-              </svg>
-            </button>
-            <div className="glass flex flex-wrap justify-center gap-1 rounded-full border border-transparent p-[5px] max-[860px]:order-first max-[860px]:w-full max-[860px]:flex-nowrap max-[860px]:justify-start max-[860px]:overflow-x-auto max-[860px]:[scrollbar-width:none]">
-              {projects.map((p, j) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  aria-pressed={j === cur}
-                  onClick={() => show(j)}
-                  className={cx(
-                    // `tab` es el gancho del sonido y del cursor (Effects.tsx).
-                    "tab min-h-11 cursor-pointer rounded-full border-0 px-5 text-sm/[1.5] font-medium tracking-normal [transition:background_.35s,color_.35s,transform_.4s_cubic-bezier(.34,1.56,.64,1)] active:scale-95 max-[860px]:flex-auto max-[860px]:px-2.5 max-[860px]:text-[13px]",
-                    j === cur ? "bg-acc text-acc-ink shadow-[0_8px_20px_-10px_var(--acc)]" : "bg-transparent text-mut hover:text-fg",
-                  )}
-                >
-                  {p.short}
-                </button>
-              ))}
-            </div>
-            <button className={button({ size: "icon" })} type="button" aria-label="Proyecto siguiente" onClick={() => show(cur + 1)}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                <path d="M2 8h12M9 3l5 5-5 5" />
-              </svg>
-            </button>
-            <span className="min-w-[130px] text-center text-sm/[1.5] font-medium tracking-normal text-mut tabular-nums" aria-live="polite">
-              {pad(cur + 1)} / {pad(N)}
-            </span>
-          </div>
-        </div>
-
-        <Hid x="52%" y="19%">
-          22
-        </Hid>
-        <Hid x="8%" y="18%">
-          <Koi w={44} />
-        </Hid>
-        <Hid x="86%" y="84%">
-          2:22
-        </Hid>
+        <ViewToggle view={view} onChange={setView} />
       </div>
 
-      {/* Todos los proyectos en cuadrícula */}
-      <ProjectGrid projects={projects} onOpen={setDetail} />
+      <div key={view} className="mt-10 animate-pv-up [animation-duration:.7s] md:mt-12">
+        {view === "carousel" ? (
+          <Carousel onOpen={setDetail} />
+        ) : (
+          <div className={wrap}>
+            <ProjectGrid projects={projects} onOpen={setDetail} />
+          </div>
+        )}
+      </div>
+
+      <Hid x="52%" y="6%">22</Hid>
+      <Hid x="8%" y="12%">
+        <Koi w={44} />
+      </Hid>
+      <Hid x="86%" y="94%">2:22</Hid>
 
       {mounted && <ProjectDetail project={detail} onClose={close} />}
     </section>
+  );
+}
+
+/* ---------- Cambiar de vista ---------- */
+
+function ViewToggle({ view, onChange }: { view: View; onChange: (v: View) => void }) {
+  const opts = [
+    {
+      v: "carousel" as const,
+      label: "Ver en carrusel",
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
+          <rect x="6" y="5" width="12" height="14" rx="2" />
+          <path d="M2.5 7.5v9M21.5 7.5v9" />
+        </svg>
+      ),
+    },
+    {
+      v: "grid" as const,
+      label: "Ver en cuadrícula",
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+          <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+          <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+          <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+          <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+        </svg>
+      ),
+    },
+  ];
+  return (
+    <div role="group" aria-label="Vista de proyectos" className="glass-flat relative flex rounded-full p-1">
+      {/* Indicador que se desliza bajo la opción activa */}
+      <span
+        aria-hidden="true"
+        className={cx("absolute top-1 left-1 size-9 rounded-full bg-glass2 transition-transform duration-500 ease-out-soft", view === "grid" && "translate-x-9")}
+      />
+      {opts.map((o) => (
+        <button
+          key={o.v}
+          type="button"
+          title={o.label}
+          aria-label={o.label}
+          aria-pressed={view === o.v}
+          onClick={() => onChange(o.v)}
+          className={cx(
+            "relative flex size-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent transition-colors duration-300",
+            view === o.v ? "text-fg" : "text-mut hover:text-fg",
+          )}
+        >
+          {o.icon}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Carrusel de recuadros grandes ---------- */
+
+function Carousel({ onOpen }: { onOpen: (p: Project) => void }) {
+  const [cur, setCur] = useState(0);
+  const [m, setM] = useState<{ sw: number; cw: number; gap: number } | null>(null);
+  const stage = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const startX = useRef<number | null>(null);
+  const show = useCallback((i: number) => setCur(((i % N) + N) % N), []);
+
+  // Mide el escenario y las tarjetas para centrar la actual.
+  useEffect(() => {
+    const st = stage.current;
+    const tr = track.current;
+    if (!st || !tr) return;
+    const measure = () => {
+      const first = tr.firstElementChild as HTMLElement | null;
+      if (!first) return;
+      setM({ sw: st.clientWidth, cw: first.offsetWidth, gap: parseFloat(getComputedStyle(tr).columnGap) || 0 });
+    };
+    const ro = new ResizeObserver(measure);
+    ro.observe(st);
+    measure();
+    return () => ro.disconnect();
+  }, []);
+
+  const x = m ? m.sw / 2 - m.cw / 2 - cur * (m.cw + m.gap) : 0;
+  const p = projects[cur];
+
+  return (
+    <div
+      role="region"
+      aria-roledescription="carrusel"
+      aria-label="Proyectos"
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") show(cur + 1);
+        else if (e.key === "ArrowLeft") show(cur - 1);
+      }}
+    >
+      <div
+        ref={stage}
+        className="relative overflow-hidden py-6 [perspective:1600px]"
+        onPointerDown={(e) => (startX.current = e.clientX)}
+        onPointerUp={(e) => {
+          if (startX.current === null) return;
+          const dx = e.clientX - startX.current;
+          startX.current = null;
+          if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+        }}
+      >
+        <div
+          ref={track}
+          className={cx(
+            "flex gap-[clamp(20px,4vw,56px)] transition-[transform,opacity] duration-900 ease-out-soft [transform-style:preserve-3d]",
+            m ? "opacity-100" : "opacity-0",
+          )}
+          style={{ transform: `translate3d(${x}px,0,0)` }}
+        >
+          {projects.map((proj, i) => {
+            const d = i - cur;
+            const near = Math.abs(d) === 1;
+            return (
+              <div
+                key={proj.id}
+                aria-hidden={d !== 0}
+                className="w-(--pw) flex-none transition-[transform,opacity,filter] duration-900 ease-out-soft [--pw:min(86vw,560px)] md:[--pw:min(70vw,920px,calc((100svh-220px)*1.6))]"
+                style={{
+                  transform: d === 0 ? "none" : `rotateY(${d > 0 ? -16 : 16}deg) scale(${near ? 0.86 : 0.78})`,
+                  opacity: d === 0 ? 1 : near ? 0.5 : 0,
+                  filter: d === 0 ? "none" : "saturate(.7)",
+                }}
+              >
+                <button
+                  type="button"
+                  tabIndex={d === 0 ? 0 : -1}
+                  aria-label={d === 0 ? `Ver detalle de ${proj.title}` : `Ir a ${proj.title}`}
+                  onClick={() => (d === 0 ? onOpen(proj) : show(i))}
+                  className={cx(
+                    "group relative block aspect-[16/10] w-full cursor-pointer overflow-hidden rounded-[18px] border-0 p-0 shadow-[0_50px_90px_-40px_var(--shadow),0_0_0_1px_var(--glass-b)] transition-transform duration-500 ease-out-soft",
+                    d === 0 && "hover:-translate-y-1.5",
+                  )}
+                >
+                  <ProjectScreen project={proj} />
+                  {d === 0 && (
+                    <span className="glass-flat absolute right-4 bottom-4 rounded-full px-3 py-1.5 text-xs/[1.5] font-medium tracking-normal text-fg opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      Ver detalle
+                    </span>
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Información del proyecto actual y flechas */}
+      <div className={cx(wrap, "mt-6 grid items-start gap-6 md:grid-cols-[1fr_auto] md:gap-10")}>
+        <div key={cur} className="flex animate-pv-up flex-col gap-3 [animation-duration:.7s]" aria-live="polite">
+          <span className="text-xs font-medium text-acc">{p.kind}</span>
+          <h3 className="m-0 text-[clamp(30px,3.6vw,46px)] leading-none tracking-[-.04em] text-fg">{p.title}</h3>
+          <p className="m-0 max-w-[60ch] text-[15px] leading-relaxed text-soft">{p.description}</p>
+          <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Tecnologías">
+            {p.tags.map((t, k) => (
+              <li key={k}>
+                <span className={chip}>{t}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-1 flex flex-wrap gap-2.5">
+            <button type="button" className={button({ variant: "primary", size: "sm" })} onClick={() => onOpen(p)}>
+              Ver detalle
+            </button>
+            <ProjectLinkButton link={p.primary} />
+            <ProjectLinkButton link={p.secondary} />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 max-md:order-first">
+          <button className={button({ size: "icon" })} type="button" aria-label="Proyecto anterior" onClick={() => show(cur - 1)}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <path d="M14 8H2M7 3 2 8l5 5" />
+            </svg>
+          </button>
+          <span className="min-w-[64px] text-center text-sm/[1.5] font-medium tracking-normal text-mut tabular-nums">
+            {pad(cur + 1)} / {pad(N)}
+          </span>
+          <button className={button({ size: "icon" })} type="button" aria-label="Proyecto siguiente" onClick={() => show(cur + 1)}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <path d="M2 8h12M9 3l5 5-5 5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
