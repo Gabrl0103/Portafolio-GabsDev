@@ -6,9 +6,9 @@ import TechIcon, { brandColor } from "./TechIcon";
 export default function Skills() {
   return (
     <section id="habilidades" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
-      <SectionHead eyebrow="Habilidades" title="Con qué trabajo" sub="Las herramientas que uso a diario y para qué me sirve cada una." />
+      <SectionHead eyebrow="Habilidades" title="Con qué trabajo" sub="Las herramientas que uso a diario, incluida la IA, y para qué me sirve cada una." />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((g, gi) => (
           <div key={g.title} className="glass rv flex flex-col gap-5 rounded-[30px] p-7" style={{ "--d": `${gi * 0.1}s` } as React.CSSProperties}>
             <h3 className="text-xl font-semibold tracking-tight text-acc">{g.title}</h3>
@@ -36,7 +36,7 @@ export default function Skills() {
           </div>
         ))}
 
-        <div className="glass rv flex flex-col gap-5 rounded-[30px] p-7" style={{ "--d": ".3s" } as React.CSSProperties}>
+        <div className="glass rv flex flex-col gap-5 rounded-[30px] p-7 md:col-span-2" style={{ "--d": ".3s" } as React.CSSProperties}>
           <h3 className="text-xl font-semibold tracking-tight text-acc">Idiomas</h3>
           <ul className="m-0 flex list-none flex-col gap-4 p-0">
             {languages.map((l) => (

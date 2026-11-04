@@ -13,7 +13,7 @@ export const profile = {
 export const intro = {
   headline: "Diseño y construyo apps web, móvil y de escritorio que se sienten claras y rápidas.",
   text: "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia y dirijo Neveo, mi marca de helados y açaí. Me gusta llevar una idea desde el diseño hasta el código en producción.",
-  worksWith: ["Next.js", "TypeScript", "Tailwind CSS", "Python", "Django"],
+  worksWith: ["Next.js", "TypeScript", "Tailwind CSS", "Python", "Django", "IA"],
   openTo: ["Prácticas", "Freelance", "Proyectos", "Colaboraciones"],
 };
 
@@ -51,6 +51,14 @@ export const skillGroups: SkillGroup[] = [
       { name: "Git y GitHub", icon: "git", use: "Control de versiones en equipo" },
       { name: "Vercel", icon: "vercel", use: "Despliegue y dominios" },
       { name: "Figma", icon: "figma", use: "Prototipos antes de programar" },
+    ],
+  },
+  {
+    title: "Inteligencia artificial",
+    skills: [
+      { name: "Claude y Claude Code", icon: "claude", use: "Programar, revisar y documentar código" },
+      { name: "Cursor", icon: "cursor", use: "Editor de código con IA integrada" },
+      { name: "IA en mis apps", icon: "ai", use: "Integro modelos de IA por API" },
     ],
   },
 ];
