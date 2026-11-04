@@ -1,20 +1,8 @@
 @import "tailwindcss";
+/* Configuración de colores: paleta, tema claro/oscuro y atmósfera horaria */
+@import "../styles/colors.css";
 
-/* Tokens del diseño disponibles como utilidades de Tailwind: bg-bg, text-fg, text-acc, border-line… */
 @theme inline {
-  --color-bg: var(--bg);
-  --color-bg2: var(--bg2);
-  --color-fg: var(--fg);
-  --color-mut: var(--mut);
-  --color-soft: var(--soft);
-  --color-acc: var(--acc);
-  --color-acc-ink: var(--acc-ink);
-  --color-deep: var(--deep);
-  --color-line: var(--line);
-  --color-line2: var(--line2);
-  --color-glass: var(--glass);
-  --color-glass2: var(--glass2);
-  --color-glass-b: var(--glass-b);
   --font-disp: var(--disp);
   --font-cine: var(--cine);
 }
@@ -67,51 +55,9 @@
 /* ===== Base: colores del tema y estilos de elementos ===== */
 @layer base {
 :root{
-  --bg:#0E0F0B; --bg2:#15170F; --line:#2A2E1F; --line2:#4A4F38;
-  --fg:#E9E6DA; --mut:#9A9D86; --soft:#B4B6A2;
-  --acc:#9DAE5A; --acc-ink:#0E0F0B; --deep:#3B4423;
-  --glass:rgba(233,230,218,.06); --glass2:rgba(233,230,218,.12); --glass-b:rgba(233,230,218,.14);
-  --g1:#11130C; --g2:#1C1F14;
-  --b1:#5F7022; --b2:#2B3318; --b3:#9DAE5A; --blobA:.5;
-  --shadow:rgba(0,0,0,.55);
+  /* Tipografía (los colores están en styles/colors.css) */
   --disp:-apple-system,BlinkMacSystemFont,'SF Pro Display',var(--font-inter),'Helvetica Neue',system-ui,sans-serif; --mono:var(--disp); --cine:var(--font-courier),'Courier New',ui-monospace,monospace;
-  color-scheme:dark;
 }
-@media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]){
-    --bg:#E9E6DA; --bg2:#F2F0E6; --line:#CBC8B8; --line2:#A9A890;
-    --fg:#14160E; --mut:#5E614D; --soft:#454836;
-    --acc:#5D6B2A; --acc-ink:#F4F2E8; --deep:#C9D19A;
-    --glass:rgba(20,22,14,.05); --glass2:rgba(20,22,14,.1); --glass-b:rgba(20,22,14,.14);
-    --g1:#DAD7C8; --g2:#E4E1D3;
-    --b1:#B9C77A; --b2:#D3D9B0; --b3:#8FA05A; --blobA:.7;
-    --shadow:rgba(60,64,30,.25);
-    color-scheme:light;
-  }
-}
-:root[data-theme="light"]{
-  --bg:#E9E6DA; --bg2:#F2F0E6; --line:#CBC8B8; --line2:#A9A890;
-  --fg:#14160E; --mut:#5E614D; --soft:#454836;
-  --acc:#5D6B2A; --acc-ink:#F4F2E8; --deep:#C9D19A;
-  --glass:rgba(20,22,14,.05); --glass2:rgba(20,22,14,.1); --glass-b:rgba(20,22,14,.14);
-  --g1:#DAD7C8; --g2:#E4E1D3;
-  --b1:#B9C77A; --b2:#D3D9B0; --b3:#8FA05A; --blobA:.7;
-  --shadow:rgba(60,64,30,.25);
-  color-scheme:light;
-}
-:root[data-theme="dark"]{
-  --bg:#0E0F0B; --bg2:#15170F; --line:#2A2E1F; --line2:#4A4F38;
-  --fg:#E9E6DA; --mut:#9A9D86; --soft:#B4B6A2;
-  --acc:#9DAE5A; --acc-ink:#0E0F0B; --deep:#3B4423;
-  --glass:rgba(233,230,218,.06); --glass2:rgba(233,230,218,.12); --glass-b:rgba(233,230,218,.14);
-  --g1:#11130C; --g2:#1C1F14;
-  --b1:#5F7022; --b2:#2B3318; --b3:#9DAE5A; --blobA:.5;
-  --shadow:rgba(0,0,0,.55);
-  color-scheme:dark;
-}
-:root{--gl-a:rgba(255,255,255,.14);--gl-b:rgba(255,255,255,.03);--gl-hi:rgba(255,255,255,.38);--gl-edge:rgba(255,255,255,.08)}
-:root[data-theme="light"]{--gl-a:rgba(255,255,255,.62);--gl-b:rgba(255,255,255,.22);--gl-hi:rgba(255,255,255,.95);--gl-edge:rgba(20,22,14,.07)}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--gl-a:rgba(255,255,255,.62);--gl-b:rgba(255,255,255,.22);--gl-hi:rgba(255,255,255,.95);--gl-edge:rgba(20,22,14,.07)}}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -219,17 +165,8 @@ html.cur-on .spot{opacity:1}
 @keyframes twSwap{from{opacity:0;filter:blur(8px);transform:translateY(6px)}to{opacity:1;filter:none;transform:none}}
 .tw-swap{display:inline}
 
-/* Atmósfera según la hora de Pasto */
-:root[data-theme="dark"][data-tod="dawn"]{--b1:#7d8a3e;--b2:#3a3a1f;--b3:#d6b86a}
-:root[data-theme="dark"][data-tod="dusk"]{--b1:#8a6a2a;--b2:#33260f;--b3:#d99a4e}
-:root[data-theme="dark"][data-tod="night"]{--b1:#24351f;--b2:#0e1a14;--b3:#4b7a6a}
-:root[data-theme="light"][data-tod="dawn"]{--b1:#d9d08a;--b2:#efe3b8;--b3:#e8c27a}
-:root[data-theme="light"][data-tod="dusk"]{--b1:#e2b172;--b2:#f0d6a8;--b3:#d98f55}
-:root[data-theme="light"][data-tod="night"]{--b1:#8d9a78;--b2:#b9c0a2;--b3:#7b9a8c}
 
 html.lock,html.lock body{overflow:hidden}
-.meter{transform:scaleX(0);transform-origin:left;transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
-.in-view .meter{transform:scaleX(var(--v))}
 .field{width:100%;min-height:50px;padding:14px 18px;border-radius:18px;border:0;outline:0;color:var(--fg);font:inherit;
   background:var(--glass);box-shadow:inset 0 0 0 1px var(--glass-b);transition:box-shadow .25s,background .25s}
 .field::placeholder{color:var(--mut)}
