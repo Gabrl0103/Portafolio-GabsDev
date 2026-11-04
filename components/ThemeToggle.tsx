@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { button } from "./ui";
 
 /** Cambia entre tema claro y oscuro con una transición circular desde el botón. */
 export default function ThemeToggle() {
@@ -48,12 +49,12 @@ export default function ThemeToggle() {
   }
 
   return (
-    <button ref={ref} className="btn icon" type="button" aria-label="Cambiar tema" onClick={toggle}>
-      <svg className="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+    <button ref={ref} className={button({ size: "icon" })} type="button" aria-label="Cambiar tema" onClick={toggle}>
+      <svg className="block light:hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
         <circle cx="12" cy="12" r="4" />
         <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
       </svg>
-      <svg className="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="hidden light:block" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" />
       </svg>
     </button>
