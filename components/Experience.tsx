@@ -10,7 +10,7 @@ const groups: { kind: ExperienceKind; title: string; Icon: typeof CapIcon }[] = 
 
 export default function Experience() {
   return (
-    <section id="experiencia" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
+    <section id="experiencia" data-koi="calm" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
       <SectionHead eyebrow="Experiencia" title="Mi recorrido" sub="Lo que he estudiado y dónde he trabajado, de lo más reciente a lo más antiguo." />
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-10">

@@ -28,7 +28,7 @@ export default function Contact() {
   ].filter((s) => s.href);
 
   return (
-    <section id="contacto" className={cx(wrap, "relative py-28 md:py-36")} data-sec>
+    <section id="contacto" data-koi="calm" className={cx(wrap, "relative py-28 md:py-36")} data-sec>
       <span className="rv mb-2 block pl-1 text-sm font-medium text-acc">Contacto</span>
 
       <div className="rv relative">

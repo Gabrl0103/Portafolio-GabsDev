@@ -14,7 +14,7 @@ const initials = (name: string) =>
 
 export default function Testimonials() {
   return (
-    <section id="testimonios" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
+    <section id="testimonios" data-koi="calm" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
       <SectionHead eyebrow="Testimonios" title="Lo que dicen" sub="Profesores, compañeros y clientes que han trabajado conmigo." />
 
       <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2 lg:grid-cols-3">

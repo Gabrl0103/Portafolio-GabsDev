@@ -437,6 +437,28 @@ export function startWater(cv: HTMLCanvasElement) {
   addEventListener("hashchange", chkHash);
   chkHash();
 
+  /*
+   * Menos koi donde hay mucho texto: cada sección puede pedir data-koi="soft" (60 %)
+   * o data-koi="calm" (30 %). Los peces que sobran se desvanecen poco a poco.
+   */
+  const MODES = { soft: { share: 0.6, alpha: 0.85 }, calm: { share: 0.3, alpha: 0.6 } } as const;
+  let share = 1;
+  let alphaK = 1;
+  let targetShare = 1;
+  let targetAlpha = 1;
+  const vis = koi.map(() => 1);
+  const readMode = () => {
+    const mid = innerHeight / 2;
+    let m: (typeof MODES)[keyof typeof MODES] | null = null;
+    for (const el of document.querySelectorAll<HTMLElement>("[data-koi]")) {
+      const r = el.getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) m = MODES[el.dataset.koi as keyof typeof MODES] ?? null;
+    }
+    // Durante la figura de las 2:22 salen todos.
+    targetShare = m && !env.form ? m.share : 1;
+    targetAlpha = m && !env.form ? m.alpha : 1;
+  };
+
   let last = 0;
   let fc = 0;
   let raf = 0;
@@ -446,6 +468,9 @@ export function startWater(cv: HTMLCanvasElement) {
     last = now;
     t += dt;
     if (++fc % 40 === 0) readColors();
+    if (fc % 12 === 0) readMode();
+    share += (targetShare - share) * Math.min(1, dt * 1.2);
+    alphaK += (targetAlpha - alphaK) * Math.min(1, dt * 1.2);
     if (env.mouse.on && performance.now() - env.mouse.last > 3000) env.mouse.on = false;
     env.scroll *= Math.max(0, 1 - dt * 3);
     if (env.form) {
@@ -456,7 +481,11 @@ export function startWater(cv: HTMLCanvasElement) {
     fa += ((env.form ? 1.6 : 1) - fa) * Math.min(1, dt * 1.5);
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = rgba(fg, 1);
-    for (const k of koi) k.draw(ctx, BASE * fa);
+    const shown = share * koi.length;
+    koi.forEach((k, i) => {
+      vis[i] += ((i < shown ? 1 : 0) - vis[i]) * Math.min(1, dt * 1.6);
+      if (vis[i] > 0.01) k.draw(ctx, BASE * fa * alphaK * vis[i]);
+    });
     ctx.lineWidth = 1.2;
     for (let i = ripples.length - 1; i >= 0; i--) {
       const r = ripples[i];
