@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setSound, startCrackle, stopCrackle, tick } from "@/lib/fx/sound";
 import { startWater } from "@/lib/fx/water";
 
@@ -11,8 +11,6 @@ const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
  * atmósfera según la hora de Pasto, cursor propio con linterna y sonido opcional.
  */
 export default function Effects() {
-  const [sound, setSoundOn] = useState(false);
-
   useEffect(() => {
     const root = document.documentElement;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -144,9 +142,7 @@ export default function Effects() {
         mx = e.clientX;
         my = e.clientY;
         root.classList.add("cur-on");
-        const target = (e.target as HTMLElement)?.closest?.(
-          'a,button,summary,input,textarea,[data-pos="0"] [data-tilt]',
-        );
+        const target = (e.target as HTMLElement)?.closest?.('a,button,summary,input,textarea,[data-pos="0"] [data-tilt]');
         ring.classList.toggle("hov", !!target);
         reveal();
       });
@@ -205,24 +201,5 @@ export default function Effects() {
     return () => cleanups.forEach((c) => c());
   }, []);
 
-  const toggleSound = () => {
-    const next = !sound;
-    setSoundOn(next);
-    setSound(next);
-    if (next) {
-      tick(880, 0.12, 0.07);
-      const intro = document.getElementById("intro");
-      if (intro && !/out|gone/.test(intro.className)) startCrackle();
-    }
-  };
-
-  return (
-    <button id="snd" type="button" aria-pressed={sound} onClick={toggleSound}>
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 9v6h4l5 4V5L8 9H4z" />
-        <path className="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" />
-      </svg>
-      <span>Sonido</span>
-    </button>
-  );
+  return null;
 }

@@ -219,19 +219,6 @@ html.cur-on .spot{opacity:1}
 @keyframes twSwap{from{opacity:0;filter:blur(8px);transform:translateY(6px)}to{opacity:1;filter:none;transform:none}}
 .tw-swap{display:inline}
 
-/* Botón de sonido */
-#snd{position:fixed;right:18px;bottom:18px;z-index:110;display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 15px 0 12px;border-radius:999px;border:0;background:var(--glass2);color:var(--fg);font:500 13px/1 var(--disp);cursor:pointer;-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
-#snd svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-#snd .w{opacity:.25;transition:opacity .3s}
-#snd[aria-pressed="true"] .w{opacity:1}
-#snd[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
-#snd{background:linear-gradient(140deg,var(--gl-a),var(--gl-b));-webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%);box-shadow:inset 0 1px 0 var(--gl-hi),inset 0 0 0 1px var(--gl-edge),0 26px 50px -28px var(--shadow)}
-#snd[aria-pressed="true"]{background:var(--acc)}
-@media (max-width:860px){
-  #snd span{display:none}
-  #snd{padding:0 12px;right:12px}
-}
-
 /* Atmósfera según la hora de Pasto */
 :root[data-theme="dark"][data-tod="dawn"]{--b1:#7d8a3e;--b2:#3a3a1f;--b3:#d6b86a}
 :root[data-theme="dark"][data-tod="dusk"]{--b1:#8a6a2a;--b2:#33260f;--b3:#d99a4e}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { navLinks, site } from "@/data/site";
 import ThemeToggle from "./ThemeToggle";
+import SoundToggle from "./SoundToggle";
 import { DownloadIcon } from "./Icons";
 import { button, cx } from "./ui";
 
@@ -84,25 +85,26 @@ export default function Navbar() {
                 <path d="M3 6h12M3 12h12" />
               </svg>
             </summary>
-            <nav
-              aria-label="Todas las secciones"
-              className="glass absolute top-[52px] right-0 flex min-w-[210px] flex-col rounded-[22px] border border-transparent p-2 [background:color-mix(in_srgb,var(--bg2)_90%,transparent)]"
-            >
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={closeMenu}
-                  aria-current={active === l.href ? "true" : undefined}
-                  className={cx(
-                    "rounded-[14px] px-4 py-3.5 text-sm/[1.5] font-medium tracking-normal hover:bg-glass2",
-                    active === l.href ? "bg-glass2 text-fg" : "text-soft",
-                  )}
-                >
-                  {l.label}
-                </a>
-              ))}
-            </nav>
+            <div className="glass absolute top-[52px] right-0 flex min-w-[220px] flex-col rounded-[22px] border border-transparent p-2 [background:color-mix(in_srgb,var(--bg2)_97%,transparent)]">
+              <nav aria-label="Todas las secciones" className="flex flex-col">
+                {navLinks.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={closeMenu}
+                    aria-current={active === l.href ? "true" : undefined}
+                    className={cx(
+                      "rounded-[14px] px-4 py-3.5 text-sm/[1.5] font-medium tracking-normal hover:bg-glass2",
+                      active === l.href ? "bg-glass2 text-fg" : "text-soft",
+                    )}
+                  >
+                    {l.label}
+                  </a>
+                ))}
+              </nav>
+              <div className="mx-2 my-1 h-px bg-glass-b" />
+              <SoundToggle />
+            </div>
           </details>
         </div>
       </div>

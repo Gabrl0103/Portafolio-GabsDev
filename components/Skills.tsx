@@ -70,7 +70,8 @@ export default function Skills() {
             ))}
           </ul>
           <p className="m-0 mt-auto text-sm leading-relaxed text-mut">
-            Además: modo claro y oscuro, sonido opcional y algunos detalles escondidos. Prueba a tocar el <span className="font-cine text-acc">2</span> tres veces.
+            Además: modo claro y oscuro, sonido opcional desde el menú y algunos detalles escondidos. Prueba a presionar la tecla{" "}
+            <span className="font-cine text-acc">2</span> tres veces.
           </p>
         </div>
       </div>
