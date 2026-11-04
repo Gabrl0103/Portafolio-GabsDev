@@ -18,7 +18,7 @@
  *    acc     acento oliva                 #9DAE5A / #5D6B2A
  *    acc-ink texto sobre el acento        #0E0F0B / #F4F2E8
  *    metal   oliva metálico para lo destacado (cursivas, marcos, cursores):
- *            m-dark → m-mid → m-hi (brillo champaña) → m-mid → m-dark
+ *            m-dark → m-mid → m-hi (brillo oliva dorado) → m-mid → m-dark
  *    deep    oliva profundo               #3B4423 / #C9D19A
  *    line    bordes suaves                #2A2E1F / #CBC8B8
  *    line2   bordes marcados              #4A4F38 / #A9A890
@@ -55,7 +55,7 @@
     /* Oliva metálico: palabras en cursiva, marcos de selección y cursores */
     --m-dark: #5f7022;
     --m-mid: #9dae5a;
-    --m-hi: #eef3c9;
+    --m-hi: #cbd77f; /* brillo: oliva dorado, nunca blanco */
     --deep: #3b4423;
     --line: #2a2e1f;
     --line2: #4a4f38;

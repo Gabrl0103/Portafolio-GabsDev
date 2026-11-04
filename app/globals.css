@@ -61,7 +61,7 @@
 
 /* Texto con reflejo metálico que pasa lento */
 @utility text-metal {
-  background-image: linear-gradient(100deg, var(--m-dark) 0%, var(--m-mid) 28%, var(--m-hi) 46%, var(--m-mid) 60%, var(--m-dark) 100%);
+  background-image: linear-gradient(100deg, var(--m-dark) 0%, var(--m-mid) 34%, var(--m-hi) 48%, var(--m-mid) 56%, var(--m-dark) 100%);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -73,7 +73,7 @@
 }
 /* Relleno metálico (etiquetas, tiradores) */
 @utility bg-metal {
-  background-image: linear-gradient(115deg, var(--m-dark), var(--m-mid) 35%, var(--m-hi) 52%, var(--m-mid) 68%, var(--m-dark));
+  background-image: linear-gradient(115deg, var(--m-dark), var(--m-mid) 38%, var(--m-hi) 50%, var(--m-mid) 60%, var(--m-dark));
   background-size: 200% 100%;
   animation: metal-sheen 6s ease-in-out infinite alternate;
 }
@@ -83,7 +83,7 @@
   inset: 0;
   border-radius: inherit;
   padding: var(--ring, 1.5px);
-  background: conic-gradient(from var(--metal-angle), var(--m-dark), var(--m-mid) 18%, var(--m-hi) 27%, var(--m-mid) 36%, var(--m-dark) 52%, var(--m-mid) 70%, var(--m-hi) 79%, var(--m-mid) 88%, var(--m-dark));
+  background: conic-gradient(from var(--metal-angle), var(--m-dark), var(--m-mid) 20%, var(--m-hi) 26%, var(--m-mid) 32%, var(--m-dark) 52%, var(--m-mid) 72%, var(--m-hi) 78%, var(--m-mid) 84%, var(--m-dark));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
