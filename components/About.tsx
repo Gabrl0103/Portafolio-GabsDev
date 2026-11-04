@@ -139,18 +139,18 @@ export default function About() {
                   }}
                   className="flex h-[min(480px,100%)] w-(--cw) flex-none flex-col gap-2 will-change-transform"
                 >
-                  <span className={cx("pl-1 text-sm/[1.5] font-medium tracking-normal transition-colors duration-500", on ? "text-acc" : "text-mut")}>{label}</span>
+                  <span className={cx("pl-1 text-sm/[1.5] font-medium tracking-normal transition-colors duration-500", on ? "text-hi" : "text-mut")}>{label}</span>
                   <article aria-label={label} className="relative min-h-0 flex-1">
                     {/* Marco de selección estilo editor de diseño */}
                     <div
                       aria-hidden="true"
                       className={cx(
-                        "pointer-events-none absolute -inset-[7px] z-[3] rounded-[30px] border-[1.5px] border-acc transition-[opacity,scale] duration-700 ease-out-soft",
+                        "pointer-events-none absolute -inset-[7px] z-[3] rounded-[30px] border-[1.5px] border-hi transition-[opacity,scale] duration-700 ease-out-soft",
                         on ? "scale-100 opacity-100" : "scale-[1.03] opacity-0",
                       )}
                     >
                       {["-top-[5px] -left-[5px]", "-top-[5px] -right-[5px]", "-bottom-[5px] -left-[5px]", "-right-[5px] -bottom-[5px]"].map((pos) => (
-                        <i key={pos} className={cx("absolute size-2.5 border-[1.5px] border-acc bg-bg", pos)} />
+                        <i key={pos} className={cx("absolute size-2.5 border-[1.5px] border-hi bg-bg", pos)} />
                       ))}
                     </div>
                     <div className="glass relative h-full overflow-hidden rounded-[24px]">
@@ -166,7 +166,7 @@ export default function About() {
           </div>
 
           {/* Cursores de "colaboración": se mueven a otra posición cuando cambia la tarjeta */}
-          <FakeCursor label="Cliente" color="acc2" x={cursor.a[0]} y={cursor.a[1]} />
+          <FakeCursor label="Cliente" color="hi" x={cursor.a[0]} y={cursor.a[1]} />
           <FakeCursor label={site.name} color="acc" x={cursor.b[0]} y={cursor.b[1]} delay />
         </div>
 
@@ -227,12 +227,12 @@ function ProfileCard({ on }: { on: boolean }) {
         <div
           aria-hidden="true"
           className={cx(
-            "absolute top-[18%] left-1/2 h-[46%] w-[46%] -translate-x-1/2 border border-acc transition-opacity delay-300 duration-700",
+            "absolute top-[18%] left-1/2 h-[46%] w-[46%] -translate-x-1/2 border border-hi transition-opacity delay-300 duration-700",
             on ? "opacity-100" : "opacity-0",
           )}
         >
           {["-top-1 -left-1", "-top-1 -right-1", "-bottom-1 -left-1", "-right-1 -bottom-1"].map((pos) => (
-            <i key={pos} className={cx("absolute size-2 border border-acc bg-bg", pos)} />
+            <i key={pos} className={cx("absolute size-2 border border-hi bg-bg", pos)} />
           ))}
         </div>
       </div>
