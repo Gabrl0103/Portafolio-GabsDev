@@ -1,0 +1,62 @@
+/** Ilustraciones SVG disponibles mientras no haya capturas reales. */
+export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo";
+
+export interface ProjectLink {
+  label: string;
+  href: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  /** Nombre corto para la pestaña del carrusel. */
+  short: string;
+  description: string;
+  /** Etiqueta superior: "Proyecto universitario", "Marca propia"… */
+  kind: string;
+  tags: string[];
+  /** Captura real en /public/images. Si no existe se usa la ilustración. */
+  image?: string;
+  art: ProjectArt;
+  /** Enlace al repositorio (GitHub) o al perfil principal. */
+  primary: ProjectLink;
+  /** Enlace a la demo en Vercel o al sitio en vivo. */
+  secondary: ProjectLink;
+  detail: {
+    problema: string;
+    solucion: string;
+    rol: string;
+    resultado: string;
+  };
+}
+
+export interface Testimonial {
+  name: string;
+  role: string;
+  quote: string;
+  /** Foto en /public/images. Si no existe se muestran las iniciales. */
+  photo?: string;
+  rating?: 1 | 2 | 3 | 4 | 5;
+}
+
+export type ExperienceKind = "academica" | "laboral";
+
+export interface Experience {
+  kind: ExperienceKind;
+  title: string;
+  place: string;
+  start: string;
+  end: string;
+  description: string;
+}
+
+export interface SkillGroup {
+  title: string;
+  skills: { name: string; level: number }[];
+}
+
+export interface Chapter {
+  n: string;
+  title: string;
+  text: string;
+}
