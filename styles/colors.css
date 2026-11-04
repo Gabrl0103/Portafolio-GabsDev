@@ -17,7 +17,8 @@
  *    mut     texto apagado y etiquetas    #9A9D86 / #5E614D
  *    acc     acento oliva                 #9DAE5A / #5D6B2A
  *    acc-ink texto sobre el acento        #0E0F0B / #F4F2E8
- *    acc2    acento cálido (cursores)     #E0904A / #B8642A
+ *    hi      acento coral (lo memorable)  #FF7A59 / #D2512E
+ *    hi-ink  texto sobre el coral         #1A0E0A / #FFF4EF
  *    deep    oliva profundo               #3B4423 / #C9D19A
  *    line    bordes suaves                #2A2E1F / #CBC8B8
  *    line2   bordes marcados              #4A4F38 / #A9A890
@@ -32,7 +33,8 @@
   --color-mut: var(--mut);
   --color-acc: var(--acc);
   --color-acc-ink: var(--acc-ink);
-  --color-acc2: var(--acc2);
+  --color-hi: var(--hi);
+  --color-hi-ink: var(--hi-ink);
   --color-deep: var(--deep);
   --color-line: var(--line);
   --color-line2: var(--line2);
@@ -52,7 +54,9 @@
     --mut: #9a9d86;
     --acc: #9dae5a;
     --acc-ink: #0e0f0b;
-    --acc2: #e0904a;
+    /* Coral: palabras en cursiva, marcos de selección, cursor y texto seleccionado */
+    --hi: #ff7a59;
+    --hi-ink: #1a0e0a;
     --deep: #3b4423;
     --line: #2a2e1f;
     --line2: #4a4f38;
@@ -91,7 +95,8 @@
     --mut: #5e614d;
     --acc: #5d6b2a;
     --acc-ink: #f4f2e8;
-    --acc2: #b8642a;
+    --hi: #d2512e;
+    --hi-ink: #fff4ef;
     --deep: #c9d19a;
     --line: #cbc8b8;
     --line2: #a9a890;
