@@ -7,6 +7,7 @@ import { experience } from "@/data/experience";
 import { site } from "@/data/site";
 import Hid, { Koi } from "./fx/Hid";
 import TypeTitle from "./fx/TypeTitle";
+import { FakeCursor } from "./Frame";
 import { BriefcaseIcon, CapIcon } from "./Icons";
 import { cx } from "./ui";
 
@@ -201,33 +202,6 @@ export default function About() {
 }
 
 /* ---------- Piezas ---------- */
-
-function FakeCursor({ label, color, x, y, delay }: { label: string; color: "acc" | "acc2"; x: number; y: number; delay?: boolean }) {
-  return (
-    <div
-      aria-hidden="true"
-      style={{ left: `${x}%`, top: `${y}%` }}
-      className={cx(
-        "pointer-events-none absolute z-[4] [transition:left_1.1s_cubic-bezier(.2,.8,.2,1),top_1.1s_cubic-bezier(.2,.8,.2,1)] max-[860px]:hidden",
-        delay && "[transition-delay:.12s]",
-      )}
-    >
-      <div className="animate-float [animation-duration:3.4s]">
-        <svg width="14" height="16" viewBox="0 0 14 16" className={color === "acc" ? "text-acc" : "text-acc2"}>
-          <path d="M1 1l11 6-5 1.3L5 14 1 1Z" fill="currentColor" stroke="var(--bg)" strokeWidth="1" strokeLinejoin="round" />
-        </svg>
-        <span
-          className={cx(
-            "mt-0.5 ml-3 inline-block rounded-md px-2 py-0.5 text-xs/[1.5] font-semibold tracking-normal",
-            color === "acc" ? "bg-acc text-acc-ink" : "bg-acc2 text-bg",
-          )}
-        >
-          {label}
-        </span>
-      </div>
-    </div>
-  );
-}
 
 /** Aparición escalonada para el contenido de la tarjeta activa. */
 const stagger = (on: boolean, i: number) => ({
