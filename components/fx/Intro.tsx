@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { easeO, makeDisc, timecode } from "@/lib/fx/intro";
 
 /** Intro con barras de cine y disco 3D. Al terminar añade la clase `ready` a <html>. */
+const SEEN = "intro-vista";
+
 export default function Intro() {
   const introRef = useRef<HTMLDivElement>(null);
   const glRef = useRef<HTMLDivElement>(null);
@@ -22,6 +24,9 @@ export default function Intro() {
     const finish = () => {
       if (finished) return;
       finished = true;
+      try {
+        sessionStorage.setItem(SEEN, "1");
+      } catch {}
       cnt.textContent = "02:22";
       intro.classList.add("out");
       intro.classList.remove("barsin");
@@ -71,7 +76,17 @@ export default function Intro() {
 
     intro.addEventListener("click", finish);
     addEventListener("intro:replay", replay);
-    run();
+
+    // La intro se ve solo la primera vez de cada visita; "Ver intro de nuevo" la repite.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(SEEN) === "1";
+    } catch {}
+    if (seen) {
+      finished = true;
+      intro.classList.add("gone");
+      root.classList.add("ready");
+    } else run();
 
     return () => {
       cancelled = true;
