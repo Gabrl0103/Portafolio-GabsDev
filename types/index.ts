@@ -1,3 +1,5 @@
+import type { TechIconName } from "@/components/TechIcon";
+
 /** Ilustraciones SVG disponibles mientras no haya capturas reales. */
 export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo";
 
@@ -52,8 +54,8 @@ export interface Experience {
 
 export interface Skill {
   name: string;
-  /** Sigla corta que se muestra en el cuadro del ícono. */
-  short: string;
+  /** Logo de la tecnología (ver components/TechIcon.tsx). */
+  icon: TechIconName;
   /** Para qué la uso (sin medir niveles). */
   use: string;
 }

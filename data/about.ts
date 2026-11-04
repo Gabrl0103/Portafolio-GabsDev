@@ -31,26 +31,26 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Frontend",
     skills: [
-      { name: "Next.js", short: "Nx", use: "Sitios y apps con App Router" },
-      { name: "TypeScript", short: "TS", use: "Tipos para datos y componentes" },
-      { name: "Tailwind CSS", short: "Tw", use: "Estilos y diseño responsive" },
-      { name: "JavaScript", short: "JS", use: "Interacción y animaciones" },
+      { name: "Next.js", icon: "nextjs", use: "Sitios y apps con App Router" },
+      { name: "TypeScript", icon: "typescript", use: "Tipos para datos y componentes" },
+      { name: "Tailwind CSS", icon: "tailwind", use: "Estilos y diseño responsive" },
+      { name: "JavaScript", icon: "javascript", use: "Interacción y animaciones" },
     ],
   },
   {
     title: "Backend",
     skills: [
-      { name: "Python", short: "Py", use: "Lógica, scripts y datos" },
-      { name: "Django", short: "Dj", use: "APIs y paneles de administración" },
-      { name: "Bases de datos", short: "DB", use: "Modelado y consultas SQL" },
+      { name: "Python", icon: "python", use: "Lógica, scripts y datos" },
+      { name: "Django", icon: "django", use: "APIs y paneles de administración" },
+      { name: "Bases de datos", icon: "database", use: "Modelado y consultas SQL" },
     ],
   },
   {
     title: "Herramientas",
     skills: [
-      { name: "Git y GitHub", short: "Git", use: "Control de versiones en equipo" },
-      { name: "Vercel", short: "Vc", use: "Despliegue y dominios" },
-      { name: "Figma", short: "Fg", use: "Prototipos antes de programar" },
+      { name: "Git y GitHub", icon: "git", use: "Control de versiones en equipo" },
+      { name: "Vercel", icon: "vercel", use: "Despliegue y dominios" },
+      { name: "Figma", icon: "figma", use: "Prototipos antes de programar" },
     ],
   },
 ];
