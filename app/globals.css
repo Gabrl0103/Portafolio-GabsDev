@@ -145,10 +145,10 @@ h2{font-size:clamp(36px,5vw,68px);line-height:1.04;text-wrap:balance}
 html.has-cur,html.has-cur *{cursor:none!important}
 .cur-dot,.cur-ring{position:fixed;left:0;top:0;z-index:300;pointer-events:none;opacity:0;transition:opacity .3s}
 html.cur-on .cur-dot,html.cur-on .cur-ring{opacity:1}
-.cur-dot{width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--bg) 55%,transparent)}
-.cur-ring{width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:1px solid var(--fg);transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background .3s,opacity .3s,border-color .3s}
-.cur-ring.hov{width:62px;height:62px;margin:-31px 0 0 -31px;background:color-mix(in srgb,var(--acc) 22%,transparent);border-color:var(--acc)}
-.cur-ring.dn{width:28px;height:28px;margin:-14px 0 0 -14px}
+.cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--bg) 55%,transparent)}
+.cur-ring{width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:1px solid var(--fg);transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background .3s,opacity .3s,border-color .3s}
+.cur-ring.hov{width:42px;height:42px;margin:-21px 0 0 -21px;background:color-mix(in srgb,var(--acc) 16%,transparent);border-color:var(--acc)}
+.cur-ring.dn{width:18px;height:18px;margin:-9px 0 0 -9px}
 /* Linterna */
 .spot{position:fixed;inset:0;z-index:44;pointer-events:none;opacity:0;transition:opacity .6s;background:radial-gradient(300px circle at var(--sx,50%) var(--sy,50%),color-mix(in srgb,var(--acc) 16%,transparent),transparent 70%)}
 html.cur-on .spot{opacity:1}
@@ -157,13 +157,6 @@ html.cur-on .spot{opacity:1}
 #contacto{position:relative}
 @media (hover:none){.hid{display:none}}
 
-/* Máquina de escribir en titulares */
-.tw{font-family:var(--cine);font-weight:400;font-size:.78em;letter-spacing:.01em;white-space:pre-wrap}
-.tw::after{content:"";display:inline-block;width:.09em;height:.8em;margin-left:.08em;background:var(--acc);vertical-align:-.05em;animation:caret .8s steps(1) infinite}
-@keyframes caret{50%{opacity:0}}
-.tw-swap{display:inline-block;animation:twSwap .7s cubic-bezier(.2,.8,.2,1)}
-@keyframes twSwap{from{opacity:0;filter:blur(8px);transform:translateY(6px)}to{opacity:1;filter:none;transform:none}}
-.tw-swap{display:inline}
 
 
 html.lock,html.lock body{overflow:hidden}
