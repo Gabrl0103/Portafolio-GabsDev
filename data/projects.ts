@@ -14,6 +14,7 @@ export const projects: Project[] = [
     kind: "Proyecto universitario",
     tags: ["[Tecnología]", "[Tecnología]"],
     art: "skillmap",
+    format: "web",
     primary: { label: "GitHub", href: "" },
     secondary: { label: "Ver demo", href: "" },
     detail: {
@@ -31,6 +32,7 @@ export const projects: Project[] = [
     kind: "Proyecto universitario",
     tags: ["[Tecnología]", "[Tecnología]"],
     art: "firemap",
+    format: "web",
     primary: { label: "GitHub", href: "" },
     secondary: { label: "Ver demo", href: "" },
     detail: {
@@ -48,6 +50,7 @@ export const projects: Project[] = [
     kind: "Proyecto universitario",
     tags: ["[Tecnología]", "[Tecnología]"],
     art: "watch",
+    format: "watch",
     primary: { label: "GitHub", href: "" },
     secondary: { label: "Ver demo", href: "" },
     detail: {
@@ -65,6 +68,7 @@ export const projects: Project[] = [
     kind: "Marca propia",
     tags: ["Pasto, CO", "[Tecnología]"],
     art: "neveo",
+    format: "web",
     primary: { label: "Instagram", href: site.instagram },
     secondary: { label: "Ver sitio", href: "" },
     detail: {
