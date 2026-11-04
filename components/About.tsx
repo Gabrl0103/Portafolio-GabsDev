@@ -122,7 +122,7 @@ export default function About() {
         </div>
 
         {/* Escenario entre el título y los indicadores */}
-        <div ref={stage} className="absolute inset-x-0 top-[168px] bottom-[84px]">
+        <div ref={stage} className="absolute inset-x-0 top-[168px] bottom-[84px] max-[860px]:bottom-[124px]">
           <div
             ref={track}
             className="absolute top-0 left-0 flex h-full items-center gap-[clamp(24px,4vw,64px)] will-change-transform [--cw:min(80vw,340px)] md:[--cw:clamp(300px,30vw,430px)]"
@@ -168,7 +168,7 @@ export default function About() {
           <FakeCursor label={site.name} color="acc" x={cursor.b[0]} y={cursor.b[1]} delay />
         </div>
 
-        <ol className="absolute bottom-[34px] left-[max(24px,6vw)] z-[6] m-0 flex list-none gap-2.5 p-0" aria-label="Tarjetas de Sobre mí">
+        <ol className="absolute bottom-[34px] left-[max(24px,6vw)] z-[6] m-0 flex list-none gap-2.5 p-0 max-[860px]:bottom-[72px]" aria-label="Tarjetas de Sobre mí">
           {CARDS.map((label, i) => {
             const k = clamp(progress * (N - 1) - i + 1, 0, 1);
             return (

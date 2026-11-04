@@ -15,7 +15,7 @@ const socials = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer id="footer" className="wrap credits">
+    <footer id="footer" className="wrap credits pb-32">
       <p>Un portafolio de</p>
       <div className="big">{site.name}</div>
       <p>Dirección, diseño y desarrollo · {site.name}</p>
