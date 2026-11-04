@@ -1,45 +1,38 @@
 import type { Experience } from "@/types";
 
-/** Ordena de lo más reciente a lo más antiguo. */
+/** Ordena de lo más reciente a lo más antiguo. Si no hay fecha de inicio, deja start: "". */
 export const experience: Experience[] = [
   {
     kind: "academica",
     title: "Ingeniería de Software",
     place: "Universidad Cooperativa de Colombia · Pasto",
-    start: "[Año]",
+    start: "Ene 2023",
     end: "Hoy",
-    description: "Cursando quinto semestre. [Materias, proyectos o logros destacados.]",
-  },
-  {
-    kind: "academica",
-    title: "[Curso o certificación]",
-    place: "[Institución o plataforma]",
-    start: "[Año]",
-    end: "[Año]",
-    description: "[Qué aprendiste.]",
+    description: "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Firemap (Android) y ServiciosYa (web, en equipo).",
   },
   {
     kind: "academica",
     title: "Bachiller",
-    place: "[Colegio]",
-    start: "[Año]",
-    end: "[Año]",
-    description: "[Énfasis o logro destacado, opcional.]",
+    place: "Colegio Sagrado Corazón de Jesús Bethlemitas · Pasto",
+    start: "",
+    end: "2023",
+    description: "Educación secundaria.",
   },
   {
     kind: "laboral",
-    title: "Fundador",
-    place: "Neveo · Pasto",
-    start: "[Año]",
+    title: "Marketing y redes sociales",
+    place: "Neveo, heladería y açaí · Pasto",
+    start: "Jul 2025",
     end: "Hoy",
-    description: "Dirijo una marca de helados y açaí pensada para gente joven. [Logros: ventas, sitio, redes.]",
+    description:
+      "Manejo el marketing y las redes de la marca en Instagram y TikTok. Ayudé a introducir el açaí en Pasto y a construir una clientela que prefiere el producto. También desarrollé su sistema de punto de venta y contabilidad.",
   },
   {
     kind: "laboral",
-    title: "[Cargo, práctica o freelance]",
-    place: "[Empresa o cliente]",
+    title: "Desarrollador web freelance",
+    place: "Sencia, estudio de diseño interior",
     start: "[Año]",
     end: "[Año]",
-    description: "[Qué hiciste y qué lograste.]",
+    description: "Diseñé, desarrollé y desplegué una aplicación de briefings con formularios, panel privado, exportación a PDF y CSV y avisos por correo, en planes gratuitos.",
   },
 ];
