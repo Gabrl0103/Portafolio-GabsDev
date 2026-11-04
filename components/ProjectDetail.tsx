@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Project } from "@/types";
-import ProjectArt from "./ProjectArt";
+import ProjectScreen from "./ProjectScreen";
 import ProjectLinkButton from "./ProjectLinkButton";
 import { chip, cx } from "./ui";
 
@@ -78,13 +78,8 @@ export default function ProjectDetail({ project: current, onClose }: { project: 
             <span className="text-[15px] font-semibold text-acc">{project.kind}</span>
             <h2 className="mt-1.5 mb-3.5 text-[clamp(40px,6vw,84px)] leading-none tracking-[-.04em]">{project.title}</h2>
             <p className="m-0 max-w-[52ch] text-[clamp(17px,1.6vw,21px)] leading-normal text-soft">{project.description}</p>
-            <div className="relative my-[30px] flex aspect-[16/7] items-center justify-center overflow-hidden rounded-[28px] bg-[radial-gradient(60%_90%_at_50%_50%,color-mix(in_srgb,var(--acc)_20%,transparent),transparent_75%),var(--glass)] shadow-[inset_0_1px_0_var(--gl-hi),inset_0_0_0_1px_var(--gl-edge)] max-[860px]:aspect-[4/3]">
-              {project.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={project.image} alt={`Captura de ${project.title}`} className="h-full w-full object-cover" />
-              ) : (
-                <ProjectArt art={project.art} className="h-full w-auto max-w-full" />
-              )}
+            <div className="relative my-[30px] aspect-[16/10] overflow-hidden rounded-[22px] shadow-[0_30px_60px_-30px_var(--shadow),0_0_0_1px_var(--glass-b)]">
+              <ProjectScreen project={project} />
             </div>
             <div className="grid grid-cols-2 gap-x-10 gap-y-[26px] max-[860px]:grid-cols-1">
               {sections.map(([k, label]) => (
