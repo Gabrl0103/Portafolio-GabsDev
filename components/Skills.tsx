@@ -6,7 +6,7 @@ import TechIcon, { brandColor } from "./TechIcon";
 export default function Skills() {
   return (
     <section id="habilidades" data-koi="calm" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
-      <SectionHead eyebrow="Habilidades" title="Con qué *trabajo*" sub="Las herramientas que uso a diario, incluida la IA, y para qué me sirve cada una." />
+      <SectionHead eyebrow="Habilidades" title="Con qué *trabajo*" sub="Las herramientas que uso en mis proyectos, incluida la IA, y dónde las he usado." />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((g, gi) => (
@@ -36,7 +36,7 @@ export default function Skills() {
           </div>
         ))}
 
-        <div className="glass rv flex flex-col gap-5 rounded-[30px] p-7 md:col-span-2" style={{ "--d": ".3s" } as React.CSSProperties}>
+        <div className="glass rv flex flex-col gap-5 rounded-[30px] p-7" style={{ "--d": ".3s" } as React.CSSProperties}>
           <h3 className="font-card text-xl font-semibold tracking-[-.02em] text-acc">Idiomas</h3>
           <ul className="m-0 flex list-none flex-col gap-4 p-0">
             {languages.map((l) => (

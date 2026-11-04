@@ -1,4 +1,22 @@
-import { siClaude, siCursor, siDjango, siFigma, siGit, siJavascript, siNextdotjs, siPython, siTailwindcss, siTypescript, siVercel } from "simple-icons";
+import {
+  siCapacitor,
+  siFastapi,
+  siFigma,
+  siGit,
+  siGooglegemini,
+  siIonic,
+  siJavascript,
+  siKotlin,
+  siNextdotjs,
+  siNodedotjs,
+  siOpenjdk,
+  siPostgresql,
+  siRender,
+  siTailwindcss,
+  siTypescript,
+  siVercel,
+  siWearos,
+} from "simple-icons";
 
 /** Logos de tecnologías (Simple Icons, licencia CC0). */
 const ICONS = {
@@ -6,20 +24,26 @@ const ICONS = {
   typescript: siTypescript,
   tailwind: siTailwindcss,
   javascript: siJavascript,
-  python: siPython,
-  django: siDjango,
+  nodejs: siNodedotjs,
+  fastapi: siFastapi,
+  java: siOpenjdk,
+  postgresql: siPostgresql,
+  kotlin: siKotlin,
+  wearos: siWearos,
+  ionic: siIonic,
+  capacitor: siCapacitor,
   git: siGit,
+  render: siRender,
   vercel: siVercel,
   figma: siFigma,
-  claude: siClaude,
-  cursor: siCursor,
+  gemini: siGooglegemini,
 } as const;
 
-export type TechIconName = keyof typeof ICONS | "database" | "ai";
+export type TechIconName = keyof typeof ICONS | "database" | "ai" | "automation";
 
 /** Color de marca, salvo los casi negros, que usan el color del texto para verse en el tema oscuro. */
 export function brandColor(name: TechIconName) {
-  if (name === "database" || name === "ai") return "var(--acc)";
+  if (name === "database" || name === "ai" || name === "automation") return "var(--acc)";
   const hex = ICONS[name].hex;
   const n = parseInt(hex, 16);
   const lum = 0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);
@@ -32,6 +56,13 @@ export default function TechIcon({ name, size = 22, className }: { name: TechIco
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" className={className}>
         <ellipse cx="12" cy="5.5" rx="8" ry="3" />
         <path d="M4 5.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6M4 11.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+      </svg>
+    );
+  }
+  if (name === "automation") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
+        <path d="M13 2 4.5 13.5H12L11 22l8.5-11.5H12L13 2Z" />
       </svg>
     );
   }
