@@ -11,12 +11,12 @@ const groups: { kind: ExperienceKind; title: string; Icon: typeof CapIcon }[] = 
 export default function Experience() {
   return (
     <section id="experiencia" data-koi="calm" className="wrap flex flex-col gap-12 py-28 md:gap-16 md:py-36" data-sec>
-      <SectionHead eyebrow="Experiencia" title="Mi recorrido" sub="Lo que he estudiado y dónde he trabajado, de lo más reciente a lo más antiguo." />
+      <SectionHead eyebrow="Experiencia" title="Mi *recorrido*" sub="Lo que he estudiado y dónde he trabajado, de lo más reciente a lo más antiguo." />
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-10">
         {groups.map((g) => (
           <div key={g.kind} className="flex flex-col gap-8">
-            <h3 className="rv flex items-center gap-3 text-2xl font-semibold tracking-tight md:text-3xl">
+            <h3 className="rv flex items-center gap-3 text-3xl md:text-4xl">
               <span aria-hidden="true" className="flex size-11 flex-none items-center justify-center rounded-full bg-glass2 text-acc">
                 <g.Icon size={20} />
               </span>
@@ -32,7 +32,7 @@ export default function Experience() {
                       <span className="font-cine text-sm text-acc">
                         {e.start} – {e.end}
                       </span>
-                      <h4 className="m-0 text-xl font-semibold tracking-tight text-fg">{e.title}</h4>
+                      <h4 className="m-0 font-card text-xl font-semibold tracking-[-.02em] text-fg">{e.title}</h4>
                       <p className="m-0 text-sm text-mut">{e.place}</p>
                       <p className="m-0 mt-1 leading-relaxed text-soft">{e.description}</p>
                     </div>

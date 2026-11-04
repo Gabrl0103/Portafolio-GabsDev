@@ -121,7 +121,7 @@ export default function BookCall() {
       {/* Calendario */}
       <div className="p-5 sm:p-7">
         <div className="mb-5 flex items-center justify-between">
-          <p className="m-0 text-lg font-semibold tracking-tight text-fg capitalize">
+          <p className="m-0 font-card text-lg font-bold tracking-tight text-fg capitalize">
             {MONTHS[view.m]} <span className="font-normal text-mut">{view.y}</span>
           </p>
           <div className="flex gap-1">
@@ -188,7 +188,7 @@ export default function BookCall() {
             <span className="flex size-14 items-center justify-center rounded-full bg-acc text-acc-ink">
               <CheckIcon size={24} />
             </span>
-            <p className="m-0 text-xl font-semibold tracking-tight">Solicitud lista</p>
+            <p className="m-0 font-card text-xl font-bold tracking-tight">Solicitud lista</p>
             <p className="m-0 text-sm text-soft first-letter:uppercase">
               {dayLabel}, {fmt(slot!, h24)} (hora de Colombia). Te confirmo por correo.
             </p>

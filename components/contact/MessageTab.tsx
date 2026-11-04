@@ -104,7 +104,7 @@ export default function MessageTab() {
             <span className="flex size-14 items-center justify-center rounded-full bg-acc text-acc-ink">
               <CheckIcon size={24} />
             </span>
-            <p className="m-0 text-xl font-semibold tracking-tight">¡Nota enviada!</p>
+            <p className="m-0 font-card text-xl font-bold tracking-tight">¡Nota enviada!</p>
             <p className="m-0 max-w-[30ch] text-sm text-soft">Gracias, {name.split(" ")[0]}. Te respondo a {email} lo antes posible.</p>
             <button type="button" className={cx(button({ size: "sm" }), "mt-2")} onClick={reset}>
               Escribir otra

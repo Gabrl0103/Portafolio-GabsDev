@@ -37,7 +37,9 @@ export default function Contact() {
           {/* Encabezado */}
           <header className="flex flex-wrap items-start justify-between gap-5 border-b border-line px-6 py-6 sm:px-8">
             <div className="flex flex-col gap-1.5">
-              <h2 className="text-[clamp(26px,3.2vw,40px)] leading-tight">{contact.title}</h2>
+              <h2 className="text-[clamp(32px,4vw,50px)] leading-[1.05]">
+                {contact.title} <em className="text-acc">{contact.titleAccent}</em>
+              </h2>
               <p key={tab} className="m-0 animate-pv-up text-sm text-mut [animation-duration:.6s]">
                 {tab === "llamada" ? contact.subtitleCall : contact.subtitleMessage}
               </p>
@@ -105,7 +107,9 @@ export default function Contact() {
         <FakeCursor label={site.name} color="acc" x="100.5%" y="101%" delay />
       </div>
 
-      <Hid x="12%" y="8%">2:22</Hid>
+      <Hid x="12%" y="8%">
+        2:22
+      </Hid>
       <Hid x="84%" y="96%">
         <Koi w={58} />
       </Hid>

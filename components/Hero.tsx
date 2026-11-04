@@ -48,7 +48,7 @@ export default function Hero() {
         {/* Cada línea sube desde abajo cuando termina la intro (<html class="ready">). */}
         <h1
           aria-label={`Soy ${site.name}. Diseño y construyo apps web, móvil y de escritorio.`}
-          className="m-0 text-[clamp(40px,5.6vw,82px)] leading-[1.02] [&_em]:text-acc [&_em]:not-italic"
+          className="m-0 text-[clamp(46px,6.4vw,96px)] leading-[.98] [&_em]:text-acc"
         >
           {lines.map((l, i) => (
             <span className="-mb-[.06em] block overflow-hidden pb-[.06em]" aria-hidden="true" key={i}>

@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Courier_Prime } from "next/font/google";
+import { Bricolage_Grotesque, Courier_Prime, Instrument_Serif, Inter } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const courier = Courier_Prime({ variable: "--font-courier", subsets: ["latin"], weight: ["400", "700"] });
+/** Títulos grandes: serif editorial, con cursiva para las palabras destacadas. */
+const serif = Instrument_Serif({ variable: "--font-serif", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
+/** Títulos de tarjetas. */
+const brico = Bricolage_Grotesque({ variable: "--font-brico", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
@@ -31,7 +35,7 @@ const themeScript = `(function(){var r=document.documentElement;r.classList.add(
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${inter.variable} ${courier.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang="es" className={`${inter.variable} ${courier.variable} ${serif.variable} ${brico.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

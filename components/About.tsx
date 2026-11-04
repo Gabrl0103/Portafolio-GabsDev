@@ -119,7 +119,7 @@ export default function About() {
         <div className="rv pointer-events-none absolute inset-x-0 top-24 z-[5]">
           <div className={cx(wrap, "flex flex-col items-start gap-1")}>
             <span className="text-base font-semibold tracking-[-.01em] text-acc">Sobre mí</span>
-            <RevealTitle text="Quién está detrás" className="text-[clamp(24px,2.6vw,34px)]" />
+            <RevealTitle text="Quién está *detrás*" className="text-[clamp(24px,2.6vw,34px)]" />
           </div>
         </div>
 
@@ -237,7 +237,7 @@ function ProfileCard({ on }: { on: boolean }) {
         </div>
       </div>
       <div className="flex items-end justify-between gap-3 px-2 pb-1">
-        <p className="m-0 text-[clamp(20px,2vw,28px)] leading-none font-semibold tracking-[-.03em] text-fg">{profile.greeting}</p>
+        <p className="m-0 font-card text-[clamp(20px,2vw,28px)] leading-none font-bold tracking-[-.03em] text-fg">{profile.greeting}</p>
         <p className="m-0 text-right text-[11px] leading-snug text-mut">
           {profile.role}
           <br />
@@ -267,7 +267,7 @@ function IntroCard({ on }: { on: boolean }) {
   return (
     <div className="flex h-full flex-col justify-between gap-4 p-[clamp(20px,2.2vw,28px)]">
       <div className="flex flex-col gap-3">
-        <p className="m-0 text-[clamp(19px,1.8vw,26px)] leading-[1.15] font-semibold tracking-[-.03em] text-fg">{intro.headline}</p>
+        <p className="m-0 font-card text-[clamp(19px,1.8vw,26px)] leading-[1.15] font-bold tracking-[-.03em] text-fg">{intro.headline}</p>
         <p className="m-0 text-[13px] leading-relaxed text-mut [@media(max-height:720px)]:hidden">{intro.text}</p>
       </div>
       <div className="flex flex-col gap-3">
@@ -283,7 +283,7 @@ function StatsCard({ play }: { play: boolean }) {
     <ul className="m-0 flex h-full list-none flex-col p-0 px-[clamp(20px,2.2vw,28px)]">
       {stats.map((s, i) => (
         <li key={s.label} className={cx("flex flex-1 items-end justify-between gap-3 pb-4", i < stats.length - 1 && "border-b border-line")}>
-          <span className="text-[clamp(44px,min(5vw,8vh),76px)] leading-none font-semibold tracking-[-.04em] text-fg tabular-nums">
+          <span className="font-card text-[clamp(44px,min(5vw,8vh),76px)] leading-none font-bold tracking-[-.04em] text-fg tabular-nums">
             {s.prefix}
             <CountUp to={s.value} play={play} delay={i * 120} />
             {s.suffix}

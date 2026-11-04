@@ -1,6 +1,7 @@
 /** Textos y opciones de la sección de contacto. */
 export const contact = {
-  title: "Construyamos tu próximo proyecto",
+  title: "Construyamos tu próximo",
+  titleAccent: "proyecto",
   subtitleCall: "Diseño y desarrollo web. Elige un día y una hora.",
   subtitleMessage: "Diseño y desarrollo web. Déjame una nota y te respondo por correo.",
 };

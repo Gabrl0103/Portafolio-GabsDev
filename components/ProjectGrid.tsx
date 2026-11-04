@@ -24,7 +24,7 @@ export default function ProjectGrid({ projects, onOpen }: { projects: Project[];
 
             <div className="flex flex-1 flex-col gap-3 p-6">
               <span className="text-xs font-medium text-acc">{p.kind}</span>
-              <h3 className="m-0 text-2xl font-semibold tracking-[-.03em] text-fg">{p.title}</h3>
+              <h3 className="m-0 font-card text-2xl font-bold tracking-[-.03em] text-fg">{p.title}</h3>
               <p className="m-0 line-clamp-3 text-[15px] leading-relaxed text-soft">{p.description}</p>
               <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Tecnologías">
                 {p.tags.map((t, k) => (

@@ -76,7 +76,7 @@ export default function ProjectDetail({ project: current, onClose }: { project: 
         {project && (
           <div>
             <span className="text-[15px] font-semibold text-acc">{project.kind}</span>
-            <h2 className="mt-1.5 mb-3.5 text-[clamp(40px,6vw,84px)] leading-none tracking-[-.04em]">{project.title}</h2>
+            <h2 className="mt-1.5 mb-3.5 text-[clamp(46px,6.6vw,92px)] leading-none">{project.title}</h2>
             <p className="m-0 max-w-[52ch] text-[clamp(17px,1.6vw,21px)] leading-normal text-soft">{project.description}</p>
             <div className="relative my-[30px] aspect-[16/10] overflow-hidden rounded-[22px] shadow-[0_30px_60px_-30px_var(--shadow),0_0_0_1px_var(--glass-b)]">
               <ProjectScreen project={project} />
@@ -84,7 +84,7 @@ export default function ProjectDetail({ project: current, onClose }: { project: 
             <div className="grid grid-cols-2 gap-x-10 gap-y-[26px] max-[860px]:grid-cols-1">
               {sections.map(([k, label]) => (
                 <div key={k}>
-                  <h4 className="m-0 mb-1.5 text-sm/[1.5] font-semibold text-acc">{label}</h4>
+                  <h4 className="m-0 mb-1.5 font-card text-sm/[1.5] font-semibold text-acc">{label}</h4>
                   <p className="m-0 text-base leading-[1.55] text-soft">{project.detail[k]}</p>
                 </div>
               ))}

@@ -31,7 +31,7 @@ export default function Projects() {
       <div className={cx(wrap, "flex flex-wrap items-end justify-between gap-x-6 gap-y-4")}>
         <div className="rv flex flex-col gap-2">
           <span className="text-base font-semibold tracking-[-.01em] text-acc">Proyectos</span>
-          <RevealTitle text="Lo que he construido" />
+          <RevealTitle text="Lo que he *construido*" />
           <p className="m-0 max-w-[48ch] text-[17px] leading-[1.55] text-soft">Cada proyecto con su código en GitHub y su demo en línea.</p>
         </div>
         <ViewToggle view={view} onChange={setView} />
@@ -211,7 +211,7 @@ function Carousel({ onOpen }: { onOpen: (p: Project) => void }) {
       <div className={cx(wrap, "mt-6 grid items-start gap-6 md:grid-cols-[1fr_auto] md:gap-10")}>
         <div key={cur} className="flex animate-pv-up flex-col gap-3 [animation-duration:.7s]" aria-live="polite">
           <span className="text-xs font-medium text-acc">{p.kind}</span>
-          <h3 className="m-0 text-[clamp(30px,3.6vw,46px)] leading-none tracking-[-.04em] text-fg">{p.title}</h3>
+          <h3 className="m-0 text-[clamp(38px,4.4vw,58px)] leading-none text-fg">{p.title}</h3>
           <p className="m-0 max-w-[60ch] text-[15px] leading-relaxed text-soft">{p.description}</p>
           <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Tecnologías">
             {p.tags.map((t, k) => (
