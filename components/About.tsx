@@ -6,6 +6,7 @@ import { chapters, facts } from "@/data/about";
 import { site, tools } from "@/data/site";
 import Hid, { Koi } from "./fx/Hid";
 import TypeTitle from "./fx/TypeTitle";
+import { chip, cx } from "./ui";
 
 /** Sobre mí en capítulos: la sección queda fija y cada tramo de scroll muestra un capítulo. */
 export default function About() {
@@ -46,74 +47,91 @@ export default function About() {
   };
 
   return (
-    <section id="sobre-mi" ref={sec} className="chapters" data-sec aria-label="Sobre mí">
-      <div className="chap-sticky">
-        <div className="sec-h rv">
-          <span className="eyebrow">Sobre mí</span>
-          <TypeTitle text="Quién está detrás" />
+    // Sección alta (440vh) con un bloque fijo: cada tramo de scroll muestra un capítulo.
+    <section id="sobre-mi" ref={sec} className="relative h-[440vh]" data-sec aria-label="Sobre mí">
+      <div className="sticky top-0 flex h-svh items-center overflow-hidden">
+        <div className="rv pointer-events-none absolute inset-x-0 top-24 z-[5] flex flex-col items-center gap-1.5 text-center">
+          <span className="text-base font-semibold tracking-[-.01em] text-acc">Sobre mí</span>
+          <TypeTitle text="Quién está detrás" className="text-[clamp(22px,2.4vw,32px)] font-medium text-mut" />
         </div>
 
-        {chapters.map((c, i) => (
-          <article key={c.n} className={`chap${i === idx ? " on" : ""}`} aria-hidden={i !== idx}>
-            <span className="chap-n" aria-hidden="true">
-              {i === 1 && (
-                <span className="art-s">
-                  <i>2</i>
-                  <i>2</i>
-                </span>
+        {chapters.map((c, i) => {
+          const on = i === idx;
+          return (
+            <article
+              key={c.n}
+              aria-hidden={!on}
+              className={cx(
+                "absolute inset-0 flex items-center px-[max(24px,6vw)]",
+                on ? "visible opacity-100 [transition:opacity_.8s_ease]" : "invisible opacity-0 [transition:opacity_.8s_ease,visibility_0s_.8s]",
               )}
-              {i + 1}
-            </span>
-            <div className="chap-t">
-              {i === 0 && (
-                <Image
-                  src={site.photo}
-                  alt={`Foto de ${site.name}`}
-                  width={88}
-                  height={88}
-                  unoptimized={site.photo.endsWith(".svg")}
-                  className="size-20 rounded-full object-cover md:size-22"
-                />
-              )}
-              <span className="cn">{c.n}</span>
-              <h3>{c.title}</h3>
-              <p>{c.text}</p>
-              {i === 0 && (
-                <ul className="chips m-0 list-none p-0">
-                  {facts.map((f) => (
-                    <li key={f}>
-                      <span className="inline-block">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {i === n - 1 && (
-                <ul className="chips m-0 list-none p-0" aria-label="Tecnologías">
-                  {tools.map((t) => (
-                    <li key={t}>
-                      <span className="inline-block">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </article>
-        ))}
+            >
+              <span
+                aria-hidden="true"
+                className={cx(
+                  "pointer-events-none absolute top-1/2 right-[max(16px,5vw)] -translate-y-1/2 text-[clamp(260px,46vw,640px)] leading-[.8] font-semibold tracking-[-.04em] text-transparent transition-transform duration-[1.2s] ease-out-soft max-[860px]:-right-[10vw] max-[860px]:text-[78vw] max-[860px]:opacity-55",
+                  on ? "scale-100 [-webkit-text-stroke:1px_var(--acc)]" : "scale-[.92] [-webkit-text-stroke:1px_var(--line2)]",
+                )}
+              >
+                {i === 1 && (
+                  <span className="absolute top-[3%] left-[3%] flex gap-[.14em] text-[.1em] leading-none font-light opacity-75 [-webkit-text-stroke-width:.5px] [&_i]:font-light [&_i]:not-italic">
+                    <i>2</i>
+                    <i>2</i>
+                  </span>
+                )}
+                {i + 1}
+              </span>
+              <div
+                className={cx(
+                  "glass relative z-[2] flex max-w-[min(580px,46vw)] flex-col gap-5 rounded-[34px] p-[clamp(24px,3vw,44px)] transition-transform duration-1000 ease-out-soft max-[860px]:max-w-full",
+                  on ? "translate-y-0" : "translate-y-[26px]",
+                )}
+              >
+                {i === 0 && (
+                  <Image
+                    src={site.photo}
+                    alt={`Foto de ${site.name}`}
+                    width={88}
+                    height={88}
+                    unoptimized={site.photo.endsWith(".svg")}
+                    className="size-20 rounded-full object-cover md:size-22"
+                  />
+                )}
+                <span className="text-base font-semibold text-acc">{c.n}</span>
+                <h3 className="text-[clamp(44px,7vw,104px)] leading-none tracking-[-.04em]">{c.title}</h3>
+                <p className="m-0 max-w-[30ch] text-[clamp(18px,1.7vw,24px)] leading-[1.45] text-soft">{c.text}</p>
+                {(i === 0 || i === n - 1) && (
+                  <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label={i === 0 ? "Datos rápidos" : "Tecnologías"}>
+                    {(i === 0 ? facts : tools).map((f) => (
+                      <li key={f}>
+                        <span className={chip}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          );
+        })}
 
-        <ol className="chap-dots" aria-label="Capítulos">
+        <ol className="absolute bottom-[34px] left-[max(24px,6vw)] z-[6] m-0 flex list-none gap-2.5 p-0" aria-label="Capítulos">
           {chapters.map((c, i) => (
-            <li key={c.n}>
+            <li key={c.n} className="py-3.5">
               <button
                 type="button"
                 aria-label={c.title}
                 aria-current={i === idx ? "step" : undefined}
                 onClick={() => goTo(i)}
                 style={{ "--k": i < idx ? 1 : i === idx ? frac.toFixed(3) : 0 } as React.CSSProperties}
+                className="relative block h-1 w-[38px] cursor-pointer overflow-hidden rounded-xs border-0 bg-line2 p-0 after:absolute after:inset-0 after:origin-left after:scale-x-(--k) after:bg-acc"
               />
             </li>
           ))}
         </ol>
-        <span className="chap-hint" style={{ opacity: scrolled ? 0 : 1 }}>
+        <span
+          className="absolute right-[max(24px,6vw)] bottom-[88px] z-[6] text-sm/[1.5] text-mut transition-opacity duration-500 max-[860px]:hidden"
+          style={{ opacity: scrolled ? 0 : 1 }}
+        >
           Sigue bajando ↓
         </span>
 
