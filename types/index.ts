@@ -50,13 +50,23 @@ export interface Experience {
   description: string;
 }
 
-export interface SkillGroup {
-  title: string;
-  skills: { name: string; level: number }[];
+export interface Skill {
+  name: string;
+  /** Sigla corta que se muestra en el cuadro del ícono. */
+  short: string;
+  /** Para qué la uso (sin medir niveles). */
+  use: string;
 }
 
-export interface Chapter {
-  n: string;
+export interface SkillGroup {
   title: string;
-  text: string;
+  skills: Skill[];
+}
+
+export interface Stat {
+  value: number;
+  /** Texto antes o después del número: "5.º", "+"… */
+  prefix?: string;
+  suffix?: string;
+  label: string;
 }

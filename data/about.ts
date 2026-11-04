@@ -1,55 +1,56 @@
-import type { Chapter, SkillGroup } from "@/types";
+import type { SkillGroup, Stat } from "@/types";
 
-export const chapters: Chapter[] = [
-  {
-    n: "01",
-    title: "Quién soy",
-    text: "Soy Gabs, estudiante de quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto.",
-  },
-  {
-    n: "02",
-    title: "Qué construyo",
-    text: "Apps web, móvil y de escritorio. Ahora trabajo en Skillmap, Firemap y una app para smartwatch.",
-  },
-  {
-    n: "03",
-    title: "Neveo",
-    text: "Dirijo Neveo, una marca de helados y açaí pensada para gente joven en Pasto.",
-  },
-  {
-    n: "04",
-    title: "Cómo trabajo",
-    text: "Next.js, TypeScript y Tailwind CSS en la web, Python y Django en el servidor, y Git con Vercel para publicar.",
-  },
+/* ---------- Sobre mí: cuatro tarjetas ---------- */
+
+/** Tarjeta "Perfil" */
+export const profile = {
+  greeting: "Hola, soy Gabs.",
+  role: "Estudiante de Ingeniería de Software",
+  place: "Pasto, Colombia",
+};
+
+/** Tarjeta "Sobre mí" */
+export const intro = {
+  headline: "Diseño y construyo apps web, móvil y de escritorio que se sienten claras y rápidas.",
+  text: "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia y dirijo Neveo, mi marca de helados y açaí. Me gusta llevar una idea desde el diseño hasta el código en producción.",
+  worksWith: ["Next.js", "TypeScript", "Tailwind CSS", "Python", "Django"],
+  openTo: ["Prácticas", "Freelance", "Proyectos", "Colaboraciones"],
+};
+
+/** Tarjeta "En números" (datos reales; actualízalos cuando cambien) */
+export const stats: Stat[] = [
+  { value: 5, suffix: ".º", label: "semestre de Ingeniería" },
+  { value: 4, label: "proyectos en curso" },
+  { value: 1, label: "marca propia: Neveo" },
 ];
 
-export const facts = ["Pasto, Colombia", "5.º semestre", "Fundador de Neveo", "Web, móvil y escritorio"];
+/* ---------- Habilidades (sección adicional) ---------- */
 
-/** Sección adicional: niveles aproximados de 0 a 100. Ajústalos a tu criterio. */
+/** Sin barras ni porcentajes: cada herramienta dice para qué la uso. */
 export const skillGroups: SkillGroup[] = [
   {
     title: "Frontend",
     skills: [
-      { name: "Next.js", level: 75 },
-      { name: "TypeScript", level: 70 },
-      { name: "Tailwind CSS", level: 80 },
-      { name: "JavaScript", level: 80 },
+      { name: "Next.js", short: "Nx", use: "Sitios y apps con App Router" },
+      { name: "TypeScript", short: "TS", use: "Tipos para datos y componentes" },
+      { name: "Tailwind CSS", short: "Tw", use: "Estilos y diseño responsive" },
+      { name: "JavaScript", short: "JS", use: "Interacción y animaciones" },
     ],
   },
   {
     title: "Backend",
     skills: [
-      { name: "Python", level: 75 },
-      { name: "Django", level: 65 },
-      { name: "Bases de datos", level: 60 },
+      { name: "Python", short: "Py", use: "Lógica, scripts y datos" },
+      { name: "Django", short: "Dj", use: "APIs y paneles de administración" },
+      { name: "Bases de datos", short: "DB", use: "Modelado y consultas SQL" },
     ],
   },
   {
     title: "Herramientas",
     skills: [
-      { name: "Git y GitHub", level: 75 },
-      { name: "Vercel", level: 70 },
-      { name: "Figma", level: 60 },
+      { name: "Git y GitHub", short: "Git", use: "Control de versiones en equipo" },
+      { name: "Vercel", short: "Vc", use: "Despliegue y dominios" },
+      { name: "Figma", short: "Fg", use: "Prototipos antes de programar" },
     ],
   },
 ];

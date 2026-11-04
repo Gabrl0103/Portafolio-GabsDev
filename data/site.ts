@@ -16,6 +16,8 @@ export const site = {
   instagram: "https://instagram.com/[neveo]",
   cv: "/cv.pdf",
   photo: "/images/avatar.svg",
+  /** Foto de la sección Sobre mí (vertical 4:5). Cambia por tu foto, p. ej. "/images/gabs.jpg". */
+  portrait: "/images/retrato.svg",
   year: 2026,
 } as const;
 
