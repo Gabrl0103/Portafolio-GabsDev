@@ -131,7 +131,7 @@ export default function Projects() {
                         </div>
                       </div>
                       <div className="links2">
-                        <button type="button" className="btn primary sm" onClick={() => setDetail(p)}>
+                        <button type="button" className="btn primary sm more-btn" onClick={() => setDetail(p)}>
                           Ver proyecto
                         </button>
                         <a className="btn sm" href={p.primary.href} target="_blank" rel="noopener noreferrer">
