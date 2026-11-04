@@ -118,6 +118,10 @@ export default function MessageTab() {
               </span>
               <input
                 data-field="name"
+                name="name"
+                type="text"
+                required
+                minLength={2}
                 className="field min-h-11 py-2.5"
                 autoComplete="name"
                 value={name}
@@ -138,7 +142,9 @@ export default function MessageTab() {
               </span>
               <input
                 data-field="email"
+                name="email"
                 type="email"
+                required
                 className="field min-h-11 py-2.5"
                 autoComplete="email"
                 value={email}
@@ -208,6 +214,10 @@ export default function MessageTab() {
               </span>
               <textarea
                 data-field="message"
+                name="message"
+                required
+                minLength={10}
+                maxLength={MAX}
                 className="field min-h-24 resize-none py-2.5"
                 placeholder="En pocas líneas: qué es, qué necesitas y para cuándo."
                 value={message}
