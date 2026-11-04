@@ -5,6 +5,7 @@ import { site } from "@/data/site";
 import Hid, { Koi } from "./fx/Hid";
 import TypeTitle from "./fx/TypeTitle";
 import { GithubIcon, LinkedinIcon, MailIcon, WhatsappIcon } from "./Icons";
+import { button, cx } from "./ui";
 
 /** Si defines NEXT_PUBLIC_FORMSPREE_ID el formulario envía por Formspree; si no, abre el correo. */
 const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID;
@@ -113,7 +114,7 @@ export default function Contact() {
               <p className="m-0 max-w-[36ch] text-soft">
                 {FORMSPREE_ID ? "Gracias por escribir. Te respondo pronto." : "Se abrió tu app de correo con el mensaje listo para enviar."}
               </p>
-              <button type="button" className="btn sm mt-2" onClick={() => setStatus("idle")}>
+              <button type="button" className={cx(button({ size: "sm" }), "mt-2")} onClick={() => setStatus("idle")}>
                 Escribir otro
               </button>
             </div>
@@ -136,7 +137,7 @@ export default function Contact() {
                 <textarea className="field min-h-36 resize-y" required minLength={10} placeholder="Cuéntame tu idea…" {...field("message")} />
                 {err("message")}
               </label>
-              <button type="submit" className="btn primary self-start" disabled={status === "sending"}>
+              <button type="submit" className={cx(button({ variant: "primary" }), "self-start disabled:opacity-60")} disabled={status === "sending"}>
                 {status === "sending" ? "Enviando…" : "Enviar mensaje"}
               </button>
               {status === "error" && (

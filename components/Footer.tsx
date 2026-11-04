@@ -2,6 +2,7 @@ import { navLinks, site } from "@/data/site";
 import Hid from "./fx/Hid";
 import ReplayIntro from "./fx/ReplayIntro";
 import { ArrowUpIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from "./Icons";
+import { button } from "./ui";
 
 const socials = [
   { label: "GitHub", href: site.github, Icon: GithubIcon },
@@ -24,7 +25,7 @@ export default function Footer() {
         {socials.map(({ label, href, Icon }) => (
           <li key={label}>
             <a
-              className="btn icon"
+              className={button({ size: "icon" })}
               href={href}
               aria-label={label}
               {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -54,7 +55,7 @@ export default function Footer() {
       <p>Fin</p>
 
       <div className="flex flex-wrap justify-center gap-3">
-        <a className="btn sm" href="#inicio">
+        <a className={button({ size: "sm" })} href="#inicio">
           <ArrowUpIcon size={14} /> Volver arriba
         </a>
         <ReplayIntro />
