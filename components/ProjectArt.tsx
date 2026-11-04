@@ -66,6 +66,59 @@ export default function ProjectArt({ art, className }: { art: Art; className?: s
           </g>
         </svg>
       );
+    case "sencia":
+      return (
+        <svg className={className} viewBox="0 0 480 300" role="img" aria-label="Ilustración: formulario con barra de progreso y panel de briefings">
+          <rect x="40" y="40" width="190" height="220" rx="16" className="fill-bg stroke-line2 stroke-[1.5]" />
+          <rect x="60" y="62" width="150" height="6" rx="3" className="fill-glass2" />
+          <rect x="60" y="62" width="96" height="6" rx="3" className="fill-acc" />
+          {[92, 134, 176].map((y, i) => (
+            <g key={y}>
+              <rect x="60" y={y} width="70" height="6" rx="3" className="fill-line2" />
+              <rect x="60" y={y + 14} width="150" height="20" rx="6" className={i === 1 ? "fill-none stroke-acc stroke-[1.5]" : "fill-none stroke-line2 stroke-1"} />
+            </g>
+          ))}
+          <rect x="60" y="222" width="70" height="22" rx="11" className="fill-acc" />
+          <g className="animate-float">
+            <rect x="250" y="70" width="190" height="170" rx="16" className="fill-bg stroke-line2 stroke-[1.5]" />
+            {[96, 136, 176].map((y, i) => (
+              <g key={y}>
+                <circle cx="274" cy={y + 8} r="6" className={i === 0 ? "fill-acc" : "fill-deep"} />
+                <rect x="290" y={y} width="90" height="6" rx="3" className="fill-line2" />
+                <rect x="290" y={y + 12} width="60" height="5" rx="2.5" className="fill-glass2" />
+                <rect x="392" y={y + 2} width="30" height="12" rx="6" className={i === 0 ? "fill-acc" : "fill-none stroke-line2 stroke-1"} />
+              </g>
+            ))}
+            <rect x="268" y="212" width="38" height="14" rx="4" className="fill-none stroke-acc stroke-1" />
+            <rect x="314" y="212" width="38" height="14" rx="4" className="fill-none stroke-acc stroke-1" />
+          </g>
+          <circle className={cx(ping, "fill-acc")} cx="156" cy="65" r="5" />
+        </svg>
+      );
+    case "servicios":
+      return (
+        <svg className={className} viewBox="0 0 480 300" role="img" aria-label="Ilustración: tarjetas de servicios y ubicación">
+          <g className="fill-none stroke-line stroke-1">
+            <path d="M0 75H480M0 150H480M0 225H480M120 0V300M240 0V300M360 0V300" />
+          </g>
+          {[
+            [70, 60],
+            [190, 120],
+            [310, 70],
+          ].map(([x, y], i) => (
+            <g key={i} className={i === 1 ? "animate-float" : undefined}>
+              <rect x={x} y={y} width="110" height="130" rx="14" className="fill-bg stroke-line2 stroke-[1.5]" />
+              <circle cx={x + 26} cy={y + 28} r="12" className={i === 1 ? "fill-acc" : "fill-deep"} />
+              <rect x={x + 16} y={y + 54} width="78" height="6" rx="3" className="fill-line2" />
+              <rect x={x + 16} y={y + 68} width="56" height="5" rx="2.5" className="fill-glass2" />
+              <rect x={x + 16} y={y + 98} width="50" height="18" rx="9" className={i === 1 ? "fill-acc" : "fill-none stroke-line2 stroke-1"} />
+            </g>
+          ))}
+          <path d="M408 214c0 18-22 40-22 40s-22-22-22-40a22 22 0 0 1 44 0Z" className="fill-acc" />
+          <circle cx="386" cy="214" r="8" className="fill-bg" />
+          <circle className={cx(ping, "fill-acc")} cx="386" cy="254" r="6" />
+        </svg>
+      );
     case "neveo":
       return (
         <svg className={className} viewBox="0 0 480 300" role="img" aria-label="Ilustración de ejemplo: helado de dos bolas">

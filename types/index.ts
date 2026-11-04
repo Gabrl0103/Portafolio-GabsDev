@@ -1,10 +1,10 @@
 import type { TechIconName } from "@/components/TechIcon";
 
 /** Ilustraciones SVG disponibles mientras no haya capturas reales. */
-export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo";
+export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios";
 
 /** Formato en el que se muestra la vista previa del proyecto. */
-export type ProjectFormat = "web" | "mobile" | "watch";
+export type ProjectFormat = "web" | "desktop" | "mobile" | "watch";
 
 export interface ProjectLink {
   label: string;
@@ -24,7 +24,7 @@ export interface Project {
   /** Captura real en /public/images. Si no existe se usa la ilustración. */
   image?: string;
   art: ProjectArt;
-  /** web = ventana de navegador · mobile = celular · watch = reloj inteligente */
+  /** web = navegador · desktop = ventana de escritorio · mobile = celular · watch = reloj */
   format: ProjectFormat;
   /** Enlace al repositorio (GitHub) o al perfil principal. */
   primary: ProjectLink;

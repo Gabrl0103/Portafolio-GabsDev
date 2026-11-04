@@ -11,18 +11,22 @@ import { cx } from "./ui";
 export default function ProjectScreen({ project: p, className }: { project: Project; className?: string }) {
   return (
     <div className={cx("@container relative h-full w-full overflow-hidden text-left", className)}>
-      {p.format === "web" && <WebScreen p={p} />}
+      {(p.format === "web" || p.format === "desktop") && <WebScreen p={p} />}
       {p.format === "mobile" && <DeviceScreen p={p} kind="mobile" />}
       {p.format === "watch" && <DeviceScreen p={p} kind="watch" />}
     </div>
   );
 }
 
+/** Lo que se ve en la barra: el dominio de la demo si existe; si no, el nombre del proyecto. */
 const host = (p: Project) => {
+  const slug = p.title.toLowerCase();
+  if (p.format === "desktop" || !p.secondary.href) return p.format === "desktop" ? p.title : slug;
   try {
-    return p.secondary.href ? new URL(p.secondary.href).host : p.title.toLowerCase();
+    const h = new URL(p.secondary.href).host;
+    return /github\.com|instagram\.com/.test(h) ? slug : h;
   } catch {
-    return p.title.toLowerCase();
+    return slug;
   }
 };
 
@@ -77,6 +81,17 @@ function DeviceScreen({ p, kind }: { p: Project; kind: "mobile" | "watch" }) {
           )}
         >
           <Image src={p.image} alt={`Captura de ${p.title}`} fill sizes="400px" className="object-cover" />
+        </div>
+      ) : kind === "mobile" ? (
+        // Maqueta de celular con la ilustración en pantalla
+        <div className="relative flex aspect-[9/19] h-[88%] items-center justify-center overflow-hidden rounded-[14%/7%] border-[1.2cqw] border-[#1d1e19] bg-bg2 shadow-[0_30px_60px_-20px_rgba(0,0,0,.6)]">
+          <span className="absolute top-[2.5%] left-1/2 h-[2.6%] w-[30%] -translate-x-1/2 rounded-full bg-[#1d1e19]" />
+          <div className="absolute inset-x-[8%] top-[9%] flex flex-col gap-[1cqw]">
+            <p className="m-0 font-card text-[max(9px,2cqw)] leading-tight font-bold text-fg">{p.title}</p>
+            <span className="block h-[.7cqw] w-[70%] rounded-full bg-glass2" />
+          </div>
+          <ProjectArt art={p.art} className="h-auto w-[175%] max-w-none" />
+          <span className="absolute inset-x-[8%] bottom-[6%] block h-[4cqw] rounded-[1.2cqw] bg-acc" />
         </div>
       ) : (
         <ProjectArt art={p.art} className="h-[92%] w-auto" />
