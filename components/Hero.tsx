@@ -63,8 +63,8 @@ export default function Hero() {
         </h1>
 
         <p className="rv m-0 max-w-[52ch] text-xl leading-normal tracking-[-.011em] text-soft" style={delay(".15s")}>
-          Estudiante de quinto semestre de Ingeniería de Software en la {site.university}. También dirijo Neveo, mi
-          marca de helados y açaí en Pasto.
+          Estudiante de quinto semestre de Ingeniería de Software en la {site.university}. Construyo apps de escritorio,
+          Android, Wear OS y web, y llevo el marketing de Neveo, una heladería y açaí en Pasto.
         </p>
 
         <div className="rv flex flex-wrap gap-3.5" style={delay(".25s")}>
