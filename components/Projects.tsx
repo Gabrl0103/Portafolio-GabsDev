@@ -8,7 +8,7 @@ import ProjectGrid from "./ProjectGrid";
 import ProjectLinkButton from "./ProjectLinkButton";
 import ProjectScreen from "./ProjectScreen";
 import Hid, { Koi } from "./fx/Hid";
-import TypeTitle from "./fx/TypeTitle";
+import RevealTitle from "./fx/RevealTitle";
 import { button, chip, cx, wrap } from "./ui";
 
 const N = projects.length;
@@ -27,11 +27,11 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="proyectos" className="relative py-28 md:py-32" data-sec>
+    <section id="proyectos" data-koi="soft" className="relative py-28 md:py-32" data-sec>
       <div className={cx(wrap, "flex flex-wrap items-end justify-between gap-x-6 gap-y-4")}>
         <div className="rv flex flex-col gap-2">
           <span className="text-base font-semibold tracking-[-.01em] text-acc">Proyectos</span>
-          <TypeTitle text="Lo que he construido" />
+          <RevealTitle text="Lo que he construido" />
           <p className="m-0 max-w-[48ch] text-[17px] leading-[1.55] text-soft">Cada proyecto con su código en GitHub y su demo en línea.</p>
         </div>
         <ViewToggle view={view} onChange={setView} />
