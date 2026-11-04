@@ -134,7 +134,7 @@ export default function Projects() {
                   <div className="absolute bottom-[clamp(24px,3.4vw,44px)] left-[clamp(24px,3.4vw,48px)] z-[3] flex w-[min(44%,430px)] flex-col justify-between gap-[22px] transition-transform duration-600 ease-out-soft [transform:translate(var(--ix,0px),var(--iy,0px))] max-[860px]:right-5 max-[860px]:bottom-5 max-[860px]:left-5 max-[860px]:w-auto max-[860px]:gap-3">
                     <div className="flex flex-col gap-3.5 group-data-[pos=0]:animate-pv-up">
                       <h3 className="text-[clamp(34px,4.6vw,66px)] leading-none tracking-[-.04em] max-[860px]:text-[clamp(30px,9vw,44px)]">{p.title}</h3>
-                      <p className="m-0 max-w-[34ch] text-[clamp(15px,1.3vw,18px)] leading-[1.45] text-soft max-[860px]:hidden">{p.description}</p>
+                      <p className="m-0 line-clamp-3 max-w-[34ch] text-[clamp(15px,1.3vw,18px)] leading-[1.45] text-soft max-[860px]:hidden [@media(max-height:620px)]:hidden">{p.description}</p>
                       <div className="flex flex-wrap gap-2 max-[860px]:[&>span:not(:first-child)]:hidden">
                         <span className={chip}>{p.kind}</span>
                         {p.tags.map((t, k) => (
@@ -177,7 +177,7 @@ export default function Projects() {
                 onClick={() => show(j)}
                 className={cx(
                   // `tab` es el gancho del sonido y del cursor (Effects.tsx).
-                  "tab min-h-11 cursor-pointer rounded-full border-0 px-5 text-sm/[1.5] font-medium tracking-normal [transition:background_.35s,color_.35s,transform_.4s_cubic-bezier(.34,1.56,.64,1)] active:scale-95 max-[860px]:flex-none max-[860px]:px-4",
+                  "tab min-h-11 cursor-pointer rounded-full border-0 px-5 text-sm/[1.5] font-medium tracking-normal [transition:background_.35s,color_.35s,transform_.4s_cubic-bezier(.34,1.56,.64,1)] active:scale-95 max-[860px]:flex-auto max-[860px]:px-2.5 max-[860px]:text-[13px]",
                   j === cur ? "bg-acc text-acc-ink shadow-[0_8px_20px_-10px_var(--acc)]" : "bg-transparent text-mut hover:text-fg",
                 )}
               >

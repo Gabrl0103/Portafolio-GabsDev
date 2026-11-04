@@ -62,14 +62,15 @@ export default function About() {
               key={c.n}
               aria-hidden={!on}
               className={cx(
-                "absolute inset-0 flex items-center px-[max(24px,6vw)]",
+                // El capítulo ocupa el espacio entre el título (arriba) y los indicadores (abajo).
+                "absolute inset-0 flex items-center px-[max(24px,6vw)] pt-[176px] pb-[84px]",
                 on ? "visible opacity-100 [transition:opacity_.8s_ease]" : "invisible opacity-0 [transition:opacity_.8s_ease,visibility_0s_.8s]",
               )}
             >
               <span
                 aria-hidden="true"
                 className={cx(
-                  "pointer-events-none absolute top-1/2 right-[max(16px,5vw)] -translate-y-1/2 text-[clamp(260px,46vw,640px)] leading-[.8] font-semibold tracking-[-.04em] text-transparent transition-transform duration-[1.2s] ease-out-soft max-[860px]:-right-[10vw] max-[860px]:text-[78vw] max-[860px]:opacity-55",
+                  "pointer-events-none absolute top-1/2 right-[max(16px,5vw)] -translate-y-1/2 text-[clamp(260px,46vw,640px)] leading-[.8] font-semibold tracking-[-.04em] text-transparent transition-transform duration-[1.2s] ease-out-soft max-[860px]:hidden",
                   on ? "scale-100 [-webkit-text-stroke:1px_var(--acc)]" : "scale-[.92] [-webkit-text-stroke:1px_var(--line2)]",
                 )}
               >
@@ -83,28 +84,30 @@ export default function About() {
               </span>
               <div
                 className={cx(
-                  "glass relative z-[2] flex max-w-[min(580px,46vw)] flex-col gap-5 rounded-[34px] p-[clamp(24px,3vw,44px)] transition-transform duration-1000 ease-out-soft max-[860px]:max-w-full",
+                  "glass relative z-[2] flex max-h-full max-w-[min(580px,46vw)] flex-col gap-[clamp(10px,2vh,20px)] rounded-[34px] p-[clamp(20px,min(3vw,4.5vh),44px)] transition-transform duration-1000 ease-out-soft max-[860px]:max-w-full",
                   on ? "translate-y-0" : "translate-y-[26px]",
                 )}
               >
-                {i === 0 && (
-                  <Image
-                    src={site.photo}
-                    alt={`Foto de ${site.name}`}
-                    width={88}
-                    height={88}
-                    unoptimized={site.photo.endsWith(".svg")}
-                    className="size-20 rounded-full object-cover md:size-22"
-                  />
-                )}
-                <span className="text-base font-semibold text-acc">{c.n}</span>
-                <h3 className="text-[clamp(44px,7vw,104px)] leading-none tracking-[-.04em]">{c.title}</h3>
-                <p className="m-0 max-w-[30ch] text-[clamp(18px,1.7vw,24px)] leading-[1.45] text-soft">{c.text}</p>
+                <div className="flex items-center gap-3">
+                  {i === 0 && (
+                    <Image
+                      src={site.photo}
+                      alt={`Foto de ${site.name}`}
+                      width={56}
+                      height={56}
+                      unoptimized={site.photo.endsWith(".svg")}
+                      className="size-12 rounded-full object-cover md:size-14"
+                    />
+                  )}
+                  <span className="text-base font-semibold text-acc">{c.n}</span>
+                </div>
+                <h3 className="text-[clamp(34px,min(7vw,8.5vh),104px)] leading-none tracking-[-.04em]">{c.title}</h3>
+                <p className="m-0 max-w-[30ch] text-[clamp(16px,min(1.7vw,2.7vh),24px)] leading-[1.45] text-soft">{c.text}</p>
                 {(i === 0 || i === n - 1) && (
                   <ul className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label={i === 0 ? "Datos rápidos" : "Tecnologías"}>
                     {(i === 0 ? facts : tools).map((f) => (
                       <li key={f}>
-                        <span className={chip}>{f}</span>
+                        <span className={cx(chip, "max-[860px]:px-2.5 max-[860px]:py-1 max-[860px]:text-xs")}>{f}</span>
                       </li>
                     ))}
                   </ul>
