@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Project } from "@/types";
 import ProjectArt from "./ProjectArt";
+import { button, chip, cx } from "./ui";
 
 const sections: [keyof Project["detail"], string][] = [
   ["problema", "Problema"],
@@ -43,50 +44,67 @@ export default function ProjectDetail({ project: current, onClose }: { project: 
   return createPortal(
     <div
       id="pd"
-      className={open ? "open" : undefined}
       role="dialog"
       aria-modal="true"
       aria-label={project ? `Detalle de ${project.title}` : "Detalle del proyecto"}
       aria-hidden={!open}
       onClick={(e) => e.target === e.currentTarget && onClose()}
+      className={cx(
+        "fixed inset-0 z-[140] flex items-center justify-center bg-[rgba(10,12,6,.28)] p-[max(14px,3vw)] backdrop-blur-[34px] backdrop-saturate-[1.6]",
+        open ? "visible opacity-100 [transition:opacity_.5s_ease]" : "invisible opacity-0 [transition:opacity_.5s_ease,visibility_0s_.5s]",
+      )}
     >
-      <div className="sheet" ref={sheet}>
-        <button ref={closeBtn} className="x" type="button" aria-label="Cerrar" onClick={onClose}>
-          <svg viewBox="0 0 16 16">
+      <div
+        ref={sheet}
+        className={cx(
+          "glass relative max-h-full w-[min(1100px,100%)] overflow-auto overscroll-contain rounded-[38px] p-[clamp(24px,4vw,56px)] [transition:transform_.8s_cubic-bezier(.2,.8,.2,1),opacity_.5s]",
+          open ? "translate-y-0 scale-100 opacity-100" : "translate-y-[46px] scale-[.95] opacity-0",
+        )}
+      >
+        <button
+          ref={closeBtn}
+          type="button"
+          aria-label="Cerrar"
+          onClick={onClose}
+          className="sticky top-0 z-[3] float-right flex size-[42px] cursor-pointer items-center justify-center rounded-full border-0 bg-glass2 text-fg shadow-[inset_0_1px_0_var(--gl-hi)] backdrop-blur-[20px]"
+        >
+          <svg viewBox="0 0 16 16" className="size-4 fill-none stroke-current stroke-2 [stroke-linecap:round]">
             <path d="M3 3l10 10M13 3 3 13" />
           </svg>
         </button>
         {project && (
           <div>
-            <span className="d-tag">{project.kind}</span>
-            <h2>{project.title}</h2>
-            <p className="d-lead">{project.description}</p>
-            <div className="d-vis relative">
+            <span className="text-[15px] font-semibold text-acc">{project.kind}</span>
+            <h2 className="mt-1.5 mb-3.5 text-[clamp(40px,6vw,84px)] leading-none tracking-[-.04em]">{project.title}</h2>
+            <p className="m-0 max-w-[52ch] text-[clamp(17px,1.6vw,21px)] leading-normal text-soft">{project.description}</p>
+            <div className="relative my-[30px] flex aspect-[16/7] items-center justify-center overflow-hidden rounded-[28px] bg-[radial-gradient(60%_90%_at_50%_50%,color-mix(in_srgb,var(--acc)_20%,transparent),transparent_75%),var(--glass)] shadow-[inset_0_1px_0_var(--gl-hi),inset_0_0_0_1px_var(--gl-edge)] max-[860px]:aspect-[4/3]">
               {project.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={project.image} alt={`Captura de ${project.title}`} className="h-full w-full object-cover" />
               ) : (
-                <ProjectArt art={project.art} />
+                <ProjectArt art={project.art} className="h-full w-auto max-w-full" />
               )}
             </div>
-            <div className="d-grid">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-[26px] max-[860px]:grid-cols-1">
               {sections.map(([k, label]) => (
                 <div key={k}>
-                  <h4>{label}</h4>
-                  <p>{project.detail[k]}</p>
+                  <h4 className="m-0 mb-1.5 text-sm/[1.5] font-semibold text-acc">{label}</h4>
+                  <p className="m-0 text-base leading-[1.55] text-soft">{project.detail[k]}</p>
                 </div>
               ))}
             </div>
-            <div className="chips">
+            <div className="mt-7 flex flex-wrap gap-2">
               {project.tags.map((t) => (
-                <span key={t}>{t}</span>
+                <span key={t} className={chip}>
+                  {t}
+                </span>
               ))}
             </div>
-            <div className="d-links">
-              <a className="btn" href={project.primary.href} target="_blank" rel="noopener noreferrer">
+            <div className="mt-[30px] flex flex-wrap gap-2.5">
+              <a className={button()} href={project.primary.href} target="_blank" rel="noopener noreferrer">
                 {project.primary.label} ↗
               </a>
-              <a className="btn primary" href={project.secondary.href} target="_blank" rel="noopener noreferrer">
+              <a className={button({ variant: "primary" })} href={project.secondary.href} target="_blank" rel="noopener noreferrer">
                 {project.secondary.label} ↗
               </a>
             </div>

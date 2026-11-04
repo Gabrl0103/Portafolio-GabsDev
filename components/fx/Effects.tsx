@@ -145,7 +145,7 @@ export default function Effects() {
         my = e.clientY;
         root.classList.add("cur-on");
         const target = (e.target as HTMLElement)?.closest?.(
-          'a,button,summary,input,textarea,.tab,.pv[data-pos="1"],.pv[data-pos="-1"],.pv[data-pos="0"] .tilt,.chap-dots button,#snd,#pd .x',
+          'a,button,summary,input,textarea,[data-pos="0"] [data-tilt]',
         );
         ring.classList.toggle("hov", !!target);
         reveal();
@@ -182,7 +182,7 @@ export default function Effects() {
     };
     let lastH = 0;
     const onOver = (e: PointerEvent) => {
-      const t = (e.target as HTMLElement)?.closest?.(".btn,.tab,.links a");
+      const t = (e.target as HTMLElement)?.closest?.(".btn,.tab,nav a");
       if (t && performance.now() - lastH > 90) {
         lastH = performance.now();
         tick(2400, 0.03, 0.012);
