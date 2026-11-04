@@ -4,16 +4,17 @@
  */
 export const site = {
   name: "Gabs",
-  fullName: "[Tu nombre completo]",
   role: "Estudiante de Ingeniería de Software",
   city: "Pasto, Colombia",
   university: "Universidad Cooperativa de Colombia",
   semester: "5.º semestre",
-  email: "[tu-correo@ejemplo.com]",
-  whatsapp: "", // Ej: "573001234567" (opcional)
+  /** Personal: no caduca como el institucional (gabriel.guerrerom@campusucc.edu.co). */
+  email: "gabrielgum2006@gmail.com",
+  /** Con indicativo y sin "+" ni espacios. */
+  whatsapp: "573106349957",
   github: "https://github.com/Gabrl0103",
-  /** Instagram de Neveo. Deja "" para ocultarlo. */
-  instagram: "",
+  /** Instagram de Neveo: se muestra en el proyecto Neveo POS, no en tus redes personales. */
+  instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",
   photo: "/images/avatar.svg",
   /** Foto de la sección Sobre mí (vertical 4:5). Cambia por tu foto, p. ej. "/images/gabs.jpg". */
@@ -33,4 +34,4 @@ export const navLinks = [
   { href: "#contacto", label: "Contacto", main: true },
 ] as const;
 
-export const tools = ["Next.js", "TypeScript", "Tailwind CSS", "JavaScript", "Python", "Django", "Git", "Vercel"];
+export const tools = ["TypeScript", "Kotlin", "Python", "Node.js", "Next.js", "Tailwind CSS", "PostgreSQL", "Wear OS", "Git", "Vercel"];

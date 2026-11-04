@@ -1,13 +1,13 @@
 import { navLinks, site } from "@/data/site";
 import Hid from "./fx/Hid";
 import ReplayIntro from "./fx/ReplayIntro";
-import { ArrowUpIcon, GithubIcon, InstagramIcon, MailIcon } from "./Icons";
+import { ArrowUpIcon, GithubIcon, MailIcon, WhatsappIcon } from "./Icons";
 import { button } from "./ui";
 
 const socials = [
   { label: "GitHub", href: site.github, Icon: GithubIcon },
-  { label: "Instagram de Neveo", href: site.instagram, Icon: InstagramIcon },
   { label: "Correo", href: `mailto:${site.email}`, Icon: MailIcon },
+  { label: "WhatsApp", href: site.whatsapp ? `https://wa.me/${site.whatsapp}` : "", Icon: WhatsappIcon },
 ].filter((s) => s.href);
 
 /** Pie de página con créditos de cine. */
