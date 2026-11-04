@@ -55,7 +55,7 @@ export default function RevealTitle({ text, className }: { text: string; classNa
             >
               {/^\*.+\*[.,]?$/.test(w) ? (
                 <>
-                  <em className="text-hi">{w.replace(/\*/g, "").replace(/[.,]$/, "")}</em>
+                  <em className="text-metal">{w.replace(/\*/g, "").replace(/[.,]$/, "")}</em>
                   {w.match(/[.,]$/)?.[0]}
                 </>
               ) : (

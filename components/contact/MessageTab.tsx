@@ -328,7 +328,7 @@ function NotePreview({
           // Misma posición que en el diseño (7,9 % y 84,2 % del ancho), descontando el margen del recorte.
           style={{ left: "calc(24px + (100% - 48px) * .079)", width: "calc((100% - 48px) * .842)" }}
         >
-          <span className={cx("absolute -top-6 left-0 text-xs font-medium text-hi transition-opacity duration-300", sending && "opacity-0")}>Nota</span>
+          <span className={cx("text-metal absolute -top-6 left-0 text-xs font-medium transition-opacity duration-300", sending && "opacity-0")}>Nota</span>
           <SelectionFrame on={!sending} className="-inset-[6px]" handle="size-2" />
           <div
             ref={note}
@@ -356,7 +356,7 @@ function NotePreview({
           </div>
           <span
             className={cx(
-              "absolute -bottom-8 left-1/2 -translate-x-1/2 rounded-md bg-hi px-2 py-0.5 text-[11px] font-semibold text-hi-ink tabular-nums transition-opacity duration-300",
+              "absolute -bottom-8 left-1/2 -translate-x-1/2 bg-metal rounded-md px-2 py-0.5 text-[11px] font-semibold text-acc-ink tabular-nums transition-opacity duration-300",
               sending && "opacity-0",
             )}
           >

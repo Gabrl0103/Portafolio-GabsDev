@@ -29,7 +29,7 @@ export default function Contact() {
 
   return (
     <section id="contacto" data-koi="calm" className={cx(wrap, "relative py-28 md:py-36")} data-sec>
-      <span className="rv mb-2 block pl-1 text-sm font-medium text-hi">Contacto</span>
+      <span className="rv mb-2 block pl-1 text-sm font-medium text-metal">Contacto</span>
 
       <div className="rv relative">
         <SelectionFrame className="-inset-[7px] rounded-[34px] max-sm:hidden" />
@@ -38,7 +38,7 @@ export default function Contact() {
           <header className="flex flex-wrap items-start justify-between gap-5 border-b border-line px-6 py-6 sm:px-8">
             <div className="flex flex-col gap-1.5">
               <h2 className="text-[clamp(32px,4vw,50px)] leading-[1.05]">
-                {contact.title} <em className="text-hi">{contact.titleAccent}</em>
+                {contact.title} <em className="text-metal">{contact.titleAccent}</em>
               </h2>
               <p key={tab} className="m-0 animate-pv-up text-sm text-mut [animation-duration:.6s]">
                 {tab === "llamada" ? contact.subtitleCall : contact.subtitleMessage}
@@ -103,7 +103,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <FakeCursor label="Cliente" color="hi" x="-3%" y="62%" />
+        <FakeCursor label="Cliente" color="metal" x="-3%" y="62%" />
         <FakeCursor label={site.name} color="acc" x="100.5%" y="101%" delay />
       </div>
 
