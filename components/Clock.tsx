@@ -18,5 +18,9 @@ export default function Clock() {
     };
   }, []);
 
-  return <span id="clock">Pasto · {time}</span>;
+  return (
+    <span id="clock" className="font-cine">
+      Pasto · {time}
+    </span>
+  );
 }
