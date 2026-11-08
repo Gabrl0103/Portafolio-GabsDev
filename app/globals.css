@@ -112,6 +112,8 @@
   button { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
   ::selection { background: var(--orange); color: #fff; }
+  /* Con cursor propio se oculta el del sistema */
+  body.fine, body.fine a, body.fine button { cursor: none; }
 }
 
 @layer components {
