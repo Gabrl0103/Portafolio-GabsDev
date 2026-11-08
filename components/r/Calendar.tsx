@@ -105,7 +105,7 @@ export default function Calendar() {
                 setMsg("");
               }}
               className={cx(
-                "aspect-square cursor-pointer rounded-[10px] border-0 bg-transparent text-sm font-medium transition-[background-color,scale] duration-300 ease-back enabled:hover:scale-[1.08] enabled:hover:bg-[rgba(var(--fgr),.12)] disabled:cursor-default disabled:text-mut disabled:opacity-35",
+                "h-[clamp(38px,3.6vw,48px)] cursor-pointer rounded-[10px] border-0 bg-transparent text-sm font-medium transition-[background-color,scale] duration-300 ease-back enabled:hover:scale-[1.08] enabled:hover:bg-[rgba(var(--fgr),.12)] disabled:cursor-default disabled:text-mut disabled:opacity-35",
                 d.getTime() === today.getTime() && "shadow-[inset_0_0_0_1px_var(--mut)]",
                 on && "!bg-orange text-white",
               )}
@@ -125,6 +125,7 @@ export default function Calendar() {
                 key={t}
                 type="button"
                 aria-pressed={time === t}
+                style={{ "--c": "var(--cream)" } as React.CSSProperties}
                 onClick={() => {
                   setTime(t);
                   setMsg("");
