@@ -43,7 +43,7 @@ export type TechIconName = keyof typeof ICONS | "database" | "ai" | "automation"
 
 /** Color de marca, salvo los casi negros, que usan el color del texto para verse en el tema oscuro. */
 export function brandColor(name: TechIconName) {
-  if (name === "database" || name === "ai" || name === "automation") return "var(--acc)";
+  if (name === "database" || name === "ai" || name === "automation") return "var(--fg)";
   const hex = ICONS[name].hex;
   const n = parseInt(hex, 16);
   const lum = 0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);

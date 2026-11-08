@@ -1,27 +1,21 @@
 /*
  * ===================================================================
- *  Configuración de colores del portafolio
+ *  Configuración de colores del portafolio (rediseño)
  * ===================================================================
- *  Cambia aquí la paleta y se actualiza todo el sitio.
- *
- *  Cada color es una variable CSS (--bg, --fg, --acc…) con un valor
- *  para el tema oscuro y otro para el tema claro. El bloque @theme las
- *  convierte en utilidades de Tailwind: bg-bg, text-fg, text-acc,
- *  border-line, bg-glass2…
+ *  Cambia aquí la paleta y se actualiza todo el sitio. El bloque @theme
+ *  las convierte en utilidades de Tailwind: bg-bg, text-fg, bg-olive…
  *
  *  Paleta (oscuro / claro):
- *    bg      fondo de la página           #0E0F0B / #E9E6DA
- *    bg2     fondo de menús y paneles     #15170F / #F2F0E6
- *    fg      texto principal              #E9E6DA / #14160E
- *    soft    texto secundario             #B4B6A2 / #454836
- *    mut     texto apagado y etiquetas    #9A9D86 / #5E614D
- *    acc     acento oliva                 #9DAE5A / #5D6B2A
- *    acc-ink texto sobre el acento        #0E0F0B / #F4F2E8
- *    metal   oliva metálico para lo destacado (cursivas, marcos, cursores):
- *            m-dark → m-mid → m-hi (brillo oliva dorado) → m-mid → m-dark
- *    deep    oliva profundo               #3B4423 / #C9D19A
- *    line    bordes suaves                #2A2E1F / #CBC8B8
- *    line2   bordes marcados              #4A4F38 / #A9A890
+ *    bg      fondo de la página          #0D0E0F / #F3F1EB
+ *    bg2     fondo de tarjetas           #161719 / #E8E5DC
+ *    fg      texto principal             #ECE9E2 / #111213
+ *    soft    texto secundario            #B4B3AD / #4A4B4D
+ *    mut     texto apagado y etiquetas   #7F8082 / #77787A
+ *    line    bordes y divisiones         fg al 14 % / 15 %
+ *    olive   acento oliva                #A9BC5B
+ *    orange  acento naranja              #E5532D
+ *    cream   acento crema                #F1E6D3 / #E1D2B6
+ *    pill    texto sobre los acentos     #101113
  * ===================================================================
  */
 
@@ -31,102 +25,54 @@
   --color-fg: var(--fg);
   --color-soft: var(--soft);
   --color-mut: var(--mut);
-  --color-acc: var(--acc);
-  --color-acc-ink: var(--acc-ink);
-  --color-deep: var(--deep);
   --color-line: var(--line);
-  --color-line2: var(--line2);
-  --color-glass: var(--glass);
-  --color-glass2: var(--glass2);
-  --color-glass-b: var(--glass-b);
+  --color-olive: var(--olive);
+  --color-orange: var(--orange);
+  --color-cream: var(--cream);
+  --color-pill: var(--pill);
 }
 
 @layer base {
   /* Tema oscuro (por defecto) */
   :root,
   :root[data-theme="dark"] {
-    --bg: #0e0f0b;
-    --bg2: #15170f;
-    --fg: #e9e6da;
-    --soft: #b4b6a2;
-    --mut: #9a9d86;
-    --acc: #9dae5a;
-    --acc-ink: #0e0f0b;
-    /* Oliva metálico: palabras en cursiva, marcos de selección y cursores */
-    --m-dark: #5f7022;
-    --m-mid: #9dae5a;
-    --m-hi: #cbd77f; /* brillo: oliva dorado, nunca blanco */
-    --deep: #3b4423;
-    --line: #2a2e1f;
-    --line2: #4a4f38;
+    --bg: #0d0e0f;
+    --bg2: #161719;
+    --fg: #ece9e2;
+    --soft: #b4b3ad;
+    --mut: #7f8082;
+    --line: rgba(236, 233, 226, 0.14);
+    /* Los mismos colores en R, G, B para transparencias: rgba(var(--fgr), .1) */
+    --fgr: 236, 233, 226;
+    --bgr: 13, 14, 15;
 
-    /* Transparencias para tarjetas y botones */
-    --glass: rgba(233, 230, 218, 0.06);
-    --glass2: rgba(233, 230, 218, 0.12);
-    --glass-b: rgba(233, 230, 218, 0.14);
+    --olive: #a9bc5b;
+    --orange: #e5532d;
+    --cream: #f1e6d3;
+    --pill: #101113;
+    /* Trazo de los logos que dependen del tema */
+    --stk: #000;
 
-    /* Vidrio estilo Apple: degradado, brillo superior y borde */
-    --gl-a: rgba(255, 255, 255, 0.14);
-    --gl-b: rgba(255, 255, 255, 0.03);
-    --gl-hi: rgba(255, 255, 255, 0.38);
-    --gl-edge: rgba(255, 255, 255, 0.08);
-
-    /* Surcos del disco */
-    --g1: #11130c;
-    --g2: #1c1f14;
-
-    /* Manchas de color del fondo */
-    --b1: #5f7022;
-    --b2: #2b3318;
-    --b3: #9dae5a;
-    --blobA: 0.5;
-
-    --shadow: rgba(0, 0, 0, 0.55);
+    /* Texturas de fondo: opacidad y modo de mezcla */
+    --txo: 0.13;
+    --txb: soft-light;
     color-scheme: dark;
   }
 
   /* Tema claro */
   :root[data-theme="light"] {
-    --bg: #e9e6da;
-    --bg2: #f2f0e6;
-    --fg: #14160e;
-    --soft: #454836;
-    --mut: #5e614d;
-    --acc: #5d6b2a;
-    --acc-ink: #f4f2e8;
-    --m-dark: #2f3719;
-    --m-mid: #5d6b2a;
-    --m-hi: #9fae5c;
-    --deep: #c9d19a;
-    --line: #cbc8b8;
-    --line2: #a9a890;
-
-    --glass: rgba(20, 22, 14, 0.05);
-    --glass2: rgba(20, 22, 14, 0.1);
-    --glass-b: rgba(20, 22, 14, 0.14);
-
-    --gl-a: rgba(255, 255, 255, 0.62);
-    --gl-b: rgba(255, 255, 255, 0.22);
-    --gl-hi: rgba(255, 255, 255, 0.95);
-    --gl-edge: rgba(20, 22, 14, 0.07);
-
-    --g1: #dad7c8;
-    --g2: #e4e1d3;
-
-    --b1: #b9c77a;
-    --b2: #d3d9b0;
-    --b3: #8fa05a;
-    --blobA: 0.7;
-
-    --shadow: rgba(60, 64, 30, 0.25);
+    --bg: #f3f1eb;
+    --bg2: #e8e5dc;
+    --fg: #111213;
+    --soft: #4a4b4d;
+    --mut: #77787a;
+    --line: rgba(17, 18, 19, 0.15);
+    --fgr: 17, 18, 19;
+    --bgr: 243, 241, 235;
+    --cream: #e1d2b6;
+    --stk: #fff;
+    --txo: 0.26;
+    --txb: multiply;
     color-scheme: light;
   }
-
-  /* Atmósfera según la hora de Pasto: cambia las manchas del fondo (data-tod lo pone Effects.tsx) */
-  :root[data-theme="dark"][data-tod="dawn"] { --b1: #7d8a3e; --b2: #3a3a1f; --b3: #d6b86a; }
-  :root[data-theme="dark"][data-tod="dusk"] { --b1: #8a6a2a; --b2: #33260f; --b3: #d99a4e; }
-  :root[data-theme="dark"][data-tod="night"] { --b1: #24351f; --b2: #0e1a14; --b3: #4b7a6a; }
-  :root[data-theme="light"][data-tod="dawn"] { --b1: #d9d08a; --b2: #efe3b8; --b3: #e8c27a; }
-  :root[data-theme="light"][data-tod="dusk"] { --b1: #e2b172; --b2: #f0d6a8; --b3: #d98f55; }
-  :root[data-theme="light"][data-tod="night"] { --b1: #8d9a78; --b2: #b9c0a2; --b3: #7b9a8c; }
 }

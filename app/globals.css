@@ -1,219 +1,141 @@
 @import "tailwindcss";
-/* Configuración de colores: paleta, tema claro/oscuro y atmósfera horaria */
+/* Configuración de colores: paleta y tema claro/oscuro */
 @import "../styles/colors.css";
 
-/* Familias: font-disp (texto), font-display (títulos grandes), font-card (títulos de tarjetas), font-cine (detalles) */
+/* Familias: font-sans (texto), font-disp (títulos), font-mono (etiquetas), font-grain (texto con grano) */
 @theme inline {
-  --font-disp: var(--disp);
-  --font-display: var(--display);
-  --font-card: var(--card);
-  --font-cine: var(--cine);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-disp: var(--font-tight), var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-grain: var(--font-outfit), "Arial Black", system-ui, sans-serif;
 }
 
-/* Tema claro como variante de Tailwind: light:hidden, light:block… */
+/* Tema claro como variante: light:hidden… */
 @custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
-/* Animaciones y curvas propias disponibles como utilidades: animate-marquee, ease-out-soft… */
+/* Curvas y animaciones de la referencia */
 @theme {
-  --ease-out-soft: cubic-bezier(.2,.8,.2,1);
-  --ease-spring: cubic-bezier(.34,1.56,.64,1);
-  --animate-spin-slow: spin 24s linear infinite;
-  --animate-marquee: marquee 40s linear infinite;
-  --animate-ping-soft: ping-soft 2.6s ease-out infinite;
-  --animate-arc: arc 3.2s ease-in-out infinite alternate;
-  --animate-float: float 5s ease-in-out infinite alternate;
-  --animate-pv-in: pv-in 1.2s cubic-bezier(.2,.8,.2,1);
-  --animate-pv-in-m: pv-in-m 1.2s cubic-bezier(.2,.8,.2,1);
-  --animate-pv-up: pv-up 1s cubic-bezier(.2,.8,.2,1) both;
-  --animate-scribble: scribble .32s ease-in-out infinite;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quint: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-back: cubic-bezier(0.3, 1.5, 0.5, 1);
+  --animate-bob: bob var(--d, 7s) ease-in-out infinite;
 
-  @keyframes marquee { to { transform: translateX(-50%); } }
-  @keyframes ping-soft { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
-  @keyframes arc { to { stroke-dashoffset: 60; } }
-  @keyframes float { to { transform: translateY(-8px); } }
-  @keyframes pv-in { from { opacity: 0; transform: translateY(-44%) scale(.93); } to { opacity: 1; transform: translateY(-48%) scale(1); } }
-  @keyframes pv-in-m { from { opacity: 0; transform: scale(.93); } to { opacity: 1; transform: none; } }
-  @keyframes scribble { 0%,100% { transform: translate(0,0) rotate(0); } 30% { transform: translate(3px,-2px) rotate(-2deg); } 70% { transform: translate(-2px,1px) rotate(1.5deg); } }
-  @keyframes pv-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes bob {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -14px; }
+  }
 }
 
-/* Vidrio estilo Apple */
-@utility glass {
-  background: linear-gradient(140deg, var(--gl-a), var(--gl-b));
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
-  backdrop-filter: blur(30px) saturate(190%);
-  box-shadow: inset 0 1px 0 var(--gl-hi), inset 0 0 0 1px var(--gl-edge), 0 26px 50px -28px var(--shadow);
-}
-@utility glass-flat {
-  background: linear-gradient(140deg, var(--gl-a), var(--gl-b));
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
-  backdrop-filter: blur(30px) saturate(190%);
-  box-shadow: inset 0 1px 0 var(--gl-hi), inset 0 0 0 1px var(--gl-edge);
-}
-/* ===== Acabado metálico (oliva) para lo destacado ===== */
-@property --metal-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes metal-sheen { from { background-position: 120% 0; } to { background-position: -120% 0; } }
-@keyframes metal-turn { to { --metal-angle: 360deg; } }
+/* ===== Utilidades propias ===== */
 
-/* Texto con reflejo metálico que pasa lento */
-@utility text-metal {
-  background-image: linear-gradient(100deg, var(--m-dark) 0%, var(--m-mid) 34%, var(--m-hi) 48%, var(--m-mid) 56%, var(--m-dark) 100%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  padding-right: .08em;
-  margin-right: -.08em;
-  animation: metal-sheen 7s ease-in-out infinite alternate;
+/* Etiqueta en mayúsculas monoespaciada */
+@utility mono {
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-/* Relleno metálico (etiquetas, tiradores) */
-@utility bg-metal {
-  background-image: linear-gradient(115deg, var(--m-dark), var(--m-mid) 38%, var(--m-hi) 50%, var(--m-mid) 60%, var(--m-dark));
-  background-size: 200% 100%;
-  animation: metal-sheen 6s ease-in-out infinite alternate;
+/* Contenedor centrado con márgenes seguros */
+@utility wrap {
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
 }
-/* Borde metálico que gira despacio (va en un hijo absoluto con rounded-[inherit]) */
-@utility metal-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: var(--ring, 1.5px);
-  background: conic-gradient(from var(--metal-angle), var(--m-dark), var(--m-mid) 20%, var(--m-hi) 26%, var(--m-mid) 32%, var(--m-dark) 52%, var(--m-mid) 72%, var(--m-hi) 78%, var(--m-mid) 84%, var(--m-dark));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  animation: metal-turn 9s linear infinite;
+/* Título grande de sección */
+@utility big {
+  font: 500 clamp(44px, 8.6vw, 150px) / 0.92 var(--font-disp);
+  letter-spacing: -0.05em;
 }
-
-/* Aparece al entrar en pantalla (Effects.tsx añade y quita .pre) */
+/* Sección con textura de fondo (cuero o leopardo), desvanecida arriba y abajo */
+@utility tx {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: var(--tx, url(/img/cuero.jpg));
+    background-size: 560px;
+    opacity: var(--txo);
+    mix-blend-mode: var(--txb);
+    mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+  }
+}
+/* Aparece al entrar en pantalla (Reveal.tsx añade .vis). Variantes con data-a */
 @utility rv {
-  transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1);
-  transition-delay: var(--d, 0s);
-  &.pre { opacity: 0; transform: translateY(30px); }
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 1s ease, transform 1.2s var(--ease-expo), filter 1.2s ease, clip-path 1.4s var(--ease-quint);
+  &[data-a="left"] { transform: translateX(-80px); }
+  &[data-a="right"] { transform: translateX(80px); }
+  &[data-a="blur"] { filter: blur(18px); transform: scale(0.94); }
+  &[data-a="scale"] { transform: scale(0.86); }
+  &[data-a="clip"] { opacity: 1; transform: none; clip-path: inset(0 0 99.6% 0); }
+  &.vis { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 0 0); }
 }
 
-/* ===== Base: colores del tema y estilos de elementos ===== */
 @layer base {
-:root{
-  /* Tipografía (los colores están en styles/colors.css) */
-  --disp:-apple-system,BlinkMacSystemFont,'SF Pro Display',var(--font-inter),'Helvetica Neue',system-ui,sans-serif; --mono:var(--disp); --cine:var(--font-courier),'Courier New',ui-monospace,monospace;
-  --display:var(--font-serif),'Times New Roman',serif;
-  --card:var(--font-brico),var(--font-inter),system-ui,sans-serif;
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar { display: none; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 400 17px/1.55 var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    /* Texturas e imagen de ruido disponibles para todo el sitio */
+    --tex: url(/img/cuero.jpg);
+    --leo: url(/img/leopardo.jpg);
+    --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  /* Grano de película sobre todo el sitio */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 700;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: var(--noise);
+  }
+  h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl { margin: 0; padding: 0; }
+  ul, ol { list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+  ::selection { background: var(--orange); color: #fff; }
+  /* Con cursor propio se oculta el del sistema */
+  body.fine, body.fine a, body.fine button { cursor: none; }
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--disp);font-size:16px;line-height:1.5;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit}
-a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
-::selection{background:var(--acc);color:var(--acc-ink)}
-
-::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-::view-transition-old(root){z-index:1}
-::view-transition-new(root){z-index:2}
-body{-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
-/* Títulos grandes en serif (un solo grosor); las palabras en <em> van en cursiva */
-h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:-.01em}
-h1 em,h2 em,h3 em{font-style:italic}
-h2{font-size:clamp(36px,5vw,68px);line-height:1.04;text-wrap:balance}
-}
-
-/* ===== Efectos y secciones que conservan CSS propio ===== */
 @layer components {
-/* Fondo con colores que se desvanecen */
-.fade{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:var(--blobA);will-change:transform}
-.b1{width:56vmax;height:56vmax;left:-18vmax;top:-14vmax;background:var(--b1);animation:d1 26s ease-in-out infinite alternate}
-.b2{width:48vmax;height:48vmax;right:-16vmax;top:28vh;background:var(--b2);animation:d2 32s ease-in-out infinite alternate}
-.b3{width:30vmax;height:30vmax;left:34vw;bottom:-14vmax;background:var(--b3);opacity:calc(var(--blobA) * .42);animation:d3 30s ease-in-out infinite alternate}
-@keyframes d1{to{transform:translate(9vmax,7vmax) scale(1.12)}}
-@keyframes d2{to{transform:translate(-8vmax,-6vmax) scale(1.08)}}
-@keyframes d3{to{transform:translate(-10vmax,-5vmax) scale(1.2)}}
-.fade-in{position:absolute;inset:0;transform:translate3d(calc(var(--px,0)*-18px),calc(var(--py,0)*-18px),0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  /* Letras que ruedan al pasar el cursor por un .trig (RollText.tsx) */
+  .roll { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+  .roll .l { display: inline-block; position: relative; transition: transform 0.65s var(--ease-quint); transition-delay: calc(var(--i) * 24ms); }
+  .roll .l::after { content: attr(data-c); position: absolute; left: 0; top: 108%; color: var(--hc, currentColor); }
+  .trig:hover .roll .l, .trig:focus-visible .roll .l { transform: translateY(-108%); }
 
-.page{position:relative;z-index:1;overflow-x:clip}
-.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.eyebrow{font-family:var(--mono);font-size:16px;font-weight:600;letter-spacing:-.01em;color:var(--acc)}
-.lead{margin:0;max-width:52ch;font-size:20px;line-height:1.5;letter-spacing:-.011em;color:var(--soft)}
-.prog{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--acc);transform:scaleX(0);transform-origin:left;z-index:60}
+  /* Líneas de título que suben al aparecer (SplitTitle.tsx) */
+  .sp .li { display: block; transform: translateY(112%) rotate(4deg); transform-origin: 0 100%; transition: transform 1.3s var(--ease-expo); transition-delay: calc(var(--i) * 0.13s); }
+  .sp.vis .li { transform: none; }
 
-/* Intro con disco en 3D */
-#intro{position:fixed;inset:0;z-index:100;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:transform 1s cubic-bezier(.76,0,.24,1),border-radius 1s cubic-bezier(.76,0,.24,1);animation:introFail .01s linear 8s forwards}
-#intro.out{transform:translateY(-101%);border-radius:0 0 50% 50%/0 0 14vh 14vh}
-#intro.gone{display:none}
-@keyframes introFail{to{visibility:hidden}}
-#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
-.in-disc{width:clamp(120px,22vmin,180px);aspect-ratio:1;border-radius:50%;position:relative;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;animation:spin 3s linear infinite}
-#intro.gl .in-disc{display:none}
-.grooves{position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at center,var(--g1) 0,var(--g1) 2px,var(--g2) 2px,var(--g2) 4px)}
-.in-disc .lbl{position:relative;width:38%;aspect-ratio:1;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center}
-.in-disc .lbl::after{content:"";width:6%;aspect-ratio:1;border-radius:50%;background:var(--bg)}
-.in-count{position:absolute;left:max(24px,env(safe-area-inset-left,0px));right:max(24px,env(safe-area-inset-right,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:flex-end;gap:16px;font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;transition:opacity .5s}
-#intro.dolly .in-count,#intro.dolly .in-skip{opacity:0}
-#cnt{font-size:clamp(44px,9vmin,84px);line-height:1;font-weight:500;letter-spacing:.04em;font-variant-numeric:tabular-nums}
-.in-count span:last-child{font-size:11px;color:var(--mut);padding-bottom:6px}
-.in-skip{position:absolute;top:calc(24px + env(safe-area-inset-top,0px));left:0;right:0;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);transition:opacity .5s}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* Intro de cine: barras, águila; grano de película; agua; detalle de las 2:22; créditos */
-.bar{position:absolute;left:0;right:0;height:12vh;min-height:64px;background:#050604;z-index:3;transition:transform .9s cubic-bezier(.76,0,.24,1)}
-.bar.t{top:0;transform:translateY(-100%)}
-.bar.b{bottom:0;transform:translateY(100%)}
-#intro.barsin .bar{transform:none}
-.in-top{position:absolute;top:0;left:max(24px,env(safe-area-inset-left,0px));right:max(24px,env(safe-area-inset-right,0px));height:12vh;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:4;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#E9E6DA;transition:opacity .5s}
-#intro.dolly .in-top{opacity:0}
-.in-count{bottom:0;height:12vh;min-height:64px;align-items:center;z-index:4;color:#E9E6DA}
-.in-count span:last-child{padding-bottom:0}
-#cnt{font-size:clamp(26px,4.4vmin,40px)}
-.grain{position:fixed;inset:-50%;z-index:45;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain .9s steps(6) infinite}
-@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-5%,3%)}40%{transform:translate(4%,-6%)}60%{transform:translate(-3%,5%)}80%{transform:translate(6%,2%)}100%{transform:translate(0,0)}}
-#water{position:absolute;inset:0;width:100%;height:100%;display:block}
-.egg{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:46;pointer-events:none;transform:translateX(-50%);font-family:var(--mono);font-size:clamp(16px,2vw,24px);letter-spacing:.5em;padding-left:.5em;color:var(--fg);opacity:0;transition:opacity 1.8s ease}
-.egg.on{opacity:.4}
-.grain{opacity:.4}
-#cnt,.in-count,.in-top,.egg{font-family:var(--cine)}
-.in-count,.in-top{text-transform:uppercase}
-
-/* Contacto */
-
-/* Pie de página con créditos de cine */
-.credits{position:relative;padding-block:100px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;border-top:1px solid var(--line)}
-.credits p{margin:0;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--mut)}
-.credits .big{font-family:var(--display);font-size:clamp(56px,10vw,132px);line-height:1;font-weight:400;letter-spacing:-.01em;margin-block:6px 14px}
-.credits .btn{margin-top:22px}
-
-/* Cursor propio, linterna y detalles ocultos */
-html.has-cur,html.has-cur *{cursor:none!important}
-.cur-dot,.cur-ring{position:fixed;left:0;top:0;z-index:300;pointer-events:none;opacity:0;transition:opacity .3s}
-html.cur-on .cur-dot,html.cur-on .cur-ring{opacity:1}
-.cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--m-hi),var(--m-mid) 55%,var(--m-dark));box-shadow:0 0 0 3px color-mix(in srgb,var(--bg) 55%,transparent)}
-.cur-ring{width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:1px solid var(--fg);transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background .3s,opacity .3s,border-color .3s}
-.cur-ring.hov{width:42px;height:42px;margin:-21px 0 0 -21px;background:color-mix(in srgb,var(--acc) 16%,transparent);border-color:var(--acc)}
-.cur-ring.dn{width:18px;height:18px;margin:-9px 0 0 -9px}
-/* Linterna */
-.spot{position:fixed;inset:0;z-index:44;pointer-events:none;opacity:0;transition:opacity .6s;background:radial-gradient(300px circle at var(--sx,50%) var(--sy,50%),color-mix(in srgb,var(--acc) 16%,transparent),transparent 70%)}
-html.cur-on .spot{opacity:1}
-.hid{position:absolute;z-index:4;pointer-events:none;opacity:0;font-family:var(--cine);font-size:15px;letter-spacing:.3em;color:var(--acc);transform:scale(.9);transition:transform .3s}
-.hid svg{display:block;fill:var(--acc)}
-#contacto{position:relative}
-@media (hover:none){.hid{display:none}}
-
-
-
-html.lock,html.lock body{overflow:hidden}
-.field{width:100%;min-height:50px;padding:14px 18px;border-radius:18px;border:0;outline:0;color:var(--fg);font:inherit;
-  background:var(--glass);box-shadow:inset 0 0 0 1px var(--glass-b);transition:box-shadow .25s,background .25s}
-.field::placeholder{color:var(--mut)}
-.field:focus{box-shadow:inset 0 0 0 2px var(--acc);background:var(--glass2)}
-.field[aria-invalid="true"]{box-shadow:inset 0 0 0 2px #c96a4a}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important;scroll-behavior:auto !important}
+  /* Textura que sigue al cursor dentro de una tarjeta (--mx, --my) */
+  .tex-hover {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.6s;
+    background-image: var(--leo); background-size: 250px; mix-blend-mode: hard-light;
+    mask-image: radial-gradient(circle 250px at var(--mx, 50%) var(--my, 50%), #000 38%, transparent);
+  }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; scroll-behavior: auto !important; }
+  .rv, .sp .li { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 }

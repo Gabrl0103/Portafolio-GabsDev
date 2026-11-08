@@ -1,36 +1,4 @@
-import type { SkillGroup, Stat } from "@/types";
-
-/* ---------- Sobre mí: cuatro tarjetas ---------- */
-
-/** Tarjeta "Perfil" */
-export const profile = {
-  greeting: "Hola, soy Gabs.",
-  role: "Estudiante de Ingeniería de Software",
-  place: "Pasto, Colombia",
-};
-
-/** Tarjeta "Sobre mí" */
-export const intro = {
-  headline: "Diseño y construyo apps de escritorio, Android, Wear OS y web que resuelven problemas reales.",
-  text: "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Me gusta llevar una idea desde el diseño hasta el código en producción, y también llevo el marketing y las redes de Neveo.",
-  worksWith: ["TypeScript", "Kotlin", "Python", "Node.js", "PostgreSQL", "IA"],
-  openTo: ["Prácticas", "Freelance", "Proyectos", "Colaboraciones"],
-};
-
-/** Tarjeta "Ahora mismo" */
-export const now = {
-  building: "Rumbo, Skillmap y Firemap",
-  learning: "Landing pages UX/UI, IA en páginas web, SaaS y marketing digital",
-  availability: "Abierto a prácticas y freelance para ganar experiencia",
-  place: "Pasto, Colombia",
-};
-
-/** Tarjeta "En números" (datos reales; actualízalos cuando cambien) */
-export const stats: Stat[] = [
-  { value: 5, suffix: ".º", label: "semestre de Ingeniería" },
-  { value: 6, label: "proyectos construidos" },
-  { value: 2, prefix: "B", label: "nivel de inglés" },
-];
+import type { SkillGroup } from "@/types";
 
 /* ---------- Habilidades (sección adicional) ---------- */
 
@@ -79,9 +47,4 @@ export const skillGroups: SkillGroup[] = [
       { name: "Automatización", icon: "automation", use: "Avisos por correo y monitoreo de servicios" },
     ],
   },
-];
-
-export const languages = [
-  { name: "Español", level: "Nativo" },
-  { name: "Inglés", level: "B2" },
 ];

@@ -16,22 +16,18 @@ export const site = {
   /** Instagram de Neveo: se muestra en el proyecto Neveo POS, no en tus redes personales. */
   instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",
-  photo: "/images/avatar.svg",
   /** Foto de la sección Sobre mí (vertical 4:5). Cambia por tu foto, p. ej. "/images/gabs.jpg". */
   portrait: "/images/retrato.svg",
   year: 2026,
 } as const;
 
-/** Todas las secciones. `main` = visibles en la barra; el resto vive en el menú. */
-export const navLinks = [
-  { href: "#inicio", label: "Inicio", main: false },
-  { href: "#sobre-mi", label: "Sobre mí", main: true },
-  { href: "#proyectos", label: "Proyectos", main: true },
-  { href: "#testimonios", label: "Testimonios", main: false },
-  { href: "#experiencia", label: "Experiencia", main: true },
-  { href: "#habilidades", label: "Habilidades", main: false },
-  { href: "#lado-b", label: "Lado B", main: false },
-  { href: "#contacto", label: "Contacto", main: true },
+/** Secciones del rediseño, en orden. `top` = visibles en la barra de arriba (en pantallas grandes). */
+export const sections = [
+  { id: "acerca", label: "Acerca de mí", top: true },
+  { id: "proyectos", label: "Proyectos", top: true },
+  { id: "servicios", label: "Servicios", top: true },
+  { id: "herramientas", label: "Herramientas", top: false },
+  { id: "testimonios", label: "Testimonios", top: true },
+  { id: "experiencia", label: "Experiencia", top: true },
+  { id: "contacto", label: "Contacto", top: true },
 ] as const;
-
-export const tools = ["TypeScript", "Kotlin", "Python", "Node.js", "Next.js", "Tailwind CSS", "PostgreSQL", "Wear OS", "Git", "Vercel"];

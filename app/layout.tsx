@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Courier_Prime, Instrument_Serif, Inter } from "next/font/google";
+import { Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const courier = Courier_Prime({ variable: "--font-courier", subsets: ["latin"], weight: ["400", "700"] });
-/** Títulos grandes: serif editorial, con cursiva para las palabras destacadas. */
-const serif = Instrument_Serif({ variable: "--font-serif", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
-/** Títulos de tarjetas. */
-const brico = Bricolage_Grotesque({ variable: "--font-brico", subsets: ["latin"] });
+/** Texto corrido */
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["400", "500"] });
+/** Títulos */
+const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+/** Etiquetas en mayúsculas */
+const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
+/** Texto con grano ("Gabs" gigante y la intro) */
+const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: "800" });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
@@ -25,8 +27,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0E0F0B" },
-    { media: "(prefers-color-scheme: light)", color: "#E9E6DA" },
+    { media: "(prefers-color-scheme: dark)", color: "#0D0E0F" },
+    { media: "(prefers-color-scheme: light)", color: "#F3F1EB" },
   ],
 };
 
@@ -35,7 +37,7 @@ const themeScript = `(function(){var r=document.documentElement;r.classList.add(
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${inter.variable} ${courier.variable} ${serif.variable} ${brico.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang="es" className={`${inter.variable} ${tight.variable} ${mono.variable} ${outfit.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
