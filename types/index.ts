@@ -71,10 +71,3 @@ export interface SkillGroup {
   skills: Skill[];
 }
 
-export interface Stat {
-  value: number;
-  /** Texto antes o después del número: "5.º", "+"… */
-  prefix?: string;
-  suffix?: string;
-  label: string;
-}
