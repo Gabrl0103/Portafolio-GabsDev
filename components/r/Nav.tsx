@@ -6,6 +6,7 @@ import { experience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
 import { sections, site } from "@/data/site";
+import { tracks } from "@/data/sideB";
 import { testimonials } from "@/data/testimonials";
 import Clock from "../Clock";
 import { cx } from "../ui";
@@ -23,6 +24,7 @@ const SUP: Record<string, string> = {
   herramientas: `(${pad(toolCount)})`,
   testimonios: `(${pad(testimonials.length)})`,
   experiencia: `(${pad(experience.length)})`,
+  "lado-b": `(${pad(tracks.length)})`,
   contacto: "↗",
 };
 

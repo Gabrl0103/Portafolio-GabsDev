@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { now, openTo, stats } from "@/data/about";
 import { site } from "@/data/site";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
@@ -11,8 +12,6 @@ const STATEMENT =
 
 const FACTS = [
   ["Estudio", "Ing. de Software"],
-  ["Semestre", "Quinto"],
-  ["Inglés", "B2"],
   ["Base", "Pasto, Colombia"],
 ];
 
@@ -109,7 +108,41 @@ export default function AboutR() {
                 </div>
               ))}
             </dl>
-            <a href={site.cv} download className={cx(btnF, "mag mt-[34px]")}>
+            <p className="rv mt-[34px] max-w-[36em] text-[clamp(17px,1.4vw,20px)] leading-normal text-soft">
+              Me gusta llevar una idea desde el diseño hasta el código en producción: entender el problema, diseñarlo y
+              dejarlo funcionando para quien lo va a usar.
+            </p>
+
+            <div className="rv mt-[44px]">
+              <h3 className="mono text-mut">Ahora mismo</h3>
+              <dl className="mt-3 border-t border-line">
+                {now.map((n) => (
+                  <div key={n.label} className="grid grid-cols-[150px_1fr] items-baseline gap-4 border-b border-line py-4 max-[900px]:grid-cols-1 max-[900px]:gap-1">
+                    <dt className="font-disp text-[15px] font-medium text-mut">{n.label}</dt>
+                    <dd className="m-0 font-disp text-[clamp(18px,1.5vw,21px)] leading-snug font-medium tracking-[-.02em]">{n.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="rv mt-[34px]">
+              <h3 className="mono text-mut">Abierto a</h3>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {openTo.map((o, i) => (
+                  <li
+                    key={o}
+                    className={cx(
+                      "rounded-full px-4 py-2 font-disp text-[15px] font-medium",
+                      ["bg-olive text-pill", "bg-cream text-pill", "bg-orange text-white", "bg-fg text-bg"][i % 4],
+                    )}
+                  >
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <a href={site.cv} download className={cx(btnF, "mag mt-[40px]")}>
               Descargar CV ↓
             </a>
           </div>
@@ -143,6 +176,14 @@ export default function AboutR() {
               <span>{site.name} · Pasto</span>
               <span>{site.year}</span>
             </figcaption>
+            <ul data-a="clip" className="rv mt-[34px] border-t border-line" aria-label="En números">
+              {stats.map((st) => (
+                <li key={st.label} className="flex items-baseline justify-between gap-4 border-b border-line py-4">
+                  <b className="font-disp text-[clamp(44px,4.6vw,72px)] leading-none font-medium tracking-[-.05em]">{st.value}</b>
+                  <span className="mono text-right text-mut">{st.label}</span>
+                </li>
+              ))}
+            </ul>
           </figure>
         </div>
       </div>

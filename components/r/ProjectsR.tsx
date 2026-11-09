@@ -118,7 +118,15 @@ export default function ProjectsR() {
                 </h3>
                 <span className="inline-block rounded-full bg-(--pa) px-3 py-1 font-mono text-[11px] font-medium tracking-[.1em] text-pill uppercase">{p.kind}</span>
               </div>
-              <div className="mt-2.5 flex flex-wrap gap-[18px] font-disp text-sm font-medium">
+              <p className="mt-3 max-w-[34em] text-[15px] leading-relaxed text-soft">{p.description}</p>
+              <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Tecnologías">
+                {p.tags.map((t) => (
+                  <li key={t} className="rounded-full border border-line px-3 py-1 font-mono text-[11px] tracking-[.06em] text-mut uppercase">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 flex flex-wrap gap-[18px] font-disp text-sm font-medium">
                 <TextLink link={p.primary} />
                 <TextLink link={p.secondary} />
               </div>
