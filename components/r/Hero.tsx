@@ -17,7 +17,7 @@ const fade = "translate-y-3.5 opacity-0 [transition:opacity_.9s_ease,transform_1
 const TAGS = [
   { id: "acerca", label: "Acerca de mí", n: "01", c: "bg-olive text-pill", pos: "right-[5%] top-[25%] max-[900px]:right-[4%] max-[900px]:top-[19%]", r: "-5deg", w: ".9s", d: "7s", dl: "0s" },
   { id: "proyectos", label: "Proyectos", n: "02", c: "bg-orange text-white", pos: "right-[3%] top-[51%] max-[900px]:right-[4%] max-[900px]:top-[57%]", r: "4deg", w: "1.1s", d: "8.5s", dl: "-2s" },
-  { id: "contacto", label: "Contacto", n: "07", c: "bg-cream text-pill", pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]", r: "-2deg", w: "1.3s", d: "6.5s", dl: "-4s" },
+  { id: "contacto", label: "Contacto", n: "08", c: "bg-cream text-pill", pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]", r: "-2deg", w: "1.3s", d: "6.5s", dl: "-4s" },
 ];
 
 /** Inicio: se queda fijo mientras la página sube encima como una hoja. */

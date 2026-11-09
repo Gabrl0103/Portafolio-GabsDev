@@ -27,7 +27,7 @@ export default function ContactR() {
     >
       <div className="wrap">
         <div className={cx(lab, "rv")}>
-          <b>(07)</b> Contacto
+          <b>(08)</b> Contacto
         </div>
         <SplitTitle lines={["¿Hablamos?"]} className="mt-[26px] !text-[clamp(56px,12vw,210px)] !leading-[.88] !tracking-[-.055em]" />
 
