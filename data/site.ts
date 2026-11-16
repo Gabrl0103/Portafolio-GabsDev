@@ -26,7 +26,6 @@ export const sections = [
   { id: "acerca", label: "Acerca de mí", top: true },
   { id: "proyectos", label: "Proyectos", top: true },
   { id: "servicios", label: "Servicios", top: true },
-  { id: "herramientas", label: "Herramientas", top: false },
   { id: "testimonios", label: "Testimonios", top: true },
   { id: "experiencia", label: "Experiencia", top: true },
   { id: "lado-b", label: "Lado B", top: false },

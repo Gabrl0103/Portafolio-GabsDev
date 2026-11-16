@@ -13,7 +13,7 @@ export default function TestimonialsR() {
     <section id="testimonios" className="py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
-          <b>(05)</b> Testimonios
+          <b>(04)</b> Testimonios
         </div>
         <SplitTitle lines={["Lo que dicen", "de trabajar conmigo"]} className="mt-[22px]" />
 

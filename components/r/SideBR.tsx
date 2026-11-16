@@ -14,7 +14,7 @@ export default function SideBR() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <div className={cx(lab, "rv")}>
-              <b>(07)</b> Lado B
+              <b>(06)</b> Lado B
             </div>
             <SplitTitle lines={["Lo que no sale", "en el código"]} className="mt-[22px]" />
           </div>

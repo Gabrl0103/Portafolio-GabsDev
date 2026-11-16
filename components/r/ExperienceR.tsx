@@ -44,7 +44,7 @@ export default function ExperienceR() {
         </div>
 
         <div className={cx(lab, "rv")}>
-          <b>(06)</b> Experiencia académica y laboral
+          <b>(05)</b> Experiencia académica y laboral
         </div>
         <SplitTitle lines={["Dónde", "he estado"]} className="mt-[22px]" />
 
