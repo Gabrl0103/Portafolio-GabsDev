@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 import Clock from "../Clock";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
+import GrainOrb from "./GrainOrb";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
 
@@ -24,8 +24,6 @@ const TAGS = [
 const STATEMENT =
   "Soy Gabs, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
 
-/** La foto real se usa cuando `site.portrait` deja de ser el marcador .svg */
-const hasPhoto = !!site.portrait && !site.portrait.endsWith(".svg");
 
 /* Tramos de la escena (0 → 1 a lo largo del scroll) */
 const OPEN = 0.36; // la ventana termina de abrirse a pantalla completa
@@ -36,28 +34,20 @@ const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** Lo que se ve en la ventana: tu foto o, mientras no esté, el leopardo con los tigres. */
-function WindowContent({ caption }: { caption?: boolean }) {
-  return hasPhoto ? (
-    <Image src={site.portrait} alt={`Foto de ${site.name}`} fill priority sizes="100vw" className="object-cover" />
-  ) : (
-    <div className="absolute inset-0 bg-[#121212]">
-      <div className="absolute inset-0 bg-(image:--leo) bg-[length:420px] bg-center opacity-[.16]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,.6))]" />
-      <Image src="/img/tigres.webp" alt="" fill sizes="100vw" className="object-contain p-[6%] opacity-90 grayscale" />
-      {caption && (
-        <span className="mono absolute right-3 bottom-3 rounded-full bg-black/55 px-2.5 py-1 !text-[10px] text-white" data-photo-caption>
-          Tu foto aquí
-        </span>
-      )}
+/** Lo que se ve en la ventana: el orbe de grano sobre fondo oscuro con un brillo cálido. */
+function WindowContent() {
+  return (
+    <div className="absolute inset-0 bg-[#0e0e0f]">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(229,83,45,.16),transparent_62%)]" />
+      <GrainOrb className="absolute inset-0 size-full" />
     </div>
   );
 }
 
 /**
  * Inicio y Acerca de mí en una sola escena fija (inspirada en paulvl.eu):
- * la ventana que está en el titular se abre a pantalla completa al bajar
- * y luego se encoge hasta quedar como foto junto al texto de Acerca de mí.
+ * la ventana con el orbe de grano que está en el titular se abre a pantalla completa
+ * al bajar y luego se encoge hasta quedar junto al texto de Acerca de mí.
  */
 export default function IntroScene() {
   const [still, setStill] = useState(false);
@@ -69,7 +59,6 @@ export default function IntroScene() {
   const slot = useRef<HTMLSpanElement>(null);
   const win = useRef<HTMLDivElement>(null);
   const caps = useRef<HTMLDivElement>(null);
-  const dockCap = useRef<HTMLSpanElement>(null);
   const about = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLDivElement>(null);
   const stmt = useRef<HTMLParagraphElement>(null);
@@ -134,7 +123,6 @@ export default function IntroScene() {
       w.style.width = `${ww.toFixed(1)}px`;
       w.style.height = `${hh.toFixed(1)}px`;
       w.style.borderRadius = `${r.toFixed(1)}px`;
-      if (dockCap.current) dockCap.current.style.opacity = clamp((p - DOCKED + 0.04) / 0.06).toFixed(3);
 
       // Leyendas mientras la ventana ocupa toda la pantalla
       if (caps.current) caps.current.style.opacity = clamp(1 - Math.abs(p - (OPEN + DOCK) / 2) / 0.1).toFixed(3);
@@ -230,19 +218,14 @@ export default function IntroScene() {
           <div
             ref={win}
             aria-hidden="true"
-            className="absolute z-[4] overflow-hidden opacity-0 shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)] [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
+            className="absolute z-[4] overflow-hidden opacity-0 shadow-[0_30px_60px_-30px_rgba(0,0,0,.7),inset_0_0_0_1px_rgba(255,255,255,.08)] [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
           >
             <WindowContent />
             <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-white opacity-0 [text-shadow:0_1px_12px_rgba(0,0,0,.6)]">
               <span>Ing. de Software · Pasto</span>
-              <span className="max-[600px]:hidden">{hasPhoto ? site.name : "Tu foto aquí"}</span>
+              <span className="max-[600px]:hidden">Hecho con código, sin video</span>
               <span>Sigue bajando ↓</span>
             </div>
-            {!hasPhoto && (
-              <span ref={dockCap} className="mono absolute right-3 bottom-3 rounded-full bg-black/55 px-2.5 py-1 !text-[10px] text-white opacity-0">
-                Tu foto aquí
-              </span>
-            )}
           </div>
         )}
 
@@ -276,7 +259,7 @@ export default function IntroScene() {
                 </div>
                 {/* Lugar donde se acomoda la ventana */}
                 <div ref={dock} className="relative aspect-[4/5] w-full max-w-[calc((100svh-170px)*.8)] justify-self-end overflow-hidden rounded-[22px] max-[900px]:max-w-none">
-                  {still && <WindowContent caption />}
+                  {still && <WindowContent />}
                 </div>
               </div>
             </div>
