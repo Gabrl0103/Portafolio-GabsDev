@@ -7,6 +7,7 @@ import { projects } from "@/data/projects";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
+import Gallery from "./Gallery";
 import RefArt from "./RefArt";
 import RollText from "./RollText";
 import SplitTitle from "./SplitTitle";
@@ -20,18 +21,27 @@ const detailRows: [keyof Project["detail"], string][] = [
   ["resultado", "Resultado"],
 ];
 
+/** Portada: `image`, o la primera imagen de la galería. */
+const cover = (p: Project) => p.image ?? p.media?.find((m) => m.type === "image")?.src;
+
 /** Vista del proyecto: captura real si existe; si no, la ilustración. */
 function Visual({ p, className }: { p: Project; className?: string }) {
-  return p.image ? (
-    <Image src={p.image} alt={`Captura de ${p.title}`} fill sizes="(max-width: 900px) 100vw, 50vw" className={cx("object-cover", className)} />
+  const src = cover(p);
+  return src ? (
+    <Image src={src} alt={`Captura de ${p.title}`} fill sizes="(max-width: 900px) 100vw, 50vw" className={cx("object-cover", className)} />
   ) : (
     <RefArt art={p.art} className={cx("block h-full w-full", className)} />
   );
 }
 
-/** Enlace subrayado; sin dirección se muestra como "Pronto". */
+/** Enlace subrayado; sin dirección se muestra con su nota ("Privado") o como "Pronto". */
 function TextLink({ link }: { link: ProjectLink }) {
-  if (!link.href) return <span className="border-b border-line pb-0.5 text-mut">{link.label} · Pronto</span>;
+  if (!link.href)
+    return (
+      <span className="border-b border-line pb-0.5 text-mut">
+        {link.label} · {link.note ?? "Pronto"}
+      </span>
+    );
   return (
     <a href={link.href} target="_blank" rel="noopener noreferrer" className="border-b border-line pb-0.5 transition-colors duration-300 hover:border-orange hover:text-orange">
       {link.label} ↗
@@ -191,8 +201,14 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
         <div>
           <span className="inline-block rounded-full bg-(--pa) px-3 py-1 font-mono text-[11px] font-medium tracking-[.1em] text-pill uppercase">{p.kind}</span>
           <h2 className="mt-[18px] font-disp text-[clamp(54px,9vw,150px)] leading-[.9] font-medium tracking-[-.05em]">{p.title}</h2>
-          <div className="relative mt-[30px] aspect-[16/10] overflow-hidden rounded-[20px] bg-[color-mix(in_srgb,var(--pa)_16%,var(--bg2))]">
-            <Visual p={p} />
+          <div className="mt-[30px]">
+            {p.media?.length ? (
+              <Gallery key={p.id} media={p.media} />
+            ) : (
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[20px] bg-[color-mix(in_srgb,var(--pa)_16%,var(--bg2))]">
+                <Visual p={p} />
+              </div>
+            )}
           </div>
         </div>
         <div>
@@ -214,7 +230,7 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
                 </a>
               ) : (
                 <span key={i} className={cx(btn, "pointer-events-none opacity-50")}>
-                  {l.label} · Pronto
+                  {l.label} · {l.note ?? "Pronto"}
                 </span>
               ),
             )}
