@@ -135,6 +135,12 @@
   }
 }
 
+/* Cambio de tema: el tema nuevo entra en círculo sobre el anterior (theme.ts) */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; scroll-behavior: auto !important; }
   .rv, .sp .li { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
