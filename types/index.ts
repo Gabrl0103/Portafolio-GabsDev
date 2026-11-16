@@ -8,9 +8,20 @@ export type ProjectFormat = "web" | "desktop" | "mobile" | "watch";
 
 export interface ProjectLink {
   label: string;
-  /** Deja "" mientras no exista: se muestra como "Próximamente". */
+  /** Deja "" mientras no exista: se muestra con `note` o como "Pronto". */
   href: string;
+  /** Texto cuando no hay enlace, p. ej. "Privado". */
+  note?: string;
 }
+
+/**
+ * Capturas y videos del proyecto (se ven en el detalle).
+ * image/video: archivos en /public/proyectos/<id>/ · youtube: solo el id del video.
+ */
+export type ProjectMedia =
+  | { type: "image"; src: string; alt: string }
+  | { type: "video"; src: string; alt: string; poster?: string }
+  | { type: "youtube"; id: string; alt: string };
 
 export interface Project {
   id: string;
@@ -24,6 +35,8 @@ export interface Project {
   /** Captura real en /public/images. Si no existe se usa la ilustración. */
   image?: string;
   art: ProjectArt;
+  /** Galería del detalle. La primera imagen también se usa como portada si no hay `image`. */
+  media?: ProjectMedia[];
   /** web = navegador · desktop = ventana de escritorio · mobile = celular · watch = reloj */
   format: ProjectFormat;
   /** Enlace al repositorio (GitHub) o al perfil principal. */
