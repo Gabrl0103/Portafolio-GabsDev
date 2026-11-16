@@ -19,6 +19,11 @@
   --ease-quint: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-back: cubic-bezier(0.3, 1.5, 0.5, 1);
   --animate-bob: bob var(--d, 7s) ease-in-out infinite;
+  --animate-marquee: marquee var(--d, 40s) linear infinite;
+
+  @keyframes marquee {
+    to { translate: -50% 0; }
+  }
 
   @keyframes bob {
     0%, 100% { translate: 0 0; }
