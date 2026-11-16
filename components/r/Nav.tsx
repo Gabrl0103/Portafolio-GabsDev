@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { skillGroups } from "@/data/about";
 import { experience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
@@ -16,12 +15,10 @@ import { copyText, scrollToSection, toggleTheme } from "./theme";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const COLORS = ["var(--olive)", "var(--cream)", "var(--orange)"];
-const toolCount = skillGroups.reduce((n, g) => n + g.skills.length, 0);
 const SUP: Record<string, string> = {
   acerca: "+",
   proyectos: `(${pad(projects.length)})`,
   servicios: `(${pad(services.length)})`,
-  herramientas: `(${pad(toolCount)})`,
   testimonios: `(${pad(testimonials.length)})`,
   experiencia: `(${pad(experience.length)})`,
   "lado-b": `(${pad(tracks.length)})`,
@@ -69,7 +66,7 @@ export default function Nav() {
   // Sección visible
   useEffect(() => {
     const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && setActive(e.target.id === "herramientas" ? "servicios" : e.target.id)),
+      (es) => es.forEach((e) => e.isIntersecting && setActive(e.target.id)),
       { rootMargin: "-45% 0px -50% 0px" },
     );
     sections.forEach((s) => {
