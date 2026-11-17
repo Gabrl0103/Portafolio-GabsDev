@@ -1,7 +1,6 @@
 import {
   siCapacitor,
   siFastapi,
-  siFigma,
   siGit,
   siGooglegemini,
   siIonic,
@@ -35,7 +34,6 @@ const ICONS = {
   git: siGit,
   render: siRender,
   vercel: siVercel,
-  figma: siFigma,
   gemini: siGooglegemini,
 } as const;
 

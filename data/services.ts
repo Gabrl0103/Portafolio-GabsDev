@@ -94,6 +94,6 @@ export const services: Service[] = [
       "Lanzamiento de productos",
       "Contenido para redes",
     ],
-    tools: [{ name: "Figma", icon: "figma" }],
+    tools: [],
   },
 ];
