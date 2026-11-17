@@ -49,7 +49,7 @@ export default function ServicesR() {
                   aria-expanded={isOpen}
                   aria-controls={`sv-${i}`}
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="grid w-full cursor-pointer grid-cols-[clamp(40px,6vw,90px)_1fr_auto_44px] items-center gap-x-5 gap-y-2.5 border-0 bg-transparent py-[clamp(22px,2.6vw,38px)] text-left text-fg max-[900px]:grid-cols-[34px_1fr_44px]"
+                  className="grid w-full cursor-pointer grid-cols-[clamp(40px,6vw,90px)_minmax(0,1fr)_auto_44px] items-center gap-x-5 gap-y-2.5 border-0 bg-transparent py-[clamp(22px,2.6vw,38px)] text-left text-fg max-[900px]:grid-cols-[34px_minmax(0,1fr)_44px] max-[900px]:gap-x-3"
                 >
                   <span className="mono text-mut">{pad(i + 1)}</span>
                   <span className="font-disp text-[clamp(34px,6.4vw,104px)] leading-none font-medium tracking-[-.05em] transition-colors group-hover:text-(--c)">

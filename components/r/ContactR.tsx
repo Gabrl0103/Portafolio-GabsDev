@@ -85,10 +85,10 @@ export default function ContactR() {
             <div role="tablist" aria-label="Forma de contacto" className="flex gap-1 rounded-full border border-line p-1">
               {(
                 [
-                  ["call", "Agenda una llamada"],
-                  ["message", "Escríbeme"],
+                  ["call", "Agenda una llamada", "Llamada"],
+                  ["message", "Escríbeme", "Mensaje"],
                 ] as const
-              ).map(([id, label]) => (
+              ).map(([id, label, short]) => (
                 <button
                   key={id}
                   type="button"
@@ -102,7 +102,8 @@ export default function ContactR() {
                     tab === id ? "bg-fg text-bg" : "bg-transparent text-soft hover:text-fg",
                   )}
                 >
-                  {label}
+                  <span className="max-[420px]:hidden">{label}</span>
+                  <span className="hidden max-[420px]:inline">{short}</span>
                 </button>
               ))}
             </div>
@@ -111,9 +112,8 @@ export default function ContactR() {
             </div>
           </div>
         </div>
-
-        <FooterR />
       </div>
+      <FooterR />
     </section>
   );
 }

@@ -174,7 +174,7 @@ export default function IntroScene() {
         >
           <div ref={(el) => void (fades.current[0] = el)}>
             <div className={cx("mono flex justify-between text-mut", fade)}>
-              <span>Portafolio · {site.year}</span>
+              <span className="max-[400px]:hidden">Portafolio · {site.year}</span>
               <Clock prefix="Pasto, CO — " />
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function IntroScene() {
             </span>
             <span ref={name} className="-mt-[.03em] -ml-[.02em] origin-left will-change-transform">
               <span className="block opacity-0 blur-[18px] [transition:opacity_1.2s_ease_.5s,filter_1.4s_ease_.5s] in-[.go]:opacity-100 in-[.go]:blur-none">
-                <GrainText text={site.name} className="text-[min(33vw,50vh)] text-fg max-[900px]:text-[min(36vw,40vh)]" />
+                <GrainText text={site.name} className="text-[min(33vw,50vh)] text-fg max-[1180px]:text-[min(28vw,44vh)] max-[900px]:text-[min(36vw,40vh)]" />
               </span>
             </span>
           </h1>
@@ -206,7 +206,8 @@ export default function IntroScene() {
             </a>
           </div>
 
-          <div className="pointer-events-none absolute inset-0 z-[3]">
+          {/* En celulares bajitos o muy angostos no caben sin tapar el texto */}
+          <div className="pointer-events-none absolute inset-0 z-[3] max-[360px]:hidden [@media(max-width:900px)_and_(max-height:760px)]:hidden">
             {TAGS.map((t, i) => (
               <a
                 key={t.id}

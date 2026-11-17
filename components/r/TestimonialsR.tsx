@@ -39,7 +39,7 @@ export default function TestimonialsR() {
                   {t.name}
                   <small className="block font-sans text-sm font-normal opacity-70">{t.role}</small>
                 </span>
-                <span className="mono">
+                <span className="mono whitespace-nowrap">
                   {site.name} · {site.year}
                 </span>
               </figcaption>
