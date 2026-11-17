@@ -50,7 +50,7 @@ export default function GrainOrb({ className }: { className?: string }) {
       const d = img.data;
       const cx = W / 2 + Math.sin(t * 0.35) * W * 0.03;
       const cy = H / 2 + Math.cos(t * 0.28) * H * 0.03;
-      const R = Math.min(W, H) * 0.34;
+      const R = Math.min(W, H) * 0.32;
       // Radio del contorno en 256 direcciones (la forma "respira")
       for (let i = 0; i < 256; i++) {
         const a = (i / 256) * Math.PI * 2;

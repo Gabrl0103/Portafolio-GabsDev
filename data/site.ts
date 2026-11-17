@@ -16,6 +16,8 @@ export const site = {
   /** Instagram de Neveo: se muestra en el proyecto Neveo POS, no en tus redes personales. */
   instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",
+  /** Tu foto en Acerca de mí (vertical 4:5). Ponla en /public/images y escribe la ruta, p. ej. "/images/gabs.jpg". Vacío = marcador. */
+  portrait: "",
   year: 2026,
 } as const;
 
