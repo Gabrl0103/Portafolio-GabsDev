@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 import Clock from "../Clock";
@@ -34,6 +35,19 @@ const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+/** Tu foto en Acerca de mí; mientras no exista, un marcador sobre el leopardo. */
+function Portrait() {
+  return site.portrait ? (
+    <Image src={site.portrait} alt={`Foto de ${site.name}`} fill sizes="(max-width: 900px) 45vw, 35vw" className="object-cover" />
+  ) : (
+    <div className="absolute inset-0 grid place-content-center gap-2 bg-bg2 text-center">
+      <div className="absolute inset-0 bg-(image:--leo) bg-[length:340px] opacity-[.18]" />
+      <b className="relative font-disp text-[clamp(22px,2.6vw,40px)] font-medium tracking-[-.04em] text-fg [text-shadow:0_2px_24px_rgba(0,0,0,.6)]">Tu foto aquí</b>
+      <span className="mono relative text-soft">4:5 · retrato</span>
+    </div>
+  );
+}
+
 /** Lo que se ve en la ventana: solo el orbe de grano, recortado y sin fondo. */
 function WindowContent() {
   return <GrainOrb className="absolute inset-0 size-full" />;
@@ -56,6 +70,8 @@ export default function IntroScene() {
   const caps = useRef<HTMLDivElement>(null);
   const about = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLDivElement>(null);
+  const orb = useRef<HTMLDivElement>(null);
+  const photo = useRef<HTMLDivElement>(null);
   const stmt = useRef<HTMLParagraphElement>(null);
   const fades = useRef<(HTMLElement | null)[]>([]);
   const tags = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -112,6 +128,12 @@ export default function IntroScene() {
         ww = lerp(S.width, d.width, e2);
         hh = lerp(S.height, d.height, e2);
         r = lerp(0, 22, e2);
+      }
+      // Al llegar a Acerca de mí, el orbe se disuelve y la foto se revela de abajo hacia arriba
+      {
+        const e2 = ease(clamp((p - DOCK) / (DOCKED - DOCK)));
+        if (orb.current) orb.current.style.opacity = (1 - clamp((e2 - 0.45) / 0.4)).toFixed(3);
+        if (photo.current) photo.current.style.clipPath = `inset(${((1 - clamp((e2 - 0.4) / 0.6)) * 100).toFixed(1)}% 0 0 0 round 22px)`;
       }
       w.style.left = `${x.toFixed(1)}px`;
       w.style.top = `${y.toFixed(1)}px`;
@@ -215,7 +237,9 @@ export default function IntroScene() {
             aria-hidden="true"
             className="pointer-events-none absolute z-[4] opacity-0 [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
           >
-            <WindowContent />
+            <div ref={orb} className="absolute inset-0">
+              <WindowContent />
+            </div>
             <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0">
               <span>Ing. de Software · Pasto</span>
               <span className="max-[600px]:hidden">Hecho con código, sin video</span>
@@ -254,7 +278,9 @@ export default function IntroScene() {
                 </div>
                 {/* Lugar donde se acomoda la ventana */}
                 <div ref={dock} className="relative aspect-[4/5] w-full max-w-[calc((100svh-170px)*.8)] justify-self-end overflow-hidden rounded-[22px] max-[900px]:max-w-none">
-                  {still && <WindowContent />}
+                  <div ref={photo} className="absolute inset-0" style={still ? undefined : { clipPath: "inset(100% 0 0 0 round 22px)" }}>
+                    <Portrait />
+                  </div>
                 </div>
               </div>
             </div>
