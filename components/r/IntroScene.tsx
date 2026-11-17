@@ -34,14 +34,9 @@ const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** Lo que se ve en la ventana: el orbe de grano sobre fondo oscuro con un brillo cálido. */
+/** Lo que se ve en la ventana: solo el orbe de grano, recortado y sin fondo. */
 function WindowContent() {
-  return (
-    <div className="absolute inset-0 bg-[#0e0e0f]">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(229,83,45,.16),transparent_62%)]" />
-      <GrainOrb className="absolute inset-0 size-full" />
-    </div>
-  );
+  return <GrainOrb className="absolute inset-0 size-full" />;
 }
 
 /**
@@ -100,7 +95,7 @@ export default function IntroScene() {
         el.style.translate = `${(TAGS[i].dx * e1 * 40 * vw).toFixed(1)}px ${(TAGS[i].dy * e1 * 30 * vw).toFixed(1)}px`;
         el.style.opacity = (1 - clamp(e1 * 1.6)).toFixed(3);
       });
-      if (hero.current) hero.current.style.opacity = (1 - clamp((p - OPEN * 0.7) / (OPEN * 0.3))).toFixed(3);
+      if (hero.current) hero.current.style.opacity = (1 - clamp((p - OPEN * 0.35) / (OPEN * 0.45))).toFixed(3);
 
       // 2) La ventana: del hueco del titular a pantalla completa y luego a su lugar en Acerca de mí
       let x: number, y: number, ww: number, hh: number, r: number;
@@ -218,10 +213,10 @@ export default function IntroScene() {
           <div
             ref={win}
             aria-hidden="true"
-            className="absolute z-[4] overflow-hidden opacity-0 shadow-[0_30px_60px_-30px_rgba(0,0,0,.7),inset_0_0_0_1px_rgba(255,255,255,.08)] [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
+            className="pointer-events-none absolute z-[4] opacity-0 [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
           >
             <WindowContent />
-            <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-white opacity-0 [text-shadow:0_1px_12px_rgba(0,0,0,.6)]">
+            <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0">
               <span>Ing. de Software · Pasto</span>
               <span className="max-[600px]:hidden">Hecho con código, sin video</span>
               <span>Sigue bajando ↓</span>
