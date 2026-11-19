@@ -34,6 +34,9 @@ function Visual({ p, className }: { p: Project; className?: string }) {
   );
 }
 
+/** Enlaces del proyecto en orden: demo, principal y secundario. */
+const links = (p: Project) => [p.demo, p.primary, p.secondary].filter((l): l is ProjectLink => !!l);
+
 /** Enlace subrayado; sin dirección se muestra con su nota ("Privado") o como "Pronto". */
 function TextLink({ link }: { link: ProjectLink }) {
   if (!link.href)
@@ -137,8 +140,9 @@ export default function ProjectsR() {
                 ))}
               </ul>
               <div className="mt-4 flex flex-wrap gap-[18px] font-disp text-sm font-medium">
-                <TextLink link={p.primary} />
-                <TextLink link={p.secondary} />
+                {links(p).map((l) => (
+                  <TextLink key={l.label} link={l} />
+                ))}
               </div>
             </article>
           ))}
@@ -223,9 +227,9 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
             ))}
           </dl>
           <div className="mt-7 flex flex-wrap gap-2.5">
-            {[p.primary, p.secondary].map((l, i) =>
+            {links(p).map((l, i) =>
               l.href ? (
-                <a key={i} href={l.href} target="_blank" rel="noopener noreferrer" className={i ? btnF : btn}>
+                <a key={i} href={l.href} target="_blank" rel="noopener noreferrer" className={i === 0 ? btnF : btn}>
                   {l.label} ↗
                 </a>
               ) : (
