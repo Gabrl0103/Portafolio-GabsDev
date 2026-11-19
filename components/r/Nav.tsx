@@ -118,7 +118,7 @@ export default function Nav() {
                 <RollText text={s.label} />
               </a>
             ))}
-          <a href={site.cv} download className="rounded-full border border-current px-4 py-2">
+          <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className="rounded-full border border-current px-4 py-2">
             CV ↓
           </a>
         </nav>

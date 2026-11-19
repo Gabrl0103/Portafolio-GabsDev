@@ -174,7 +174,7 @@ export default function IntroScene() {
         >
           <div ref={(el) => void (fades.current[0] = el)}>
             <div className={cx("mono flex justify-between text-mut", fade)}>
-              <span className="max-[400px]:hidden">Portafolio · {site.year}</span>
+              <span className="max-[400px]:hidden">{site.role}</span>
               <Clock prefix="Pasto, CO — " />
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function IntroScene() {
             <p className={cx("max-w-[24ch] font-disp text-[clamp(24px,2.7vw,44px)] leading-[1.1] font-medium tracking-[-.035em] text-fg max-[900px]:text-[25px]", fade)} style={{ transitionDelay: ".7s" }}>
               Estudiante de Ingeniería de Software. Construyo <mark className="bg-transparent text-olive">apps de escritorio, Android, Wear OS y web</mark>.
             </p>
-            <a href={site.cv} download className={cx(btnF, "mag", fade)} style={{ transitionDelay: ".9s" }}>
+            <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag", fade)} style={{ transitionDelay: ".9s" }}>
               Descargar CV ↓
             </a>
           </div>

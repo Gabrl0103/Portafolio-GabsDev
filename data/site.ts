@@ -4,7 +4,7 @@
  */
 export const site = {
   name: "Gabs",
-  role: "Estudiante de Ingeniería de Software",
+  role: "Desarrollador Full Stack & IA",
   city: "Pasto, Colombia",
   university: "Universidad Cooperativa de Colombia",
   semester: "5.º semestre",

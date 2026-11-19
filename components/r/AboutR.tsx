@@ -58,7 +58,7 @@ export default function AboutR() {
               </ul>
             </div>
 
-            <a href={site.cv} download className={cx(btnF, "mag mt-[40px]")}>
+            <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag mt-[40px]")}>
               Descargar CV ↓
             </a>
           </div>

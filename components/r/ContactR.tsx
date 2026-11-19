@@ -72,7 +72,7 @@ export default function ContactR() {
               <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer" className={btn}>
                 WhatsApp ↗
               </a>
-              <a href={site.cv} download className={cx(btnF, "mag")}>
+              <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag")}>
                 Descargar CV ↓
               </a>
             </div>
