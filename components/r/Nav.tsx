@@ -5,7 +5,6 @@ import { experience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
 import { sections, site } from "@/data/site";
-import { tracks } from "@/data/sideB";
 import { testimonials } from "@/data/testimonials";
 import Clock from "../Clock";
 import { cx } from "../ui";
@@ -21,7 +20,6 @@ const SUP: Record<string, string> = {
   servicios: `(${pad(services.length)})`,
   testimonios: `(${pad(testimonials.length)})`,
   experiencia: `(${pad(experience.length)})`,
-  "lado-b": `(${pad(tracks.length)})`,
   contacto: "↗",
 };
 
@@ -120,7 +118,7 @@ export default function Nav() {
                 <RollText text={s.label} />
               </a>
             ))}
-          <a href={site.cv} download className="rounded-full border border-current px-4 py-2">
+          <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className="rounded-full border border-current px-4 py-2">
             CV ↓
           </a>
         </nav>

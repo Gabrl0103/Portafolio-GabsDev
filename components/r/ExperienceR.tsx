@@ -8,10 +8,12 @@ import { lab } from "./btn";
 import RollText from "./RollText";
 import SplitTitle from "./SplitTitle";
 
-const COLORS = ["var(--olive)", "var(--orange)", "var(--cream)"];
-const KIND = { academica: "Académica", laboral: "Laboral" } as const;
+const GROUPS = [
+  { kind: "laboral", title: "Experiencia laboral", c: "var(--orange)" },
+  { kind: "academica", title: "Experiencia académica", c: "var(--olive)" },
+] as const;
 
-/** Experiencia: filas que se rellenan al pasar el cursor, sobre la textura de leopardo y los tigres. */
+/** Experiencia: línea de tiempo vertical en dos partes (laboral y académica), sobre la textura de leopardo y los tigres. */
 export default function ExperienceR() {
   const wrap = useRef<HTMLDivElement>(null);
   const tigers = useRef<HTMLDivElement>(null);
@@ -24,7 +26,8 @@ export default function ExperienceR() {
       const t = tigers.current;
       if (w && t) {
         const q = w.getBoundingClientRect();
-        if (q.bottom > 0 && q.top < innerHeight) t.style.translate = `0 ${((q.top + q.height / 2 - innerHeight / 2) * -0.1).toFixed(1)}px`;
+        if (q.bottom > 0 && q.top < innerHeight)
+          t.style.translate = `0 ${((q.top + q.height / 2 - innerHeight / 2) * -0.1).toFixed(1)}px`;
       }
       raf = requestAnimationFrame(frame);
     };
@@ -33,14 +36,23 @@ export default function ExperienceR() {
   }, []);
 
   return (
-    <section id="experiencia" className="tx overflow-x-clip pb-[clamp(90px,11vw,170px)] [--tx:var(--leo)]">
+    <section
+      id="experiencia"
+      className="tx overflow-x-clip pb-[clamp(90px,11vw,170px)] [--tx:var(--leo)]"
+    >
       <div ref={wrap} className="wrap relative isolate">
         <div
           ref={tigers}
           aria-hidden="true"
           className="pointer-events-none absolute top-[12%] -right-[4vw] -z-1 aspect-[900/462] w-[min(60vw,780px)] opacity-[.24] mix-blend-screen grayscale-[.85] [mask-image:radial-gradient(ellipse_62%_66%_at_50%_50%,#000_45%,transparent_100%)] max-[900px]:-right-[20vw] max-[900px]:w-[96vw] max-[900px]:opacity-[.22] light:opacity-[.55] light:mix-blend-multiply light:[filter:grayscale(1)_contrast(1.5)_brightness(.85)]"
         >
-          <Image src="/img/tigres.webp" alt="" fill sizes="(max-width: 900px) 96vw, 780px" className="object-cover" />
+          <Image
+            src="/img/tigres.webp"
+            alt=""
+            fill
+            sizes="(max-width: 900px) 96vw, 780px"
+            className="object-cover"
+          />
         </div>
 
         <div className={cx(lab, "rv")}>
@@ -48,26 +60,60 @@ export default function ExperienceR() {
         </div>
         <SplitTitle lines={["Dónde", "he estado"]} className="mt-[22px]" />
 
-        <ul className="mt-[clamp(36px,5vw,70px)] border-t border-line">
-          {experience.map((e, i) => (
-            <li
-              key={e.title}
-              data-a={i % 2 ? "blur" : "scale"}
-              style={{ "--pa": COLORS[i % 3] } as React.CSSProperties}
-              className="trig rv group relative isolate grid grid-cols-[200px_1fr_auto] items-center gap-x-[30px] gap-y-2.5 border-b border-line py-[30px] [transition:opacity_1s_ease,transform_1.2s_var(--ease-expo),filter_1.2s_ease,padding_.6s_var(--ease-expo),color_.4s] before:absolute before:inset-y-0 before:-right-5 before:-left-5 before:-z-1 before:origin-bottom before:scale-y-0 before:bg-fg before:transition-transform before:duration-550 before:ease-expo hover:pl-6 hover:text-bg hover:before:scale-y-100 max-[900px]:grid-cols-1 max-[900px]:gap-2"
-            >
-              <span className="mono text-mut group-hover:text-bg">{e.start ? `${e.start} — ${e.end}` : e.end}</span>
-              <div>
-                <b className="block font-disp text-[clamp(26px,3.6vw,56px)] leading-none font-medium tracking-[-.045em]">
-                  <RollText text={e.title} />
-                </b>
-                <small className="mt-1.5 block text-[15px] opacity-70">{e.place}</small>
-                <p className="mt-2.5 max-w-[46em] text-[15px] leading-normal text-soft transition-colors group-hover:text-bg/75">{e.description}</p>
-              </div>
-              <span className="justify-self-start rounded-full bg-(--pa) px-3 py-1 font-mono text-[11px] font-medium tracking-[.1em] text-pill uppercase">{KIND[e.kind]}</span>
-            </li>
+        {/* Línea de tiempo en dos partes: académica y laboral, de lo más reciente a lo más antiguo */}
+        <div className="mt-[clamp(40px,6vw,80px)] grid grid-cols-2 gap-x-[clamp(30px,5vw,90px)] gap-y-14 max-[900px]:grid-cols-1">
+          {GROUPS.map((g) => (
+            <div key={g.kind}>
+              <h3 className="mono flex items-center gap-3 text-mut">
+                <span
+                  aria-hidden="true"
+                  className="size-2.5 rounded-full"
+                  style={{ background: g.c }}
+                />
+                {g.title}
+              </h3>
+              <ol className="relative mt-6 border-l-2 border-line pl-[clamp(24px,2.6vw,38px)]">
+                {experience
+                  .filter((e) => e.kind === g.kind)
+                  .map((e, i) => (
+                    <li
+                      key={e.title}
+                      data-a="left"
+                      style={
+                        {
+                          "--pa": g.c,
+                          transitionDelay: `${i * 0.08}s`,
+                        } as React.CSSProperties
+                      }
+                      className="trig rv group relative pb-[clamp(30px,4vw,52px)] last:pb-0 [&.vis]:[clip-path:none]!"
+                    >
+                      {/* Punto sobre la línea; el actual late */}
+                      <span
+                        aria-hidden="true"
+                        className={cx(
+                          "absolute top-[.45em] -left-[calc(clamp(24px,2.6vw,38px)+7px)] size-3 rounded-full border-2 border-bg bg-(--pa) transition-transform duration-500 ease-back group-hover:scale-150",
+                          e.end === "Hoy" &&
+                            "after:absolute after:-inset-1 after:animate-ping after:rounded-full after:bg-(--pa) after:opacity-40",
+                        )}
+                      />
+                      <span className="mono text-mut">
+                        {e.start ? `${e.start} — ${e.end}` : e.end}
+                      </span>
+                      <b className="mt-2 block font-disp text-[clamp(24px,2.6vw,40px)] leading-[1.05] font-medium tracking-[-.04em] transition-colors group-hover:text-(--pa)">
+                        <RollText text={e.title} />
+                      </b>
+                      <small className="mt-1.5 block text-[15px] text-soft">
+                        {e.place}
+                      </small>
+                      <p className="mt-2.5 max-w-[34em] text-[15px] leading-normal text-soft">
+                        {e.description}
+                      </p>
+                    </li>
+                  ))}
+              </ol>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

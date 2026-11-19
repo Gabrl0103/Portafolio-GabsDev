@@ -1,5 +1,5 @@
 /** Ilustraciones SVG disponibles mientras no haya capturas reales. */
-export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios";
+export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios" | "asqua";
 
 /** Formato en el que se muestra la vista previa del proyecto. */
 export type ProjectFormat = "web" | "desktop" | "mobile" | "watch";
@@ -38,6 +38,8 @@ export interface Project {
   /** web = navegador · desktop = ventana de escritorio · mobile = celular · watch = reloj */
   format: ProjectFormat;
   /** Enlace al repositorio (GitHub) o al perfil principal. */
+  /** Demo o sitio en vivo (opcional): se muestra primero */
+  demo?: ProjectLink;
   primary: ProjectLink;
   /** Enlace a la demo en Vercel o al sitio en vivo. */
   secondary: ProjectLink;

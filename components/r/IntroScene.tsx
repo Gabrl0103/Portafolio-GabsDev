@@ -19,7 +19,7 @@ const fade = "translate-y-3.5 opacity-0 [transition:opacity_.9s_ease,transform_1
 const TAGS = [
   { id: "acerca", label: "Acerca de mí", n: "01", c: "bg-olive text-pill", pos: "right-[5%] top-[25%] max-[900px]:right-[4%] max-[900px]:top-[19%]", r: "-5deg", w: ".9s", d: "7s", dl: "0s", dx: 1, dy: -0.4 },
   { id: "proyectos", label: "Proyectos", n: "02", c: "bg-orange text-white", pos: "right-[3%] top-[51%] max-[900px]:right-[4%] max-[900px]:top-[57%]", r: "4deg", w: "1.1s", d: "8.5s", dl: "-2s", dx: 1, dy: 0.5 },
-  { id: "contacto", label: "Contacto", n: "07", c: "bg-cream text-pill", pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]", r: "-2deg", w: "1.3s", d: "6.5s", dl: "-4s", dx: 0.3, dy: -1 },
+  { id: "contacto", label: "Contacto", n: "06", c: "bg-cream text-pill", pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]", r: "-2deg", w: "1.3s", d: "6.5s", dl: "-4s", dx: 0.3, dy: -1 },
 ];
 
 const STATEMENT =
@@ -174,7 +174,7 @@ export default function IntroScene() {
         >
           <div ref={(el) => void (fades.current[0] = el)}>
             <div className={cx("mono flex justify-between text-mut", fade)}>
-              <span className="max-[400px]:hidden">Portafolio · {site.year}</span>
+              <span className="max-[400px]:hidden">{site.role}</span>
               <Clock prefix="Pasto, CO — " />
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function IntroScene() {
             <p className={cx("max-w-[24ch] font-disp text-[clamp(24px,2.7vw,44px)] leading-[1.1] font-medium tracking-[-.035em] text-fg max-[900px]:text-[25px]", fade)} style={{ transitionDelay: ".7s" }}>
               Estudiante de Ingeniería de Software. Construyo <mark className="bg-transparent text-olive">apps de escritorio, Android, Wear OS y web</mark>.
             </p>
-            <a href={site.cv} download className={cx(btnF, "mag", fade)} style={{ transitionDelay: ".9s" }}>
+            <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag", fade)} style={{ transitionDelay: ".9s" }}>
               Descargar CV ↓
             </a>
           </div>

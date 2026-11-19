@@ -8,9 +8,21 @@ const B = "fill-bg2 stroke-(--pa) stroke-3";
 const D = "fill-(--pa) [fill-opacity:.35]";
 
 /** Ilustraciones de los proyectos con el estilo de la referencia (se ven en gris hasta pasar el cursor). */
-export default function RefArt({ art, className }: { art: ProjectArt; className?: string }) {
+export default function RefArt({
+  art,
+  className,
+}: {
+  art: ProjectArt;
+  className?: string;
+}) {
   const svg = (label: string, children: React.ReactNode) => (
-    <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label={label} className={className}>
+    <svg
+      viewBox="0 0 480 300"
+      preserveAspectRatio="xMidYMid slice"
+      role="img"
+      aria-label={label}
+      className={className}
+    >
       {children}
     </svg>
   );
@@ -19,7 +31,10 @@ export default function RefArt({ art, className }: { art: ProjectArt; className?
       return svg(
         "Ilustración: grafo de habilidades",
         <>
-          <path className={L} d="M240 150 120 80M240 150 120 225M240 150 365 72M240 150 372 218M120 80 58 140M120 225 70 272M365 72 430 122M372 218 440 254M120 80 150 30" />
+          <path
+            className={L}
+            d="M240 150 120 80M240 150 120 225M240 150 365 72M240 150 372 218M120 80 58 140M120 225 70 272M365 72 430 122M372 218 440 254M120 80 150 30"
+          />
           <circle className={D} cx="240" cy="150" r="46" />
           <circle className={A} cx="240" cy="150" r="30" />
           <g className={B}>
@@ -99,6 +114,34 @@ export default function RefArt({ art, className }: { art: ProjectArt; className?
           <rect className={A} x="172" y="218" width="70" height="24" rx="12" />
           <path className={AS} d="M360 96l14 14 28-30" />
           <circle className={D} cx="100" cy="200" r="22" />
+        </>,
+      );
+    case "asqua":
+      return svg(
+        "Ilustración: farol que ilumina la noche entre sombras",
+        <>
+          <g className={L}>
+            <circle cx="240" cy="160" r="70" />
+            <circle cx="240" cy="160" r="112" strokeDasharray="3 7" />
+          </g>
+          <circle className={D} cx="240" cy="160" r="58" />
+          <path className={L} d="M240 62v26M222 88h36" />
+          <rect className={B} x="214" y="102" width="52" height="76" rx="10" />
+          <path className={A} d="M240 120c10 12 12 22 0 38-12-16-10-26 0-38Z" />
+          <rect className={A} x="220" y="178" width="40" height="8" rx="4" />
+          <g className="fill-fg [fill-opacity:.55]">
+            <path d="M70 250c0-30 16-46 30-46s30 16 30 46l-10-8-10 8-10-8-10 8-10-8Z" />
+            <path d="M362 238c0-26 14-40 26-40s26 14 26 40l-9-7-8 7-9-7-9 7-8-7Z" />
+          </g>
+          <g className="fill-bg">
+            <circle cx="92" cy="226" r="3.5" />
+            <circle cx="108" cy="226" r="3.5" />
+            <circle cx="381" cy="218" r="3" />
+            <circle cx="395" cy="218" r="3" />
+          </g>
+          <g className={AS}>
+            <path d="M120 120l-12-6M360 120l12-6M240 30v-12" />
+          </g>
         </>,
       );
     case "servicios":

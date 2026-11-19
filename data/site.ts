@@ -4,7 +4,7 @@
  */
 export const site = {
   name: "Gabs",
-  role: "Estudiante de Ingeniería de Software",
+  role: "Desarrollador Full Stack & IA",
   city: "Pasto, Colombia",
   university: "Universidad Cooperativa de Colombia",
   semester: "5.º semestre",
@@ -28,6 +28,5 @@ export const sections = [
   { id: "servicios", label: "Servicios", top: true },
   { id: "testimonios", label: "Testimonios", top: true },
   { id: "experiencia", label: "Experiencia", top: true },
-  { id: "lado-b", label: "Lado B", top: false },
   { id: "contacto", label: "Contacto", top: true },
 ] as const;

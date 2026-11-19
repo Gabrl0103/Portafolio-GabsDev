@@ -27,7 +27,7 @@ export default function ContactR() {
     >
       <div className="wrap">
         <div className={cx(lab, "rv")}>
-          <b>(07)</b> Contacto
+          <b>(06)</b> Contacto
         </div>
         <SplitTitle lines={["¿Hablamos?"]} className="mt-[26px] !text-[clamp(56px,12vw,210px)] !leading-[.88] !tracking-[-.055em]" />
 
@@ -72,7 +72,7 @@ export default function ContactR() {
               <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer" className={btn}>
                 WhatsApp ↗
               </a>
-              <a href={site.cv} download className={cx(btnF, "mag")}>
+              <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag")}>
                 Descargar CV ↓
               </a>
             </div>
