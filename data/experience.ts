@@ -23,7 +23,7 @@ export const experience: Experience[] = [
     kind: "academica",
     title: "Ingeniería de Software",
     place: "Universidad Cooperativa de Colombia · Pasto",
-    start: "Ene 2023",
+    start: "Feb 2024",
     end: "Hoy",
     description: "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Firemap (Android) y ServiciosYa (web, en equipo).",
   },
