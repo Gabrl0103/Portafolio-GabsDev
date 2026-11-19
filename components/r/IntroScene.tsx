@@ -6,7 +6,7 @@ import { site } from "@/data/site";
 import Clock from "../Clock";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
-import GrainOrb from "./GrainOrb";
+import GrainStar from "./GrainStar";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
 
@@ -48,14 +48,14 @@ function Portrait() {
   );
 }
 
-/** Lo que se ve en la ventana: solo el orbe de grano, recortado y sin fondo. */
+/** Lo que se ve en la ventana: la estrella de brújula de Cenit hecha con grano, recortada y sin fondo. */
 function WindowContent() {
-  return <GrainOrb className="absolute inset-0 size-full" />;
+  return <GrainStar className="absolute inset-0 size-full" />;
 }
 
 /**
  * Inicio y Acerca de mí en una sola escena fija (inspirada en paulvl.eu):
- * la ventana con el orbe de grano que está en el titular se abre a pantalla completa
+ * la ventana con la estrella de grano que está en el titular se abre a pantalla completa
  * al bajar y luego se encoge hasta quedar junto al texto de Acerca de mí.
  */
 export default function IntroScene() {
@@ -70,7 +70,7 @@ export default function IntroScene() {
   const caps = useRef<HTMLDivElement>(null);
   const about = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLDivElement>(null);
-  const orb = useRef<HTMLDivElement>(null);
+  const star = useRef<HTMLDivElement>(null);
   const photo = useRef<HTMLDivElement>(null);
   const stmt = useRef<HTMLParagraphElement>(null);
   const fades = useRef<(HTMLElement | null)[]>([]);
@@ -129,10 +129,10 @@ export default function IntroScene() {
         hh = lerp(S.height, d.height, e2);
         r = lerp(0, 22, e2);
       }
-      // Al llegar a Acerca de mí, el orbe se disuelve y la foto se revela de abajo hacia arriba
+      // Al llegar a Acerca de mí, la estrella se disuelve y la foto se revela de abajo hacia arriba
       {
         const e2 = ease(clamp((p - DOCK) / (DOCKED - DOCK)));
-        if (orb.current) orb.current.style.opacity = (1 - clamp((e2 - 0.45) / 0.4)).toFixed(3);
+        if (star.current) star.current.style.opacity = (1 - clamp((e2 - 0.45) / 0.4)).toFixed(3);
         if (photo.current) photo.current.style.clipPath = `inset(${((1 - clamp((e2 - 0.4) / 0.6)) * 100).toFixed(1)}% 0 0 0 round 22px)`;
       }
       w.style.left = `${x.toFixed(1)}px`;
@@ -238,7 +238,7 @@ export default function IntroScene() {
             aria-hidden="true"
             className="pointer-events-none absolute z-[4] opacity-0 [transition:opacity_.8s_ease_.6s] in-[.go]:opacity-100"
           >
-            <div ref={orb} className="absolute inset-0">
+            <div ref={star} className="absolute inset-0">
               <WindowContent />
             </div>
             <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0">
