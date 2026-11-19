@@ -80,6 +80,39 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "asqua",
+    title: "Asqua",
+    short: "Asqua",
+    description:
+      "Videojuego de aventura y acción en tercera persona: Ilse recorre una plaza durante varias noches con un farol, devuelve la Esperanza a cada zona y se defiende de criaturas de sombra. Desde la quinta noche, los niveles los genera un sistema con IA que se adapta a cómo juegas.",
+    kind: "Proyecto académico · Videojuego · En equipo",
+    tags: [
+      "Unity 6",
+      "C#",
+      "URP",
+      "Cinemachine",
+      "NavMesh",
+      "IA",
+      "Pruebas EditMode",
+    ],
+    art: "asqua",
+    format: "desktop",
+    primary: {
+      label: "GitHub",
+      href: "https://github.com/miguelpantojag03/ASQUA",
+    },
+    secondary: { label: "Gameplay", href: "" },
+    detail: {
+      problema:
+        "Un juego de noches con niveles escritos a mano se agota rápido y no responde a cómo juega cada persona. Además, dejar que una IA cree niveles sin control puede producir noches rotas o injustas.",
+      solucion:
+        "Un generador de niveles con IA que propone solo parámetros de la noche, no la geometría. Cada propuesta pasa por un validador y, si la IA no está disponible, un generador procedural toma su lugar. Se adapta al desempeño del jugador, y el panel «Ver ADN» muestra por qué cada noche es como es.",
+      rol: "Parte de un equipo de 3 (con Miguel y Jairo). Hice el sistema de generación de niveles con IA y sus pruebas automáticas, y sumé funciones como finales, guardado, eventos por noche, la Cacería del Heraldo, el modo «Noches sin fin» y el enemigo Apagavelas. El mundo, los personajes, el combate y los diálogos son principalmente de Miguel.",
+      resultado:
+        "Las noches 1 a 4 están escritas a mano y desde la 5 se generan con el sistema de IA, con la lógica del generador cubierta por pruebas. El juego tiene varios finales según lo que hagas. Proyecto final de Diseño de Interfaces (HCI), en desarrollo.",
+    },
+  },
+  {
     id: "firemap",
     title: "Firemap",
     short: "Firemap",

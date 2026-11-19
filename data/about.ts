@@ -13,6 +13,6 @@ export const openTo = ["Prácticas", "Freelance", "Proyectos", "Colaboraciones"]
 /** En números (datos reales; actualízalos cuando cambien) */
 export const stats = [
   { value: "5.º", label: "semestre de Ingeniería" },
-  { value: "6", label: "proyectos construidos" },
+  { value: "7", label: "proyectos construidos" },
   { value: "B2", label: "nivel de inglés" },
 ];

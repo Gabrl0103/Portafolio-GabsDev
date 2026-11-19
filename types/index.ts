@@ -1,5 +1,5 @@
 /** Ilustraciones SVG disponibles mientras no haya capturas reales. */
-export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios";
+export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios" | "asqua";
 
 /** Formato en el que se muestra la vista previa del proyecto. */
 export type ProjectFormat = "web" | "desktop" | "mobile" | "watch";
