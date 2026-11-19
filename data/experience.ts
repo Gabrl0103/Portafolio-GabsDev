@@ -16,7 +16,7 @@ export const experience: Experience[] = [
     title: "Desarrollador web freelance",
     place: "Sencia, estudio de diseño interior",
     start: "",
-    end: "2026",
+    end: "Oct 2026",
     description: "Diseñé, desarrollé y desplegué una aplicación de briefings con formularios, panel privado, exportación a PDF y CSV y avisos por correo, en planes gratuitos.",
   },
   {
@@ -31,7 +31,7 @@ export const experience: Experience[] = [
     kind: "academica",
     title: "Bachiller",
     place: "Colegio Sagrado Corazón de Jesús Bethlemitas · Pasto",
-    start: "",
+    start: "2012",
     end: "2023",
     description: "Educación secundaria.",
   },

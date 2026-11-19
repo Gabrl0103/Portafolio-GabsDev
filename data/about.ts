@@ -2,7 +2,7 @@
 
 /** Bloque "Ahora mismo" */
 export const now = [
-  { label: "Construyendo", value: "Rumbo, Skillmap y Firemap" },
+  { label: "Últimos proyectos", value: "Cenit Skillmap, Rumbo y Firemap" },
   { label: "Aprendiendo", value: "Landing pages UX/UI, IA en páginas web, SaaS y marketing digital" },
   { label: "Disponibilidad", value: "Abierto a prácticas y freelance para ganar experiencia" },
 ];
