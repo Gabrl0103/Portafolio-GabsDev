@@ -8,7 +8,6 @@ import Nav from "@/components/r/Nav";
 import ProjectsR from "@/components/r/ProjectsR";
 import RevealObserver from "@/components/r/RevealObserver";
 import ServicesR from "@/components/r/ServicesR";
-import SideBR from "@/components/r/SideBR";
 import TestimonialsR from "@/components/r/TestimonialsR";
 
 export default function Home() {
@@ -27,7 +26,6 @@ export default function Home() {
           <ServicesR />
           <TestimonialsR />
           <ExperienceR />
-          <SideBR />
           <ContactR />
         </div>
       </main>
