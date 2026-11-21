@@ -258,11 +258,25 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "servicios",
+    image: "/proyectos/serviciosya/portada.webp",
+    media: [
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/facturas.webp",
+        alt: "Inicio de ServiciosYa: todas tus facturas en un solo lugar",
+      },
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/pagos.webp",
+        alt: "Inicio de ServiciosYa: paga con Nequi, PSE o tarjeta",
+      },
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/ia.webp",
+        alt: "Inicio de ServiciosYa: la IA analiza tu consumo",
+      },
+    ],
     format: "web",
-    demo: {
-      label: "Ver sitio",
-      href: "https://servicios-frontend.vercel.app/",
-    },
     primary: {
       label: "GitHub · Frontend",
       href: "https://github.com/juandabettt/servicios-frontend",
