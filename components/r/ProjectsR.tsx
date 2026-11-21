@@ -119,7 +119,8 @@ export default function ProjectsR() {
                 <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--pa)_16%,var(--bg2))] transition-transform duration-1100 ease-expo group-hover/card:scale-[1.07]">
                   <Visual p={p} className="grayscale-[1] contrast-[.95] transition-[filter] duration-700 group-hover/card:grayscale-0 group-hover/card:contrast-100" />
                 </div>
-                <div className="tex-hover z-[1] group-hover/card:opacity-100" />
+                {/* La textura solo sobre las ilustraciones; con capturas reales ensucia la imagen */}
+                {!cover(p) && <div className="tex-hover z-[1] group-hover/card:opacity-100" />}
                 <div className="absolute inset-x-3.5 bottom-3.5 z-[2] flex translate-y-[130%] items-center justify-between rounded-[14px] bg-[rgba(var(--bgr),.72)] px-4 py-3 backdrop-blur-[14px] transition-transform duration-700 ease-expo group-hover/card:translate-y-0 group-focus-visible/card:translate-y-0">
                   <span className="mono">Ver proyecto</span>
                   <span>↗</span>

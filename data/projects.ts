@@ -23,12 +23,31 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "skillmap",
+    image: "/proyectos/skillmap/portada.webp",
     format: "desktop",
-    // Agrega aquí capturas y el video de la demo, por ejemplo:
-    // { type: "image", src: "/proyectos/skillmap/mapa.png", alt: "Mapa de habilidades" },
-    // { type: "video", src: "/proyectos/skillmap/demo.mp4", alt: "Demo de Cenit Skillmap" },
-    // { type: "youtube", id: "ID_DEL_VIDEO", alt: "Demo de Cenit Skillmap" },
-    media: [],
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/skillmap/demo.mp4",
+        alt: "Demo de Cenit Skillmap: Mi Ruta, Mapa y Analizador",
+        poster: "/proyectos/skillmap/ruta.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/mapa.webp",
+        alt: "Mapa de habilidades de Cenit agrupado por área",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/analizador.webp",
+        alt: "Analizador de vacantes con 70 % de compatibilidad",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/ruta.webp",
+        alt: "Mi Ruta: nivel de preparación hacia Frontend Senior",
+      },
+    ],
     primary: {
       label: "GitHub · Frontend",
       href: "https://github.com/Gabrl0103/SKILLMAP-FRONTEND",
@@ -63,12 +82,25 @@ export const projects: Project[] = [
       "Geoapify",
     ],
     art: "watch",
+    image: "/proyectos/rumbo/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/rumbo/demo.mp4",
+        alt: "Recorrido por las pantallas de Rumbo, del destino por voz a la llegada",
+        poster: "/proyectos/rumbo/portada.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/rumbo/pantallas.webp",
+        alt: "Las 12 pantallas de Rumbo en Wear OS",
+      },
+    ],
     format: "watch",
     primary: {
       label: "GitHub",
       href: "https://github.com/Gabrl0103/smartwatch-app",
     },
-    secondary: { label: "Video demo", href: "" },
     detail: {
       problema:
         "Caminar por la ciudad sin ver implica depender de otra persona o de apps pensadas para mirar una pantalla. Rumbo busca dar autonomía con un dispositivo que ya va en la muñeca.",
@@ -113,9 +145,9 @@ export const projects: Project[] = [
     },
   },
   {
-    id: "firemap",
-    title: "Firemap",
-    short: "Firemap",
+    id: "atalaya",
+    title: "Atalaya",
+    short: "Atalaya",
     description:
       "App Android que muestra el riesgo de incendios forestales por municipio en Nariño, Colombia. Es un indicador para informar y prevenir, no una predicción.",
     kind: "Proyecto académico · Android",
@@ -128,6 +160,30 @@ export const projects: Project[] = [
       "PostgreSQL + PostGIS",
     ],
     art: "firemap",
+    image: "/proyectos/atalaya/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/atalaya/demo.mp4",
+        alt: "Demo de Atalaya: inicio, detalle de Buesaco e historial",
+        poster: "/proyectos/atalaya/inicio.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/atalaya/inicio.webp",
+        alt: "Inicio: riesgo promedio de Nariño y zonas con mayor riesgo",
+      },
+      {
+        type: "image",
+        src: "/proyectos/atalaya/municipio.webp",
+        alt: "Mapa con el detalle de riesgo de Buesaco",
+      },
+      {
+        type: "image",
+        src: "/proyectos/atalaya/historial.webp",
+        alt: "Historial de incendios en Nariño desde 2019",
+      },
+    ],
     format: "mobile",
     primary: {
       label: "GitHub",
@@ -163,8 +219,31 @@ export const projects: Project[] = [
     format: "web",
     primary: { label: "Código", href: "", note: "Privado" },
     secondary: { label: "Sitio", href: "", note: "Privado del cliente" },
-    // El sitio es privado: aquí van las capturas (sin datos de clientes), en /public/proyectos/sencia/
-    media: [],
+    // El sitio es privado: el video y las capturas muestran solo el formulario con datos de prueba, sin datos de clientes
+    image: "/proyectos/sencia/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/sencia/demo.mp4",
+        alt: "Recorrido por el briefing comercial de Sencia, de los datos de contacto al envío",
+        poster: "/proyectos/sencia/formulario.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/formulario.webp",
+        alt: "Inicio del briefing comercial: datos de contacto y barra de progreso",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/tu-negocio.webp",
+        alt: "Secciones de estilo y fachada con opciones elegidas",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/gracias.webp",
+        alt: "Confirmación de envío del briefing",
+      },
+    ],
     detail: {
       problema:
         "El estudio recibía los briefings como mensajes de WhatsApp: información incompleta, difícil de buscar y fácil de perder.",
@@ -215,11 +294,25 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "servicios",
+    image: "/proyectos/serviciosya/portada.webp",
+    media: [
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/facturas.webp",
+        alt: "Inicio de ServiciosYa: todas tus facturas en un solo lugar",
+      },
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/pagos.webp",
+        alt: "Inicio de ServiciosYa: paga con Nequi, PSE o tarjeta",
+      },
+      {
+        type: "image",
+        src: "/proyectos/serviciosya/ia.webp",
+        alt: "Inicio de ServiciosYa: la IA analiza tu consumo",
+      },
+    ],
     format: "web",
-    demo: {
-      label: "Ver sitio",
-      href: "https://servicios-frontend.vercel.app/",
-    },
     primary: {
       label: "GitHub · Frontend",
       href: "https://github.com/juandabettt/servicios-frontend",

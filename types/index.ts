@@ -42,7 +42,7 @@ export interface Project {
   demo?: ProjectLink;
   primary: ProjectLink;
   /** Enlace a la demo en Vercel o al sitio en vivo. */
-  secondary: ProjectLink;
+  secondary?: ProjectLink;
   detail: {
     problema: string;
     solucion: string;

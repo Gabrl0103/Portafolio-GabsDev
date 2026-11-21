@@ -11,7 +11,7 @@ export const testimonials: Testimonial[] = [
   {
     name: "[Nombre del compañero/a]",
     role: "Compañero/a de proyecto",
-    quote: "[Testimonio: cómo fue trabajar contigo en Skillmap, Firemap u otro proyecto.]",
+    quote: "[Testimonio: cómo fue trabajar contigo en Cenit, Atalaya u otro proyecto.]",
     rating: 5,
   },
   {

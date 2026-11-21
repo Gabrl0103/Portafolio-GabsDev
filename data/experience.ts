@@ -25,7 +25,7 @@ export const experience: Experience[] = [
     place: "Universidad Cooperativa de Colombia · Pasto",
     start: "Feb 2024",
     end: "Hoy",
-    description: "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Firemap (Android) y ServiciosYa (web, en equipo).",
+    description: "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Atalaya (Android) y ServiciosYa (web, en equipo).",
   },
   {
     kind: "academica",
