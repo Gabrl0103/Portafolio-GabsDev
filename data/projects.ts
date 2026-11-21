@@ -147,6 +147,30 @@ export const projects: Project[] = [
       "PostgreSQL + PostGIS",
     ],
     art: "firemap",
+    image: "/proyectos/firemap/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/firemap/demo.mp4",
+        alt: "Demo de Firemap: inicio, detalle de Buesaco e historial",
+        poster: "/proyectos/firemap/inicio.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/firemap/inicio.webp",
+        alt: "Inicio: riesgo promedio de Nariño y zonas con mayor riesgo",
+      },
+      {
+        type: "image",
+        src: "/proyectos/firemap/municipio.webp",
+        alt: "Mapa con el detalle de riesgo de Buesaco",
+      },
+      {
+        type: "image",
+        src: "/proyectos/firemap/historial.webp",
+        alt: "Historial de incendios en Nariño desde 2019",
+      },
+    ],
     format: "mobile",
     primary: {
       label: "GitHub",
