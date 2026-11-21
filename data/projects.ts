@@ -23,12 +23,31 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "skillmap",
+    image: "/proyectos/skillmap/portada.webp",
     format: "desktop",
-    // Agrega aquí capturas y el video de la demo, por ejemplo:
-    // { type: "image", src: "/proyectos/skillmap/mapa.png", alt: "Mapa de habilidades" },
-    // { type: "video", src: "/proyectos/skillmap/demo.mp4", alt: "Demo de Cenit Skillmap" },
-    // { type: "youtube", id: "ID_DEL_VIDEO", alt: "Demo de Cenit Skillmap" },
-    media: [],
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/skillmap/demo.mp4",
+        alt: "Demo de Cenit Skillmap: Mi Ruta, Mapa y Analizador",
+        poster: "/proyectos/skillmap/ruta.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/mapa.webp",
+        alt: "Mapa de habilidades de Cenit agrupado por área",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/analizador.webp",
+        alt: "Analizador de vacantes con 70 % de compatibilidad",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/ruta.webp",
+        alt: "Mi Ruta: nivel de preparación hacia Frontend Senior",
+      },
+    ],
     primary: {
       label: "GitHub · Frontend",
       href: "https://github.com/Gabrl0103/SKILLMAP-FRONTEND",
