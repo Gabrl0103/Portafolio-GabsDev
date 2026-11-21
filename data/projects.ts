@@ -219,24 +219,29 @@ export const projects: Project[] = [
     format: "web",
     primary: { label: "Código", href: "", note: "Privado" },
     secondary: { label: "Sitio", href: "", note: "Privado del cliente" },
-    // El sitio es privado: el video y las capturas muestran solo el formulario vacío, sin datos de clientes
+    // El sitio es privado: el video y las capturas muestran solo el formulario con datos de prueba, sin datos de clientes
     image: "/proyectos/sencia/portada.webp",
     media: [
       {
         type: "video",
         src: "/proyectos/sencia/demo.mp4",
-        alt: "Recorrido por el formulario de briefing comercial de Sencia",
+        alt: "Recorrido por el briefing comercial de Sencia, de los datos de contacto al envío",
         poster: "/proyectos/sencia/formulario.webp",
       },
       {
         type: "image",
         src: "/proyectos/sencia/formulario.webp",
-        alt: "Inicio del briefing comercial con la barra de progreso",
+        alt: "Inicio del briefing comercial: datos de contacto y barra de progreso",
       },
       {
         type: "image",
         src: "/proyectos/sencia/tu-negocio.webp",
-        alt: "Sección Tu negocio con el tipo de negocio elegido",
+        alt: "Secciones de estilo y fachada con opciones elegidas",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/gracias.webp",
+        alt: "Confirmación de envío del briefing",
       },
     ],
     detail: {
