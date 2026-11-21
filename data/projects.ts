@@ -219,8 +219,26 @@ export const projects: Project[] = [
     format: "web",
     primary: { label: "Código", href: "", note: "Privado" },
     secondary: { label: "Sitio", href: "", note: "Privado del cliente" },
-    // El sitio es privado: aquí van las capturas (sin datos de clientes), en /public/proyectos/sencia/
-    media: [],
+    // El sitio es privado: el video y las capturas muestran solo el formulario vacío, sin datos de clientes
+    image: "/proyectos/sencia/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/sencia/demo.mp4",
+        alt: "Recorrido por el formulario de briefing comercial de Sencia",
+        poster: "/proyectos/sencia/formulario.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/formulario.webp",
+        alt: "Inicio del briefing comercial con la barra de progreso",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/tu-negocio.webp",
+        alt: "Sección Tu negocio con el tipo de negocio elegido",
+      },
+    ],
     detail: {
       problema:
         "El estudio recibía los briefings como mensajes de WhatsApp: información incompleta, difícil de buscar y fácil de perder.",
