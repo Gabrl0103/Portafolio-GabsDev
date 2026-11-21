@@ -133,8 +133,8 @@ export const projects: Project[] = [
   },
   {
     id: "firemap",
-    title: "Firemap",
-    short: "Firemap",
+    title: "Atalaya",
+    short: "Atalaya",
     description:
       "App Android que muestra el riesgo de incendios forestales por municipio en Nariño, Colombia. Es un indicador para informar y prevenir, no una predicción.",
     kind: "Proyecto académico · Android",
@@ -152,7 +152,7 @@ export const projects: Project[] = [
       {
         type: "video",
         src: "/proyectos/firemap/demo.mp4",
-        alt: "Demo de Firemap: inicio, detalle de Buesaco e historial",
+        alt: "Demo de Atalaya: inicio, detalle de Buesaco e historial",
         poster: "/proyectos/firemap/inicio.webp",
       },
       {

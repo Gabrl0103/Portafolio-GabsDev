@@ -29,7 +29,7 @@ export const services: Service[] = [
   },
   {
     title: "Apps móviles",
-    text: "Apps Android con pantallas claras y una API propia detrás, como Firemap.",
+    text: "Apps Android con pantallas claras y una API propia detrás, como Atalaya.",
     items: [
       "App Android (APK)",
       "API y base de datos",
