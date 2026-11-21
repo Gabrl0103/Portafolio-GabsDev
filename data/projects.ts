@@ -82,12 +82,25 @@ export const projects: Project[] = [
       "Geoapify",
     ],
     art: "watch",
+    image: "/proyectos/rumbo/portada.webp",
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/rumbo/demo.mp4",
+        alt: "Recorrido por las pantallas de Rumbo, del destino por voz a la llegada",
+        poster: "/proyectos/rumbo/portada.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/rumbo/pantallas.webp",
+        alt: "Las 12 pantallas de Rumbo en Wear OS",
+      },
+    ],
     format: "watch",
     primary: {
       label: "GitHub",
       href: "https://github.com/Gabrl0103/smartwatch-app",
     },
-    secondary: { label: "Video demo", href: "" },
     detail: {
       problema:
         "Caminar por la ciudad sin ver implica depender de otra persona o de apps pensadas para mirar una pantalla. Rumbo busca dar autonomía con un dispositivo que ya va en la muñeca.",
@@ -132,7 +145,7 @@ export const projects: Project[] = [
     },
   },
   {
-    id: "firemap",
+    id: "atalaya",
     title: "Atalaya",
     short: "Atalaya",
     description:
@@ -147,27 +160,27 @@ export const projects: Project[] = [
       "PostgreSQL + PostGIS",
     ],
     art: "firemap",
-    image: "/proyectos/firemap/portada.webp",
+    image: "/proyectos/atalaya/portada.webp",
     media: [
       {
         type: "video",
-        src: "/proyectos/firemap/demo.mp4",
+        src: "/proyectos/atalaya/demo.mp4",
         alt: "Demo de Atalaya: inicio, detalle de Buesaco e historial",
-        poster: "/proyectos/firemap/inicio.webp",
+        poster: "/proyectos/atalaya/inicio.webp",
       },
       {
         type: "image",
-        src: "/proyectos/firemap/inicio.webp",
+        src: "/proyectos/atalaya/inicio.webp",
         alt: "Inicio: riesgo promedio de Nariño y zonas con mayor riesgo",
       },
       {
         type: "image",
-        src: "/proyectos/firemap/municipio.webp",
+        src: "/proyectos/atalaya/municipio.webp",
         alt: "Mapa con el detalle de riesgo de Buesaco",
       },
       {
         type: "image",
-        src: "/proyectos/firemap/historial.webp",
+        src: "/proyectos/atalaya/historial.webp",
         alt: "Historial de incendios en Nariño desde 2019",
       },
     ],
