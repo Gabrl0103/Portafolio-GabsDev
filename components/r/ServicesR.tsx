@@ -27,7 +27,7 @@ const brand = (n: TechIconName) => {
 export default function ServicesR() {
   const odd = services.length % 2 === 1;
   return (
-    <section id="servicios" className="tx [--tx:var(--leo)] light:[--txk:.9] py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="tx [--tx:var(--leo)] before:grayscale light:[--txk:.9] light:before:grayscale-0 py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> Servicios
@@ -50,7 +50,7 @@ export default function ServicesR() {
                   } as React.CSSProperties
                 }
                 className={cx(
-                  "rv group relative flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] blur-[6px] hover:-translate-y-1 hover:border-(--c) [&.vis]:blur-none",
+                  "rv group relative flex flex-col rounded-[24px] border border-line bg-[rgba(28,22,34,.5)] backdrop-blur-[16px] light:bg-bg2 light:backdrop-blur-none p-[clamp(24px,2.6vw,38px)] blur-[6px] hover:-translate-y-1 hover:border-(--c) [&.vis]:blur-none",
                   wide ? "col-span-2 max-[900px]:col-span-1" : "min-h-[340px]",
                 )}
               >
