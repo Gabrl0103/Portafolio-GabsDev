@@ -9,7 +9,7 @@ const TORN = [
 
 /**
  * Trozo de cinta de papel (como la portada de referencia), puesto encima de tarjetas o imágenes.
- * Solo se ve en el tema claro. `v` elige el corte de los extremos.
+ * Se ve en ambos temas. `v` elige el corte de los extremos.
  */
 export default function Tape({
   className,
@@ -23,7 +23,7 @@ export default function Tape({
       aria-hidden="true"
       style={{ clipPath: TORN[v % TORN.length] }}
       className={cx(
-        "pointer-events-none absolute z-[3] hidden h-[28px] w-[118px] bg-[linear-gradient(180deg,rgba(247,236,219,.9),rgba(222,201,175,.88))] shadow-[0_1px_2px_rgba(60,40,20,.22),inset_0_-1px_0_rgba(120,90,60,.18)] before:absolute before:inset-0 before:bg-(image:--noise) before:opacity-[.35] before:mix-blend-multiply light:block",
+        "pointer-events-none absolute z-[3] block h-[28px] w-[118px] bg-[linear-gradient(180deg,rgba(247,236,219,.9),rgba(222,201,175,.88))] shadow-[0_1px_2px_rgba(60,40,20,.22),inset_0_-1px_0_rgba(120,90,60,.18)] before:absolute before:inset-0 before:bg-(image:--noise) before:opacity-[.35] before:mix-blend-multiply",
         className,
       )}
     />
