@@ -106,21 +106,21 @@
  */
 @utility banda {
   [data-theme="light"] & {
-    --bg: #231c17;
-    --bg2: #2d241e;
+    --bg: #33281f;
+    --bg2: #3e3127;
     --fg: #f1e6d3;
     --soft: #cbbfae;
     --mut: #9c8f80;
     --line: rgba(241, 230, 211, 0.14);
     --fgr: 241, 230, 211;
-    --bgr: 35, 28, 23;
+    --bgr: 51, 40, 31;
     --pill: #1a1512;
     --olive: #a9bc5b;
     --orange: #e07a52;
     --cream: #e8c28a;
     --stk: #000;
     color: var(--fg);
-    background: linear-gradient(180deg, transparent, #231c17 220px, #231c17 calc(100% - 220px), var(--banda-fin, transparent));
+    background: linear-gradient(180deg, transparent, #33281f 220px, #33281f calc(100% - 220px), var(--banda-fin, transparent));
   }
 }
 /* Aparece al entrar en pantalla (Reveal.tsx añade .vis). Variantes con data-a */
