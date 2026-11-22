@@ -6,9 +6,8 @@ import { projects } from "@/data/projects";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
-import { chip } from "./Calendar";
 import Gallery from "./Gallery";
-import { COLORS, pad, ProjectChapters, ProjectPoster, ProjectStrips, Visual } from "./ProjectViews";
+import ProjectStrips, { COLORS, pad, Visual } from "./ProjectStrips";
 import SplitTitle from "./SplitTitle";
 
 const detailRows: [keyof Project["detail"], string][] = [
@@ -21,37 +20,15 @@ const detailRows: [keyof Project["detail"], string][] = [
 /** Enlaces del proyecto en orden: demo, principal y secundario. */
 const links = (p: Project) => [p.demo, p.primary, p.secondary].filter((l): l is ProjectLink => !!l);
 
-/** Tres formas de presentar los proyectos, para compararlas en el sitio (después se deja una). */
-const VIEWS = [
-  { id: "capitulos", label: "Capítulos" },
-  { id: "franjas", label: "Franjas" },
-  { id: "poster", label: "Póster" },
-] as const;
-type View = (typeof VIEWS)[number]["id"];
-
-/** Proyectos: tres vistas a elegir y el detalle a pantalla completa. */
+/** Proyectos: franjas que se abren al pasar el cursor y el detalle a pantalla completa. */
 export default function ProjectsR() {
   const [open, setOpen] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [view, setView] = useState<View>("capitulos");
 
   useEffect(() => {
-    const t = setTimeout(() => {
-      setMounted(true);
-      try {
-        const v = localStorage.getItem("vista-proyectos");
-        if (VIEWS.some((x) => x.id === v)) setView(v as View);
-      } catch {}
-    }, 0);
+    const t = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(t);
   }, []);
-
-  const choose = (v: View) => {
-    setView(v);
-    try {
-      localStorage.setItem("vista-proyectos", v);
-    } catch {}
-  };
 
   const close = useCallback(() => setOpen(null), []);
 
@@ -78,19 +55,7 @@ export default function ProjectsR() {
           <span className="mono rv text-mut">({pad(projects.length)})</span>
         </div>
 
-        {/* Selector temporal de vista */}
-        <div role="group" aria-label="Vista de proyectos" className="mt-8 flex flex-wrap items-center gap-2">
-          <span className="mono mr-1 text-mut">Vista</span>
-          {VIEWS.map((v) => (
-            <button key={v.id} type="button" aria-pressed={view === v.id} onClick={() => choose(v.id)} style={{ "--c": "var(--cream)" } as React.CSSProperties} className={chip(view === v.id)}>
-              {v.label}
-            </button>
-          ))}
-        </div>
-
-        {view === "capitulos" && <ProjectChapters onOpen={setOpen} />}
-        {view === "franjas" && <ProjectStrips onOpen={setOpen} />}
-        {view === "poster" && <ProjectPoster onOpen={setOpen} />}
+        <ProjectStrips onOpen={setOpen} />
       </div>
 
       {mounted && <Detail k={open} onClose={close} />}
