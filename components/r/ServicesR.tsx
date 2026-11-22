@@ -27,7 +27,7 @@ const brand = (n: TechIconName) => {
 export default function ServicesR() {
   const odd = services.length % 2 === 1;
   return (
-    <section id="servicios" className="tx [--tx:var(--leo)] before:grayscale light:[--txk:.9] light:before:grayscale-0 py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="tx pana [--txk:1.4] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> Servicios

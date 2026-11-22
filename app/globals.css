@@ -64,6 +64,27 @@
   }
 }
 /*
+ * Pana de Servicios. Oscuro: dos capas de pana que se desplazan despacio en sentidos
+ * contrarios; al cruzarse forman ondas que se mueven. Claro: retícula de puntos fija.
+ */
+@utility pana {
+  &::before {
+    background-image: url(/img/pana.jpg), url(/img/pana.jpg);
+    background-size: 560px, 720px;
+    background-blend-mode: screen;
+    animation: pana 80s linear infinite;
+  }
+  [data-theme="light"] &::before {
+    background-image: radial-gradient(circle, rgba(26, 21, 18, 0.55) 1.1px, transparent 1.7px);
+    background-size: 26px 26px;
+    background-blend-mode: normal;
+    animation: none;
+  }
+}
+@keyframes pana {
+  to { background-position: 0 560px, 0 -720px; }
+}
+/*
  * Luz de color suave en una esquina de las secciones lisas (Ritmo: liso con grano y luz / textura).
  * --gx --gy: posición · --gc: color de acento
  */
