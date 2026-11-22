@@ -25,7 +25,7 @@ export default function TestimonialsR() {
           <b>(04)</b> {sections.find((s) => s.id === "testimonios")?.label}
         </div>
         <SplitTitle
-          lines={[t("Lo que dicen", "What people say"), t("de trabajar conmigo", "about working with me")]}
+          lines={[t("Lo que *dicen*", "What people *say*"), t("de trabajar conmigo", "about working with me")]}
           className="mt-[22px]"
         />
 

@@ -34,7 +34,7 @@ export default function ContactR() {
         <div className={cx(lab, "rv")}>
           <b>(06)</b> {sections.find((s) => s.id === "contacto")?.label}
         </div>
-        <SplitTitle lines={[t("¿Hablamos?", "Let's talk")]} className="mt-[26px] !text-[clamp(56px,12vw,210px)] !leading-[.88] !tracking-[-.055em]" />
+        <SplitTitle lines={[t("¿*Hablamos*?", "Let's *talk*")]} className="mt-[26px] !text-[clamp(56px,12vw,210px)] !leading-[.88] !tracking-[-.055em]" />
 
         <div className="mt-[clamp(30px,4vw,60px)] grid grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-[clamp(30px,5vw,90px)] max-[900px]:grid-cols-1">
           <div data-a="left" className="rv">

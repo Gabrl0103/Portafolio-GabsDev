@@ -77,7 +77,7 @@ export default function ServicesR() {
         <div className={cx(lab, "rv")}>
           <b>(03)</b> {sections.find((s) => s.id === "servicios")?.label}
         </div>
-        <SplitTitle lines={[t("Lo que", "What I"), t("puedo hacer", "can do")]} className="mt-[22px]" />
+        <SplitTitle lines={[t("Lo que", "What I"), t("puedo *hacer*", "can *do*")]} className="mt-[22px]" />
 
         <div className="mt-[clamp(40px,6vw,80px)] grid grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] items-start gap-[clamp(30px,5vw,80px)] max-[900px]:grid-cols-1">
           {/* Lista de servicios */}

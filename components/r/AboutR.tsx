@@ -7,7 +7,6 @@ import { cx } from "../ui";
 import { btnF } from "./btn";
 import { openProject } from "./theme";
 
-
 const STAT_COLORS = ["var(--olive)", "var(--fg)", "var(--orange)"];
 const CHIP = ["bg-olive text-pill", "bg-cream text-pill", "bg-orange text-white", "bg-fg text-bg"];
 
@@ -35,59 +34,88 @@ function ProjectLinks({ ids }: { ids: string[] }) {
   );
 }
 
+/** Frase con palabras entre *asteriscos* en serif cursiva (igual que los títulos). */
+function Phrase({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*[^*]+\*)/).map((part, i) =>
+        part.startsWith("*") ? (
+          <em key={i} className="font-serif font-medium tracking-[-.035em] italic">
+            {part.slice(1, -1)}
+          </em>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
+/** Encabezado numerado de cada bloque de la ficha (01 · En números…) */
+function Head({ n, children }: { n: number; children: React.ReactNode }) {
+  return (
+    <h3 className="mono text-mut">
+      <b className="font-medium text-fg">{String(n).padStart(2, "0")}</b> · {children}
+    </h3>
+  );
+}
+
 /**
- * Acerca de mí (continuación): cifras grandes arriba y, debajo, dos columnas:
- * "Quién soy" y "Ahora mismo" con "Abierto a". El texto principal y la foto están en IntroScene.
+ * Acerca de mí (continuación), como ficha: a la izquierda "Quién soy" con el CV, fija al bajar;
+ * a la derecha tres bloques numerados: en números, ahora mismo y abierto a.
+ * El texto principal y la foto están en IntroScene.
  */
 export default function AboutR() {
   const t = useT();
   const { site, now, openTo, stats } = useContent();
-  const facts = [
-    [t("Estudio", "Studying"), t("Ing. de Software", "Software Eng.")],
-    [t("Base", "Based in"), "Pasto, Colombia"],
-  ];
   return (
-    <section aria-label={t("Más sobre mí", "More about me")} className="glow [--gc:var(--olive)] [--gx:6%] [--gy:30%] pt-2 pb-[clamp(90px,11vw,170px)]">
-      <div className="wrap">
-        <ul data-a="clip" className="rv grid grid-cols-3 border-y border-line max-[700px]:grid-cols-1" aria-label={t("En números", "In numbers")}>
-          {stats.map((s, i) => (
-            <li
-              key={s.label}
-              className="border-line px-[clamp(16px,2.4vw,36px)] py-[clamp(24px,3vw,40px)] not-first:border-l max-[700px]:px-0 max-[700px]:not-first:border-t max-[700px]:not-first:border-l-0"
-            >
-              <b className="block font-disp text-[clamp(56px,7vw,110px)] leading-none font-medium tracking-[-.05em]" style={{ color: STAT_COLORS[i] }}>
-                {s.value}
-              </b>
-              <span className="mono mt-3 block text-mut">{s.label}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-[clamp(40px,5vw,70px)] grid grid-cols-2 gap-[clamp(30px,6vw,100px)] max-[900px]:grid-cols-1">
-          <div className="rv">
-            <h3 className="mono text-mut">{t("Quién soy", "Who I am")}</h3>
-            <p className="mt-4 max-w-[30em] font-disp text-[clamp(22px,2vw,30px)] leading-[1.2] font-medium tracking-[-.03em]">{t("Me gusta llevar una idea desde el diseño hasta el código en producción: entender el problema, diseñarlo y dejarlo funcionando para quien lo va a usar.", "I like taking an idea from design to code in production: understanding the problem, designing it and leaving it working for the people who will use it.")}</p>
-            <dl className="mt-6 grid grid-cols-2 border-t border-line">
-              {facts.map(([k, v]) => (
-                <div key={k} className="border-b border-line py-4">
-                  <dt className="mono text-mut">{k}</dt>
-                  <dd className="m-0 mt-1 font-disp text-xl font-medium">{v}</dd>
-                </div>
-              ))}
-            </dl>
+    <section aria-label={t("Más sobre mí", "More about me")} className="glow [--gc:var(--olive)] [--gx:6%] [--gy:30%] pt-[clamp(30px,4vw,60px)] pb-[clamp(90px,11vw,170px)]">
+      <div className="wrap grid grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] items-start gap-[clamp(30px,6vw,100px)] max-[900px]:grid-cols-1">
+        {/* Quién soy */}
+        <div data-a="left" className="rv sticky top-[110px] max-[900px]:static">
+          <h3 className="mono text-mut">{t("Quién soy", "Who I am")}</h3>
+          <p className="mt-[18px] font-disp text-[clamp(30px,3vw,46px)] leading-[1.1] font-medium tracking-[-.035em] text-pretty">
+            <Phrase text={t("Me gusta llevar una idea *desde el diseño* hasta el código *en producción*.", "I like taking an idea *from design* all the way to code *in production*.")} />
+          </p>
+          <p className="mt-[18px] max-w-[30em] text-[17px] leading-normal text-soft">
+            {t("Entender el problema, diseñarlo y dejarlo funcionando para quien lo va a usar.", "Understanding the problem, designing it and leaving it working for the people who will use it.")}
+          </p>
+          <div className="mt-[30px] flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag")}>
+              {t("Descargar CV ↓", "Download CV ↓")}
+            </a>
+            <span className="mono text-mut">{t("Ing. de Software", "Software Eng.")} · Pasto, Colombia</span>
           </div>
+        </div>
 
-          <div className="rv">
-            <h3 className="mono text-mut">{t("Ahora mismo", "Right now")}</h3>
-            <dl className="mt-4 border-t border-line">
+        {/* Ficha numerada */}
+        <ol className="border-t border-line">
+          <li data-a="right" className="rv border-b border-line py-[clamp(22px,2.4vw,30px)]">
+            <Head n={1}>{t("En números", "In numbers")}</Head>
+            <ul className="mt-4 grid grid-cols-3 gap-4" aria-label={t("En números", "In numbers")}>
+              {stats.map((s, i) => (
+                <li key={s.label}>
+                  <b className="block font-disp text-[clamp(40px,5vw,80px)] leading-none font-medium tracking-[-.05em]" style={{ color: STAT_COLORS[i] }}>
+                    {s.value}
+                  </b>
+                  <span className="mono mt-2 block text-mut">{s.label}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+          <li data-a="right" className="rv border-b border-line py-[clamp(22px,2.4vw,30px)]">
+            <Head n={2}>{t("Ahora mismo", "Right now")}</Head>
+            <dl className="mt-2">
               {now.map((n) => (
-                <div key={n.label} className="grid grid-cols-[150px_1fr] gap-4 border-b border-line py-4 max-[900px]:grid-cols-1 max-[900px]:gap-1">
+                <div key={n.label} className="grid grid-cols-[150px_1fr] gap-4 py-3 max-[900px]:grid-cols-1 max-[900px]:gap-1">
                   <dt className="font-disp text-[15px] font-medium text-mut">{n.label}</dt>
                   <dd className="m-0 font-disp text-lg leading-snug font-medium">{n.projects ? <ProjectLinks ids={n.projects} /> : n.value}</dd>
                 </div>
               ))}
             </dl>
-            <h3 className="mono mt-8 text-mut">{t("Abierto a", "Open to")}</h3>
+          </li>
+          <li data-a="right" className="rv border-b border-line py-[clamp(22px,2.4vw,30px)]">
+            <Head n={3}>{t("Abierto a", "Open to")}</Head>
             <ul className="mt-4 flex flex-wrap gap-2">
               {openTo.map((o, i) => (
                 <li key={o} className={cx("rounded-full px-4 py-2 font-disp text-[15px] font-medium", CHIP[i % 4])}>
@@ -95,14 +123,8 @@ export default function AboutR() {
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-
-        <div className="rv mt-[clamp(40px,5vw,64px)] flex justify-center">
-          <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag")}>
-            {t("Descargar CV ↓", "Download CV ↓")}
-          </a>
-        </div>
+          </li>
+        </ol>
       </div>
     </section>
   );

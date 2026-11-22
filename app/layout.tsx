@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
+import { Fraunces, Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -11,8 +11,8 @@ const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
 /** Texto con grano ("Gabriel" gigante y la intro) */
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: "800" });
-/** Nombres de los proyectos (serif fina) */
-const serif = Cormorant_Garamond({ variable: "--font-cormorant", subsets: ["latin"], weight: ["300", "400"] });
+/** Serif clásica: nombres de los proyectos y palabras en cursiva de los títulos */
+const serif = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
