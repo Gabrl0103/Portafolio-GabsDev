@@ -375,9 +375,6 @@ export default function IntroScene() {
               className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0"
             >
               <span>Ing. de Software · Pasto</span>
-              <span className="max-[600px]:hidden">
-                Hecho con código, sin video
-              </span>
               <span>Sigue bajando ↓</span>
             </div>
           </div>

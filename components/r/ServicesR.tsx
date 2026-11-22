@@ -40,15 +40,17 @@ export default function ServicesR() {
             return (
               <li
                 key={s.title}
-                data-a="blur"
+                data-a={wide ? "scale" : i % 2 ? "right" : "left"}
                 style={
                   {
                     "--c": COLORS[i % COLORS.length],
-                    transitionDelay: `${(i % 2) * 0.08}s`,
+                    "--d": `${i * 0.1}s`,
+                    // Entrada escalonada (opacidad, desplazamiento y desenfoque) sin retrasar el hover
+                    transition: `opacity .9s ease ${i * 0.1}s, transform 1.2s var(--ease-expo) ${i * 0.1}s, filter 1s ease ${i * 0.1}s, border-color .5s, translate .5s var(--ease-expo)`,
                   } as React.CSSProperties
                 }
                 className={cx(
-                  "rv group relative flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] transition-[border-color,translate] duration-500 ease-expo hover:-translate-y-1 hover:border-(--c)",
+                  "rv group relative flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] blur-[6px] hover:-translate-y-1 hover:border-(--c) [&.vis]:blur-none",
                   wide ? "col-span-2 max-[900px]:col-span-1" : "min-h-[340px]",
                 )}
               >
@@ -76,8 +78,14 @@ export default function ServicesR() {
                         className="flex flex-wrap items-center gap-2"
                         aria-label="Con qué lo hago"
                       >
-                        {s.tools.map((t) => (
-                          <li key={t.name} className="group/tool relative">
+                        {s.tools.map((t, k) => (
+                          <li
+                            key={t.name}
+                            style={{
+                              transitionDelay: `calc(var(--d) + ${0.45 + k * 0.06}s)`,
+                            }}
+                            className="group/tool relative translate-y-3 scale-75 opacity-0 transition-[opacity,translate,scale] duration-700 ease-back in-[.vis]:translate-y-0 in-[.vis]:scale-100 in-[.vis]:opacity-100"
+                          >
                             {/* Al pasar el cursor (o con el teclado) aparece el nombre de la tecnología */}
                             <span
                               tabIndex={0}
@@ -114,10 +122,13 @@ export default function ServicesR() {
                       className="flex flex-wrap gap-2 md:justify-end"
                       aria-label="Incluye"
                     >
-                      {s.items.map((it) => (
+                      {s.items.map((it, k) => (
                         <li
                           key={it}
-                          className="rounded-full border border-line px-4 py-2 font-disp text-sm font-medium"
+                          style={{
+                            transitionDelay: `calc(var(--d) + ${0.6 + k * 0.07}s)`,
+                          }}
+                          className="translate-y-2 rounded-full border border-line px-4 py-2 font-disp text-sm font-medium opacity-0 transition-[opacity,translate] duration-600 ease-expo in-[.vis]:translate-y-0 in-[.vis]:opacity-100"
                         >
                           {it}
                         </li>
@@ -130,10 +141,13 @@ export default function ServicesR() {
                     className="mt-auto flex flex-wrap gap-2 pt-7"
                     aria-label="Incluye"
                   >
-                    {s.items.map((it) => (
+                    {s.items.map((it, k) => (
                       <li
                         key={it}
-                        className="rounded-full border border-line px-4 py-2 font-disp text-sm font-medium"
+                        style={{
+                          transitionDelay: `calc(var(--d) + ${0.6 + k * 0.07}s)`,
+                        }}
+                        className="translate-y-2 rounded-full border border-line px-4 py-2 font-disp text-sm font-medium opacity-0 transition-[opacity,translate] duration-600 ease-expo in-[.vis]:translate-y-0 in-[.vis]:opacity-100"
                       >
                         {it}
                       </li>
