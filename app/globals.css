@@ -81,6 +81,23 @@
     animation: none;
   }
 }
+/* Borde de las tarjetas de Servicios: la pana nítida solo en la orilla, desvaneciéndose hacia adentro */
+@utility pana-edge {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url(/img/pana.jpg), url(/img/pana.jpg);
+  background-size: 560px, 720px;
+  background-blend-mode: screen;
+  animation: pana 80s linear infinite;
+  opacity: 0.35;
+  mask-image:
+    linear-gradient(90deg, #000, transparent 38px, transparent calc(100% - 38px), #000),
+    linear-gradient(#000, transparent 38px, transparent calc(100% - 38px), #000);
+  [data-theme="light"] & { display: none; }
+}
 @keyframes pana {
   to { background-position: 0 560px, 0 -720px; }
 }
