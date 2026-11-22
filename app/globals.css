@@ -81,6 +81,38 @@
     animation: none;
   }
 }
+/*
+ * Tarjetas de Servicios (tema oscuro), sin depender del desenfoque del navegador:
+ * pana-soft: la pana muy desenfocada, nubes suaves que se mueven.
+ * pana-rayas: la pana nítida y casi transparente, las rayas finas que se alcanzan a ver.
+ */
+@utility pana-soft {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url(/img/pana-suave.jpg), url(/img/pana-suave.jpg);
+  background-size: 560px, 720px;
+  background-blend-mode: overlay;
+  animation: pana 80s linear infinite;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  [data-theme="light"] & { display: none; }
+}
+@utility pana-rayas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url(/img/pana.jpg), url(/img/pana.jpg);
+  background-size: 560px, 720px;
+  background-blend-mode: screen;
+  animation: pana 80s linear infinite;
+  opacity: 0.1;
+  [data-theme="light"] & { display: none; }
+}
 @keyframes pana {
   to { background-position: 0 560px, 0 -720px; }
 }

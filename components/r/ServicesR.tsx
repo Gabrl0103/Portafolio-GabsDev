@@ -27,7 +27,7 @@ const brand = (n: TechIconName) => {
 export default function ServicesR() {
   const odd = services.length % 2 === 1;
   return (
-    <section id="servicios" className="tx pana [--txk:1.4] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="tx pana [--txk:1] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> Servicios
@@ -50,7 +50,7 @@ export default function ServicesR() {
                   } as React.CSSProperties
                 }
                 className={cx(
-                  "rv group relative flex flex-col rounded-[24px] border border-line bg-[rgba(28,22,34,.5)] backdrop-blur-[16px] light:bg-bg2 light:backdrop-blur-none p-[clamp(24px,2.6vw,38px)] blur-[6px] hover:-translate-y-1 hover:border-(--c) [&.vis]:blur-none",
+                  "rv group relative isolate flex flex-col rounded-[24px] border border-line bg-[rgba(30,30,32,.9)] light:bg-bg2 p-[clamp(24px,2.6vw,38px)] blur-[6px] hover:-translate-y-1 hover:border-(--c) [&.vis]:blur-none",
                   wide ? "col-span-2 max-[900px]:col-span-1" : "min-h-[340px]",
                 )}
               >
@@ -66,6 +66,9 @@ export default function ServicesR() {
                     )}
                   />
                 )}
+                {/* Pana viva dentro de la tarjeta: nubes desenfocadas y rayas finas */}
+                <span aria-hidden="true" className="pana-soft" />
+                <span aria-hidden="true" className="pana-rayas" />
                 <div
                   className={cx(
                     wide &&
