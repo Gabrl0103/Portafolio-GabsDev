@@ -67,7 +67,8 @@
     background-size: 560px;
     opacity: calc(var(--txo) * var(--txk, 1.5));
     mix-blend-mode: var(--txb);
-    mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+    /* Entra y sale con un fundido largo, para que no se note dónde empieza la sección */
+    mask-image: linear-gradient(180deg, transparent, #000 min(34%, 340px), #000 max(66%, calc(100% - 340px)), transparent);
   }
 }
 /*
