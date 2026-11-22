@@ -62,7 +62,7 @@ const TAGS = [
 ];
 
 const STATEMENT =
-  "Soy Gabs, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
+  "Soy Gabriel (Gabs), estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
 
 /* Tramos de la escena (0 → 1 a lo largo del scroll) */
 const OPEN = 0.36; // la ventana termina de abrirse a pantalla completa
