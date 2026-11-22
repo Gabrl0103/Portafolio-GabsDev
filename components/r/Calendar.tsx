@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { site } from "@/data/site";
+import { useLang, useT } from "@/lib/i18n";
 import { cx } from "../ui";
 import { btn, btnF } from "./btn";
 import { copyText } from "./theme";
 
-const MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-const TIMES = ["9:00 a. m.", "10:00 a. m.", "11:00 a. m.", "2:00 p. m.", "3:00 p. m.", "4:00 p. m."];
-const KINDS = ["Charla de 30 min", "Proyecto web", "Colaboración"];
+const TIMES = ["9:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
+const KINDS: [string, string][] = [
+  ["Charla de 30 min", "30-min chat"],
+  ["Proyecto web", "Web project"],
+  ["Colaboración", "Collaboration"],
+];
 const KIND_COLORS = ["var(--olive)", "var(--cream)", "var(--orange)"];
-const DAYS = ["L", "M", "M", "J", "V", "S", "D"];
 
 export const chip = (on: boolean) =>
   cx(
@@ -26,16 +29,24 @@ export function Step({ n, children }: { n: number; children: React.ReactNode }) 
   );
 }
 
-const fmt = (d: Date) => d.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
 
 /** Agenda una llamada: tipo, día (hasta 3 meses, sin fines de semana), hora y nombre. Prepara el mensaje para enviarlo por correo. */
 export default function Calendar() {
+  const t = useT();
+  const lang = useLang();
+  const locale = lang === "en" ? "en-US" : "es-CO";
+  const fmt = (d: Date) => d.toLocaleDateString(locale, { weekday: "long", day: "numeric", month: "long" });
+  const monthName = (m: number) => new Date(2026, m, 1).toLocaleDateString(locale, { month: "long" });
+  // Lunes a domingo, con la inicial del día en el idioma actual
+  const days = Array.from({ length: 7 }, (_, i) => new Date(2024, 0, 1 + i).toLocaleDateString(locale, { weekday: "narrow" }).toUpperCase());
+  const kinds = KINDS.map(([es, en]) => t(es, en));
   const [today] = useState(() => {
     const n = new Date();
     return new Date(n.getFullYear(), n.getMonth(), n.getDate());
   });
   const [view, setView] = useState(() => ({ y: today.getFullYear(), m: today.getMonth() }));
-  const [kind, setKind] = useState(KINDS[0]);
+  const [kindI, setKindI] = useState(0);
+  const kind = kinds[kindI];
   const [day, setDay] = useState<Date | null>(null);
   const [time, setTime] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -49,7 +60,12 @@ export default function Calendar() {
 
   const prepare = () => {
     if (!day || !time || !name.trim()) return;
-    setMsg(`Hola ${site.name}, soy ${name.trim()}. Quisiera agendar una ${kind.toLowerCase()} el ${fmt(day)} a las ${time} (hora de Colombia).`);
+    setMsg(
+      t(
+        `Hola ${site.name}, soy ${name.trim()}. Quisiera agendar una ${kind.toLowerCase()} el ${fmt(day)} a las ${time} (hora de Colombia).`,
+        `Hi ${site.name}, I'm ${name.trim()}. I'd like to book a ${kind.toLowerCase()} on ${fmt(day)} at ${time} (Colombia time).`,
+      ),
+    );
     setCopied(false);
   };
 
@@ -57,29 +73,29 @@ export default function Calendar() {
 
   return (
     <div>
-      <Step n={1}>Tipo de llamada</Step>
+      <Step n={1}>{t("Tipo de llamada", "Type of call")}</Step>
       <div className="flex flex-wrap gap-2">
-        {KINDS.map((k, i) => (
-          <button key={k} type="button" aria-pressed={kind === k} onClick={() => setKind(k)} style={{ "--c": KIND_COLORS[i] } as React.CSSProperties} className={chip(kind === k)}>
+        {kinds.map((k, i) => (
+          <button key={k} type="button" aria-pressed={kindI === i} onClick={() => setKindI(i)} style={{ "--c": KIND_COLORS[i] } as React.CSSProperties} className={chip(kindI === i)}>
             {k}
           </button>
         ))}
       </div>
 
-      <Step n={2}>Elige el día</Step>
+      <Step n={2}>{t("Elige el día", "Pick a day")}</Step>
       <div className="mb-2.5 flex items-center justify-between">
-        <button type="button" aria-label="Mes anterior" disabled={offset <= 0} onClick={() => move(-1)} className={navBtn}>
+        <button type="button" aria-label={t("Mes anterior", "Previous month")} disabled={offset <= 0} onClick={() => move(-1)} className={navBtn}>
           ←
         </button>
         <b className="font-disp text-lg font-medium tracking-[-.02em] capitalize" aria-live="polite">
-          {MONTHS[view.m]} {view.y}
+          {monthName(view.m)} {view.y}
         </b>
-        <button type="button" aria-label="Mes siguiente" disabled={offset >= 3} onClick={() => move(1)} className={navBtn}>
+        <button type="button" aria-label={t("Mes siguiente", "Next month")} disabled={offset >= 3} onClick={() => move(1)} className={navBtn}>
           →
         </button>
       </div>
       <div className="grid grid-cols-7 gap-1">
-        {DAYS.map((d, i) => (
+        {days.map((d, i) => (
           <span key={i} className="py-1 text-center font-mono text-[11px] font-medium text-mut">
             {d}
           </span>
@@ -118,7 +134,7 @@ export default function Calendar() {
 
       {day && (
         <>
-          <Step n={3}>Hora (Colombia, UTC−5)</Step>
+          <Step n={3}>{t("Hora (Colombia, UTC−5)", "Time (Colombia, UTC−5)")}</Step>
           <div className="flex flex-wrap gap-2">
             {TIMES.map((t) => (
               <button
@@ -141,15 +157,15 @@ export default function Calendar() {
 
       {day && time && (
         <>
-          <Step n={4}>Tu nombre</Step>
+          <Step n={4}>{t("Tu nombre", "Your name")}</Step>
           <label htmlFor="cal-name" className="sr-only">
-            Nombre y apellido
+            {t("Nombre y apellido", "Full name")}
           </label>
           <input
             id="cal-name"
             type="text"
             required
-            placeholder="Nombre y apellido"
+            placeholder={t("Nombre y apellido", "Full name")}
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -157,7 +173,7 @@ export default function Calendar() {
             className="h-[46px] w-full rounded-xl border border-line bg-[rgba(var(--fgr),.05)] px-4 text-base text-fg focus:outline-2 focus:outline-offset-2 focus:outline-orange"
           />
           <button type="button" disabled={!name.trim()} onClick={prepare} className={cx(btnF, "mt-[18px] h-[52px] w-full justify-center disabled:pointer-events-none disabled:opacity-35")}>
-            Preparar solicitud
+            {t("Preparar solicitud", "Prepare request")}
           </button>
         </>
       )}
@@ -174,13 +190,13 @@ export default function Calendar() {
                 }}
                 className={cx(btn, "h-10")}
               >
-                {copied ? "¡Copiado!" : "Copiar mensaje"}
+                {copied ? t("¡Copiado!", "Copied!") : t("Copiar mensaje", "Copy message")}
               </button>
-              <a href={`mailto:${site.email}?subject=${encodeURIComponent(`Llamada: ${kind}`)}&body=${encodeURIComponent(msg)}`} className={cx(btnF, "h-10")}>
-                Abrir en mi correo
+              <a href={`mailto:${site.email}?subject=${encodeURIComponent(t(`Llamada: ${kind}`, `Call: ${kind}`))}&body=${encodeURIComponent(msg)}`} className={cx(btnF, "h-10")}>
+                {t("Abrir en mi correo", "Open in my email")}
               </a>
             </div>
-            <small className="mt-2.5 block text-mut">Esto no envía nada por sí solo: copia el mensaje o ábrelo en tu correo para mandarlo.</small>
+            <small className="mt-2.5 block text-mut">{t("Esto no envía nada por sí solo: copia el mensaje o ábrelo en tu correo para mandarlo.", "This doesn't send anything by itself: copy the message or open it in your email to send it.")}</small>
           </div>
         )}
       </div>

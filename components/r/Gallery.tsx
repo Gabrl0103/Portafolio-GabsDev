@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 import type { ProjectMedia } from "@/types";
 import { cx } from "../ui";
 
@@ -52,6 +53,7 @@ function thumb(m: ProjectMedia) {
  * los verticales se limitan en alto y quedan centrados.
  */
 export default function Gallery({ media }: { media: ProjectMedia[] }) {
+  const t = useT();
   const [i, setI] = useState(0);
   const cur = media[Math.min(i, media.length - 1)];
   const ratio = cur.ratio ?? (cur.type === "youtube" ? 16 / 9 : 16 / 10);
@@ -70,7 +72,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
       {media.length > 1 && (
         <ul
           className="mt-3 flex justify-center gap-2 overflow-x-auto pb-1"
-          aria-label="Capturas y videos"
+          aria-label={t("Capturas y videos", "Screenshots and videos")}
         >
           {media.map((m, k) => {
             const src = thumb(m);
@@ -78,7 +80,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
               <li key={k} className="shrink-0">
                 <button
                   type="button"
-                  aria-label={`Ver: ${m.alt}`}
+                  aria-label={t(`Ver: ${m.alt}`, `View: ${m.alt}`)}
                   aria-pressed={k === i}
                   onClick={() => setI(k)}
                   className={cx(

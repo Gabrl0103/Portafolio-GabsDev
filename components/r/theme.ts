@@ -65,10 +65,13 @@ export function scrollToSection(id: string) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (id === "inicio")
     scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  else
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  else {
+    const el = document.getElementById(id);
+    if (!el) return;
+    // Con el relleno de la sección descontado, la etiqueta (01)… queda a 110 px del borde de arriba
+    const top = el.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(el).paddingTop) - 110;
+    scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+  }
 }
 
 /** Copia texto al portapapeles y avisa si funcionó. */

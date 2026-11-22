@@ -2,19 +2,22 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { experience } from "@/data/experience";
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import { cx } from "../ui";
 import { lab } from "./btn";
 import RollText from "./RollText";
 import SplitTitle from "./SplitTitle";
 
 const GROUPS = [
-  { kind: "laboral", title: "Experiencia laboral", c: "var(--orange)" },
-  { kind: "academica", title: "Experiencia académica", c: "var(--olive)" },
+  { kind: "laboral", title: "Experiencia laboral", en: "Work experience", c: "var(--orange)" },
+  { kind: "academica", title: "Experiencia académica", en: "Education", c: "var(--olive)" },
 ] as const;
 
 /** Experiencia: línea de tiempo vertical en dos partes (laboral y académica), sobre la textura de leopardo y los tigres. */
 export default function ExperienceR() {
+  const t = useT();
+  const { experience } = useContent();
   const wrap = useRef<HTMLDivElement>(null);
   const tigers = useRef<HTMLDivElement>(null);
 
@@ -38,7 +41,7 @@ export default function ExperienceR() {
   return (
     <section
       id="experiencia"
-      className="tx overflow-x-clip bg-[linear-gradient(180deg,transparent,#121014_22%,#121014_78%,transparent)] pb-[clamp(90px,11vw,170px)] [--tx:url(/img/boucle.jpg)] [--txk:2] light:bg-none light:[--txk:1.1]"
+      className="tx overflow-x-clip bg-[linear-gradient(180deg,transparent,#121014_30%,#121014_70%,transparent)] py-[clamp(90px,11vw,170px)] [--tx:url(/img/boucle.jpg)] [--txk:2] light:bg-none light:[--txk:.75]"
     >
       <div ref={wrap} className="wrap relative isolate">
         <div
@@ -56,9 +59,9 @@ export default function ExperienceR() {
         </div>
 
         <div className={cx(lab, "rv")}>
-          <b>(05)</b> Experiencia académica y laboral
+          <b>(05)</b> {t("Experiencia académica y laboral", "Education and work experience")}
         </div>
-        <SplitTitle lines={["Dónde", "he estado"]} className="mt-[22px]" />
+        <SplitTitle lines={[t("Dónde", "Where"), t("he estado", "I've been")]} className="mt-[22px]" />
 
         {/* Línea de tiempo en dos partes: académica y laboral, de lo más reciente a lo más antiguo */}
         <div className="mt-[clamp(40px,6vw,80px)] grid grid-cols-2 gap-x-[clamp(30px,5vw,90px)] gap-y-14 max-[900px]:grid-cols-1">
@@ -70,7 +73,7 @@ export default function ExperienceR() {
                   className="size-2.5 rounded-full"
                   style={{ background: g.c }}
                 />
-                {g.title}
+                {t(g.title, g.en)}
               </h3>
               <ol className="relative mt-6 border-l-2 border-line pl-[clamp(24px,2.6vw,38px)]">
                 {experience
@@ -92,7 +95,7 @@ export default function ExperienceR() {
                         aria-hidden="true"
                         className={cx(
                           "absolute top-[.45em] -left-[calc(clamp(24px,2.6vw,38px)+7px)] size-3 rounded-full border-2 border-bg bg-(--pa) transition-transform duration-500 ease-back group-hover:scale-150",
-                          e.end === "Hoy" &&
+                          (e.end === "Hoy" || e.end === "Present") &&
                             "after:absolute after:-inset-1 after:animate-ping after:rounded-full after:bg-(--pa) after:opacity-40",
                         )}
                       />

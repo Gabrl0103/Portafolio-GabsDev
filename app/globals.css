@@ -2,12 +2,13 @@
 /* Configuración de colores: paleta y tema claro/oscuro */
 @import "../styles/colors.css";
 
-/* Familias: font-sans (texto), font-disp (títulos), font-mono (etiquetas), font-grain (texto con grano) */
+/* Familias: font-sans (texto), font-disp (títulos), font-mono (etiquetas), font-grain (texto con grano), font-serif (nombres de proyectos) */
 @theme inline {
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-disp: var(--font-tight), var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --font-grain: var(--font-outfit), "Arial Black", system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
 }
 
 /* Tema claro como variante: light:hidden… */
@@ -25,10 +26,6 @@
   @keyframes brillo {
     0%, 100% { opacity: 0.7; scale: 0.94; }
     50% { opacity: 1; scale: 1.04; }
-  }
-  @keyframes subir {
-    from { transform: translateY(105%); }
-    to { transform: none; }
   }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
@@ -70,7 +67,8 @@
     background-size: 560px;
     opacity: calc(var(--txo) * var(--txk, 1.5));
     mix-blend-mode: var(--txb);
-    mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+    /* Entra y sale con un fundido largo, para que no se note dónde empieza la sección */
+    mask-image: linear-gradient(180deg, transparent, #000 min(34%, 340px), #000 max(66%, calc(100% - 340px)), transparent);
   }
 }
 /*
@@ -146,8 +144,6 @@
   &[data-a="blur"] { filter: blur(18px); transform: scale(0.94); }
   &[data-a="scale"] { transform: scale(0.86); }
   &[data-a="clip"] { opacity: 1; transform: none; clip-path: inset(0 0 99.6% 0); }
-  /* Capítulos de Proyectos: la tarjeta se abre desde el centro */
-  &[data-a="chap"] { opacity: 1; transform: none; clip-path: inset(9% 7% 9% 7% round 26px); }
   &.vis { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 0 0); }
 }
 

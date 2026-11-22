@@ -1,6 +1,7 @@
 "use client";
 
 import { site } from "@/data/site";
+import { useLang, useT } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { grain } from "@/lib/grain";
 
@@ -25,6 +26,8 @@ const go = () => document.documentElement.classList.add("go");
  * salen disparadas hacia afuera desde el centro. Se ve solo la primera vez de cada visita.
  */
 export default function CardIntro() {
+  const t = useT();
+  const lang = useLang();
   const box = useRef<HTMLDivElement>(null);
   const [done, setDone] = useState(false);
   const skipRef = useRef<() => void>(() => {});
@@ -79,8 +82,8 @@ export default function CardIntro() {
             t < 0.45
               ? `<img alt="" src="${two[ci]}" style="position:absolute;left:7%;bottom:6%;height:76%">`
               : t < 0.8
-                ? `<img alt="" src="${name[ci]}" style="position:absolute;left:7%;top:6%;width:86%"><div style="${mono};left:7%;top:30%">estudiante<br>ing. de software<br>pasto, colombia</div><div style="${mono};left:7%;right:7%;bottom:6%;display:flex;justify-content:space-between"><span>portafolio</span><span>2026</span></div>`
-                : `<div style="${mono};left:7%;right:7%;bottom:6%;display:flex;justify-content:space-between"><span>ing.</span><span>software</span><span>2:22</span></div>`;
+                ? `<img alt="" src="${name[ci]}" style="position:absolute;left:7%;top:6%;width:86%"><div style="${mono};left:7%;top:30%">${lang === "en" ? "student<br>software eng.<br>pasto, colombia" : "estudiante<br>ing. de software<br>pasto, colombia"}</div><div style="${mono};left:7%;right:7%;bottom:6%;display:flex;justify-content:space-between"><span>${lang === "en" ? "portfolio" : "portafolio"}</span><span>2026</span></div>`
+                : `<div style="${mono};left:7%;right:7%;bottom:6%;display:flex;justify-content:space-between"><span>${lang === "en" ? "soft." : "ing."}</span><span>${lang === "en" ? "eng." : "software"}</span><span>2:22</span></div>`;
           els.push({ el, r: rot, x: x + cw / 2, y: y + ch / 2 });
         }
       els.sort(() => Math.random() - 0.5).forEach((e) => intro.appendChild(e.el));
@@ -125,18 +128,18 @@ export default function CardIntro() {
       timers.forEach(clearTimeout);
       removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [lang]);
 
   if (done) return null;
   return (
     <>
-      <div ref={box} role="button" aria-label="Entrar al portafolio" onClick={() => skipRef.current()} className="fixed inset-0 z-[500] cursor-pointer overflow-hidden bg-bg" />
+      <div ref={box} role="button" aria-label={t("Entrar al portafolio", "Enter the portfolio")} onClick={() => skipRef.current()} className="fixed inset-0 z-[500] cursor-pointer overflow-hidden bg-bg" />
       <button
         type="button"
         onClick={() => skipRef.current()}
         className="fixed right-[max(20px,env(safe-area-inset-right,0px))] bottom-[22px] z-[510] cursor-pointer rounded-full border border-white/40 bg-black/35 px-4 py-2.5 font-mono text-xs font-medium tracking-[.14em] text-white uppercase backdrop-blur-md"
       >
-        Saltar intro
+        {t("Saltar intro", "Skip intro")}
       </button>
     </>
   );

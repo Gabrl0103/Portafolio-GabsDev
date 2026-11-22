@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { site } from "@/data/site";
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import Clock from "../Clock";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
@@ -62,6 +63,8 @@ const TAGS = [
 
 const STATEMENT =
   "Soy Gabriel, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
+const STATEMENT_EN =
+  "I'm Gabriel, a Software Engineering student at Universidad Cooperativa de Colombia in Pasto. I build desktop, Android, Wear OS and web apps, and I run Neveo's marketing and social media.";
 
 /* Tramos de la escena (0 → 1 a lo largo del scroll) */
 const OPEN = 0.36; // la ventana termina de abrirse a pantalla completa
@@ -75,10 +78,12 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /** Tu foto en Acerca de mí; mientras no exista, un marcador sobre el leopardo. */
 function Portrait() {
+  const t = useT();
+  const { site } = useContent();
   return site.portrait ? (
     <Image
       src={site.portrait}
-      alt={`Foto de ${site.name}`}
+      alt={t(`Foto de ${site.name}`, `Photo of ${site.name}`)}
       fill
       sizes="(max-width: 900px) 45vw, 35vw"
       className="object-cover"
@@ -121,6 +126,10 @@ function WindowContent() {
  * al bajar y luego se encoge hasta quedar junto al texto de Acerca de mí.
  */
 export default function IntroScene() {
+  const t = useT();
+  const { site, sections } = useContent();
+  const label = (id: string) => sections.find((s) => s.id === id)?.label ?? id;
+  const statement = t(STATEMENT, STATEMENT_EN);
   const [still, setStill] = useState(false);
   const scene = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -137,7 +146,7 @@ export default function IntroScene() {
   const stmt = useRef<HTMLParagraphElement>(null);
   const fades = useRef<(HTMLElement | null)[]>([]);
   const tags = useRef<(HTMLAnchorElement | null)[]>([]);
-  const words = STATEMENT.split(/\s+/);
+  const words = statement.split(/\s+/);
 
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -284,10 +293,10 @@ export default function IntroScene() {
               className="font-disp text-[clamp(34px,6.4vw,100px)] leading-none font-medium tracking-[-.045em] whitespace-nowrap will-change-transform"
             >
               <span className={word} style={{ transitionDelay: ".1s" }}>
-                Hola,
+                {t("Hola,", "Hi,")}
               </span>{" "}
               <span className={word} style={{ transitionDelay: ".2s" }}>
-                soy
+                {t("soy", "I'm")}
               </span>
               {/* Hueco de la ventana: de aquí sale la foto al bajar */}
               <span
@@ -320,9 +329,9 @@ export default function IntroScene() {
               )}
               style={{ transitionDelay: ".7s" }}
             >
-              Estudiante de Ingeniería de Software. Construyo{" "}
+              {t("Estudiante de Ingeniería de Software. Construyo", "Software Engineering student. I build")}{" "}
               <mark className="bg-transparent text-olive">
-                apps de escritorio, Android, Wear OS y web
+                {t("apps de escritorio, Android, Wear OS y web", "desktop, Android, Wear OS and web apps")}
               </mark>
               .
             </p>
@@ -332,37 +341,37 @@ export default function IntroScene() {
               className={cx(btnF, "mag", fade)}
               style={{ transitionDelay: ".9s" }}
             >
-              Descargar CV ↓
+              {t("Descargar CV ↓", "Download CV ↓")}
             </a>
           </div>
 
           {/* En celulares bajitos o muy angostos no caben sin tapar el texto */}
           <div className="pointer-events-none absolute inset-0 z-[3] max-[360px]:hidden [@media(max-width:900px)_and_(max-height:760px)]:hidden">
-            {TAGS.map((t, i) => (
+            {TAGS.map((tag, i) => (
               <a
-                key={t.id}
+                key={tag.id}
                 ref={(el) => void (tags.current[i] = el)}
-                href={`#${t.id}`}
+                href={`#${tag.id}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToSection(t.id);
+                  scrollToSection(tag.id);
                 }}
                 style={
                   {
-                    rotate: t.r,
-                    "--d": t.d,
-                    animationDelay: t.dl,
-                    transitionDelay: t.w,
+                    rotate: tag.r,
+                    "--d": tag.d,
+                    animationDelay: tag.dl,
+                    transitionDelay: tag.w,
                   } as React.CSSProperties
                 }
                 className={cx(
                   "pointer-events-auto absolute flex aspect-[1.55/1] w-[clamp(150px,15.5vw,236px)] animate-bob items-end justify-between rounded-[0_0_clamp(34px,3.8vw,62px)_0] px-[clamp(14px,1.4vw,22px)] py-[clamp(12px,1.2vw,18px)] font-disp text-[clamp(14px,1.15vw,17px)] font-medium opacity-0 [transform:scale(.6)] [transition:opacity_.7s,transform_1s_cubic-bezier(.3,1.6,.5,1)] in-[.go]:opacity-100 in-[.go]:[transform:none] hover:[transform:translateY(-8px)_rotate(-3deg)] max-[900px]:w-[150px]",
-                  t.c,
-                  t.pos,
+                  tag.c,
+                  tag.pos,
                 )}
               >
-                <span>{t.label}</span>
-                <span>{t.n}</span>
+                <span>{label(tag.id)}</span>
+                <span>{tag.n}</span>
               </a>
             ))}
           </div>
@@ -382,8 +391,8 @@ export default function IntroScene() {
               ref={caps}
               className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0"
             >
-              <span>Ing. de Software · Pasto</span>
-              <span>Sigue bajando ↓</span>
+              <span>{t("Ing. de Software · Pasto", "Software Eng. · Pasto")}</span>
+              <span>{t("Sigue bajando ↓", "Keep scrolling ↓")}</span>
             </div>
           </div>
         )}
@@ -403,11 +412,11 @@ export default function IntroScene() {
             <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(0,.8fr)] items-center gap-[clamp(30px,6vw,110px)] max-[900px]:grid-cols-[1fr_40%] max-[900px]:items-start max-[900px]:gap-x-4 max-[900px]:gap-y-6">
               <div className="max-[900px]:col-span-2 max-[900px]:row-start-2">
                 <div className={cx(lab, "max-[900px]:hidden")}>
-                  <b>(01)</b> Acerca de mí
+                  <b>(01)</b> {label("acerca")}
                 </div>
                 <p
                   ref={stmt}
-                  aria-label={STATEMENT}
+                  aria-label={statement}
                   className="mt-8 font-disp text-[clamp(26px,3.7vw,58px)] leading-[1.08] font-medium tracking-[-.04em] text-pretty max-[900px]:mt-0 max-[900px]:text-[clamp(22px,6.4vw,30px)]"
                 >
                   {words.map((w, i) => (
@@ -431,7 +440,7 @@ export default function IntroScene() {
                     "hidden max-[900px]:flex max-[900px]:self-start",
                   )}
                 >
-                  <b>(01)</b> Acerca de mí
+                  <b>(01)</b> {label("acerca")}
                 </div>
                 {/* Lugar donde se acomoda la ventana */}
                 <div

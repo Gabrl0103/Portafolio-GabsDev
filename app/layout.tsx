@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -11,6 +11,8 @@ const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
 /** Texto con grano ("Gabriel" gigante y la intro) */
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: "800" });
+/** Nombres de los proyectos (serif fina) */
+const serif = Cormorant_Garamond({ variable: "--font-cormorant", subsets: ["latin"], weight: ["300", "400"] });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
@@ -37,7 +39,7 @@ const themeScript = `(function(){var r=document.documentElement;r.classList.add(
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${inter.variable} ${tight.variable} ${mono.variable} ${outfit.variable}`} suppressHydrationWarning>
+    <html lang="es" className={`${inter.variable} ${tight.variable} ${mono.variable} ${outfit.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
