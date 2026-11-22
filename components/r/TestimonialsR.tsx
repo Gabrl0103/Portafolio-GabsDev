@@ -11,7 +11,7 @@ const CARDS = ["bg-olive text-pill", "bg-cream text-pill", "bg-orange text-white
 /** Testimonios: tarjetas que se apilan al bajar (sticky). */
 export default function TestimonialsR() {
   return (
-    <section id="testimonios" className="py-[clamp(90px,11vw,170px)]">
+    <section id="testimonios" className="glow [--gc:var(--cream)] [--gx:50%] [--gy:0%] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(04)</b> Testimonios

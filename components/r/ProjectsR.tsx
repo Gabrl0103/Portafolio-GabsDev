@@ -93,7 +93,7 @@ export default function ProjectsR() {
   }, []);
 
   return (
-    <section id="proyectos" className="pt-[clamp(40px,6vw,90px)] pb-[clamp(90px,11vw,170px)]">
+    <section id="proyectos" className="glow [--gx:92%] [--gy:4%] pt-[clamp(40px,6vw,90px)] pb-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className="mt-7 flex items-end justify-between gap-5">
           <div>

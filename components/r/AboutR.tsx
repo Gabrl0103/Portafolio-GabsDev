@@ -45,7 +45,7 @@ function ProjectLinks({ ids }: { ids: string[] }) {
  */
 export default function AboutR() {
   return (
-    <section aria-label="Más sobre mí" className="pt-2 pb-[clamp(90px,11vw,170px)]">
+    <section aria-label="Más sobre mí" className="glow [--gc:var(--olive)] [--gx:6%] [--gy:30%] pt-2 pb-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <ul data-a="clip" className="rv grid grid-cols-3 border-y border-line max-[700px]:grid-cols-1" aria-label="En números">
           {stats.map((s, i) => (
