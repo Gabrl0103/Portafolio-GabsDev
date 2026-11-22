@@ -38,7 +38,7 @@ export default function ExperienceR() {
   return (
     <section
       id="experiencia"
-      className="glow relative isolate overflow-x-clip pb-[clamp(90px,11vw,170px)] [--gx:8%] [--gy:18%]"
+      className="tx overflow-x-clip bg-[#1a1322] pb-[clamp(90px,11vw,170px)] [--tx:url(/img/boucle.jpg)] [--txk:1.6] light:bg-transparent light:[--txk:1.1]"
     >
       <div ref={wrap} className="wrap relative isolate">
         <div
