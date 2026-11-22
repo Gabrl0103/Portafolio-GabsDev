@@ -56,12 +56,19 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: var(--tx, url(/img/cuero.jpg));
+    background-image: var(--tx, var(--tex));
     background-size: 560px;
-    opacity: var(--txo);
+    opacity: calc(var(--txo) * var(--txk, 1.5));
     mix-blend-mode: var(--txb);
     mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
   }
+}
+/*
+ * Luz de color suave en una esquina de las secciones lisas (Ritmo: liso con grano y luz / textura).
+ * --gx --gy: posición · --gc: color de acento
+ */
+@utility glow {
+  background: radial-gradient(900px 540px at var(--gx, 90%) var(--gy, 0%), color-mix(in srgb, var(--gc, var(--orange)) 9%, transparent), transparent 70%);
 }
 /* Aparece al entrar en pantalla (Reveal.tsx añade .vis). Variantes con data-a */
 @utility rv {
@@ -95,16 +102,16 @@
     --leo: url(/img/leopardo.jpg);
     --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
-  /* Grano de película sobre todo el sitio */
+  /* Grano fino sobre todo el sitio (se ve igual en fondos claros y oscuros) */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 700;
     pointer-events: none;
-    opacity: 0.06;
-    mix-blend-mode: overlay;
-    background-image: var(--noise);
+    opacity: 0.1;
+    background-image: url(/img/grano.png);
+    background-size: 256px;
   }
   h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl { margin: 0; padding: 0; }
   ul, ol { list-style: none; }

@@ -131,9 +131,6 @@
     --tex: url(/img/atardecer/marmol.jpg);
     --leo: url(/img/atardecer/boucle.jpg);
   }
-  :root[data-design="atardecer"] .tx::before {
-    background-image: var(--tex) !important;
-  }
   :root[data-design="atardecer"] #inicio > .sticky {
     background: var(--sky);
   }
