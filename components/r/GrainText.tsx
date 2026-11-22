@@ -10,9 +10,12 @@ import { grain, rgbOf } from "@/lib/grain";
 export default function GrainText({
   text,
   className,
+  center = false,
 }: {
   text: string;
   className?: string;
+  /** Compensa el margen del grano a ambos lados para que el texto quede centrado */
+  center?: boolean;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -32,6 +35,7 @@ export default function GrainText({
       cv.style.height = `${src.height / dpr}px`;
       const p = Math.ceil(fs * 0.16) / dpr;
       cv.style.marginLeft = `${-p}px`;
+      if (center) cv.style.marginRight = `${-p}px`;
       cv.style.marginTop = `${-p - (fs * 0.08) / dpr}px`;
       cv.style.marginBottom = `${-p - (fs * 0.08) / dpr}px`;
     };
@@ -53,7 +57,7 @@ export default function GrainText({
       removeEventListener("resize", later);
       mo.disconnect();
     };
-  }, [text]);
+  }, [text, center]);
 
   return (
     <canvas

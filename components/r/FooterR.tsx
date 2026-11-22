@@ -4,7 +4,7 @@ import { sections, site } from "@/data/site";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
 
-/** Pie: "Gabriel" gigante con grano y, debajo, una franja a todo el ancho con enlaces rápidos, redes y volver arriba. */
+/** Pie: "Gabriel" gigante con grano, centrado, y debajo una franja a todo el ancho con enlaces rápidos, redes y volver arriba. */
 export default function FooterR() {
   const go = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -14,9 +14,9 @@ export default function FooterR() {
 
   return (
     <footer className="relative mt-[clamp(50px,8vw,110px)]">
-      <div className="wrap">
-        {/* El nombre ocupa todo el ancho y se apoya sobre la franja */}
-        <GrainText text={site.name} className="-mb-[.33em] block w-full text-[min(19.5vw,280px)] leading-none text-fg" />
+      <div className="wrap flex justify-center pb-[clamp(18px,2.4vw,40px)]">
+        {/* El nombre, centrado y completo, justo encima de la franja */}
+        <GrainText text={site.name} center className="text-[min(19.5vw,280px)] leading-none text-fg" />
       </div>
 
       <div className="relative z-[2] border-t border-line bg-bg">
