@@ -10,14 +10,7 @@ import Clock from "../Clock";
 import { cx } from "../ui";
 import GrainText from "./GrainText";
 import RollText from "./RollText";
-import {
-  copyText,
-  currentDesign,
-  scrollToSection,
-  setDesign,
-  toggleTheme,
-} from "./theme";
-import useDesign from "./useDesign";
+import { copyText, scrollToSection, toggleTheme } from "./theme";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const COLORS = ["var(--olive)", "var(--cream)", "var(--orange)"];
@@ -52,7 +45,6 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("");
   const [copied, setCopied] = useState(false);
-  const design = useDesign();
   const openRef = useRef(open);
   useEffect(() => {
     openRef.current = open;
@@ -84,29 +76,6 @@ export default function Nav() {
       if (el) io.observe(el);
     });
     return () => io.disconnect();
-  }, []);
-
-  // Easter egg: presionar "2" tres veces seguidas activa (o quita) el diseño Atardecer.
-  useEffect(() => {
-    let hits: number[] = [];
-    const onKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement | null;
-      if (e.key !== "2" || e.repeat || e.ctrlKey || e.metaKey || e.altKey)
-        return;
-      if (
-        t &&
-        (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
-      )
-        return;
-      const now = performance.now();
-      hits = [...hits.filter((h) => now - h < 1200), now];
-      if (hits.length >= 3) {
-        hits = [];
-        setDesign(currentDesign() === "atardecer" ? "original" : "atardecer");
-      }
-    };
-    addEventListener("keydown", onKey);
-    return () => removeEventListener("keydown", onKey);
   }, []);
 
   // Bloquea el scroll con el menú abierto y lo cierra con Escape.
@@ -279,43 +248,13 @@ export default function Nav() {
 
         <div className="mono absolute right-[max(20px,env(safe-area-inset-right,0px))] bottom-[calc(22px+env(safe-area-inset-bottom,0px))] left-[max(20px,env(safe-area-inset-left,0px))] flex items-center justify-between border-t border-line pt-4 text-soft">
           <Clock prefix="Pasto · " />
-          <div className="flex items-center gap-5">
-            {/* Diseño alternativo: solo se elige desde aquí */}
-            <div
-              role="group"
-              aria-label="Diseño"
-              className="flex items-center gap-1 rounded-full border border-line p-1"
-            >
-              {(
-                [
-                  ["original", "Original"],
-                  ["atardecer", "Atardecer"],
-                ] as const
-              ).map(([id, label]) => (
-                <button
-                  key={id}
-                  type="button"
-                  aria-pressed={design === id}
-                  onClick={() => setDesign(id)}
-                  className={cx(
-                    "mono cursor-pointer rounded-full border-0 px-3 py-1.5 transition-colors duration-300",
-                    design === id
-                      ? "bg-fg text-bg"
-                      : "bg-transparent text-soft hover:text-fg",
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="flex cursor-pointer items-center gap-2 border-0 bg-transparent"
-            >
-              ◐ Tema
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex cursor-pointer items-center gap-2 border-0 bg-transparent"
+          >
+            ◐ Tema
+          </button>
         </div>
       </div>
     </>
