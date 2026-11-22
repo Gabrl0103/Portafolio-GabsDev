@@ -53,7 +53,7 @@ export default function ProjectsR() {
             <div className={cx(lab, "rv")}>
               <b>(02)</b> {sections.find((s) => s.id === "proyectos")?.label}
             </div>
-            <SplitTitle lines={[t("Trabajo", "Selected"), t("seleccionado", "work")]} className="mt-[22px]" />
+            <SplitTitle lines={[t("Trabajo", "Selected"), t("*seleccionado*", "*work*")]} className="mt-[22px]" />
           </div>
           <span className="mono rv text-mut">({pad(projects.length)})</span>
         </div>

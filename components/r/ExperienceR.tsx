@@ -61,7 +61,7 @@ export default function ExperienceR() {
         <div className={cx(lab, "rv")}>
           <b>(05)</b> {t("Experiencia académica y laboral", "Education and work experience")}
         </div>
-        <SplitTitle lines={[t("Dónde", "Where"), t("he estado", "I've been")]} className="mt-[22px]" />
+        <SplitTitle lines={[t("Dónde", "Where"), t("he *estado*", "I've *been*")]} className="mt-[22px]" />
 
         {/* Línea de tiempo en dos partes: académica y laboral, de lo más reciente a lo más antiguo */}
         <div className="mt-[clamp(40px,6vw,80px)] grid grid-cols-2 gap-x-[clamp(30px,5vw,90px)] gap-y-14 max-[900px]:grid-cols-1">
