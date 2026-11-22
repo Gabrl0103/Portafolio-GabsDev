@@ -23,7 +23,7 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "skillmap",
-    image: "/proyectos/skillmap/portada.webp",
+    image: "/proyectos/skillmap/cover.webp",
     format: "desktop",
     media: [
       {
@@ -86,7 +86,7 @@ export const projects: Project[] = [
       "Geoapify",
     ],
     art: "watch",
-    image: "/proyectos/rumbo/portada.webp",
+    image: "/proyectos/rumbo/cover.webp",
     media: [
       {
         type: "video",
@@ -128,6 +128,7 @@ export const projects: Project[] = [
       "Pruebas EditMode",
     ],
     art: "asqua",
+    image: "/proyectos/asqua/cover.webp",
     format: "desktop",
     primary: {
       label: "GitHub",
@@ -160,7 +161,7 @@ export const projects: Project[] = [
       "PostgreSQL + PostGIS",
     ],
     art: "firemap",
-    image: "/proyectos/atalaya/portada.webp",
+    image: "/proyectos/atalaya/cover.webp",
     media: [
       {
         type: "video",
@@ -224,7 +225,7 @@ export const projects: Project[] = [
     primary: { label: "Código", href: "", note: "Privado" },
     secondary: { label: "Sitio", href: "", note: "Privado del cliente" },
     // El sitio es privado: el video y las capturas muestran solo el formulario con datos de prueba, sin datos de clientes
-    image: "/proyectos/sencia/portada.webp",
+    image: "/proyectos/sencia/cover.webp",
     media: [
       {
         type: "video",
@@ -271,6 +272,7 @@ export const projects: Project[] = [
     kind: "Proyecto para negocio · Escritorio",
     tags: ["JavaScript", "Java", "CSS", "HTML", "Python"],
     art: "neveo",
+    image: "/proyectos/neveo-pos/cover.webp",
     format: "desktop",
     primary: { label: "Código", href: "", note: "A pedido" },
     secondary: { label: "Instagram de Neveo", href: site.instagram },
@@ -302,7 +304,7 @@ export const projects: Project[] = [
       "IA",
     ],
     art: "servicios",
-    image: "/proyectos/serviciosya/portada.webp",
+    image: "/proyectos/serviciosya/cover.webp",
     media: [
       {
         type: "image",
