@@ -154,6 +154,8 @@
   html::-webkit-scrollbar { display: none; }
   body {
     margin: 0;
+    /* Las animaciones de entrada que vienen de un lado no deben crear desplazamiento horizontal */
+    overflow-x: clip;
     background: var(--bg);
     color: var(--fg);
     font: 400 17px/1.55 var(--font-sans);
