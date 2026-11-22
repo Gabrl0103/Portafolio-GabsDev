@@ -23,7 +23,7 @@ const MOONLIGHT = [255, 246, 226];
 export type GrainSymbol = "star" | "moon";
 
 /**
- * Estrella de grano: la estrella de Cenit dibujada punto a punto con grano (como el "Gabs" del inicio).
+ * Estrella de grano: la estrella de Cenit dibujada punto a punto con grano (como el "Gabriel" del inicio).
  * Oscila como una aguja de brújula, respira y su brillo recorre el olivo, el naranja y el crema.
  * Se dibuja solo mientras está en pantalla y con la resolución ajustada a su tamaño.
  */

@@ -62,7 +62,7 @@ const TAGS = [
 ];
 
 const STATEMENT =
-  "Soy Gabs, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
+  "Soy Gabriel, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
 
 /* Tramos de la escena (0 → 1 a lo largo del scroll) */
 const OPEN = 0.36; // la ventana termina de abrirse a pantalla completa
@@ -295,7 +295,7 @@ export default function IntroScene() {
               <span className="block opacity-0 blur-[18px] [transition:opacity_1.2s_ease_.5s,filter_1.4s_ease_.5s] in-[.go]:opacity-100 in-[.go]:blur-none">
                 <GrainText
                   text={site.name}
-                  className="text-[min(33vw,50vh)] text-fg max-[1180px]:text-[min(28vw,44vh)] max-[900px]:text-[min(36vw,40vh)]"
+                  className="text-[min(19.5vw,36vh)] text-fg max-[1180px]:text-[min(21vw,32vh)] max-[900px]:text-[min(21vw,30vh)]"
                 />
               </span>
             </span>

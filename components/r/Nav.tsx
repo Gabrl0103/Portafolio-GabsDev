@@ -253,7 +253,7 @@ export default function Nav() {
           )}
         >
           <div className="col-span-2 grid h-[120px] place-items-center overflow-hidden rounded-md border border-line">
-            <GrainText text={site.name} className="text-[84px] text-fg" />
+            <GrainText text={site.name} className="text-[54px] text-fg" />
           </div>
           <button
             type="button"
