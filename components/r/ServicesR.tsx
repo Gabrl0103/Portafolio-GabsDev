@@ -27,7 +27,7 @@ const brand = (n: TechIconName) => {
 export default function ServicesR() {
   const odd = services.length % 2 === 1;
   return (
-    <section id="servicios" className="tx pana [--txk:1.4] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="tx pana [--txk:1] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> Servicios
@@ -66,9 +66,9 @@ export default function ServicesR() {
                     )}
                   />
                 )}
-                {/* Pana viva: desenfocada en el centro y nítida en la orilla de la tarjeta */}
+                {/* Pana viva dentro de la tarjeta: nubes desenfocadas y rayas finas */}
                 <span aria-hidden="true" className="pana-soft" />
-                <span aria-hidden="true" className="pana-edge" />
+                <span aria-hidden="true" className="pana-rayas" />
                 <div
                   className={cx(
                     wide &&

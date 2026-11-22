@@ -81,7 +81,11 @@
     animation: none;
   }
 }
-/* Centro de las tarjetas de Servicios: la misma pana ya desenfocada, con sus ondas suaves en movimiento */
+/*
+ * Tarjetas de Servicios (tema oscuro), sin depender del desenfoque del navegador:
+ * pana-soft: la pana muy desenfocada, nubes suaves que se mueven.
+ * pana-rayas: la pana nítida y casi transparente, las rayas finas que se alcanzan a ver.
+ */
 @utility pana-soft {
   position: absolute;
   inset: 0;
@@ -90,13 +94,13 @@
   pointer-events: none;
   background-image: url(/img/pana-suave.jpg), url(/img/pana-suave.jpg);
   background-size: 560px, 720px;
-  background-blend-mode: screen;
+  background-blend-mode: overlay;
   animation: pana 80s linear infinite;
-  opacity: 0.11;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
   [data-theme="light"] & { display: none; }
 }
-/* Borde de las tarjetas de Servicios: la pana nítida solo en la orilla, desvaneciéndose hacia adentro */
-@utility pana-edge {
+@utility pana-rayas {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -106,10 +110,7 @@
   background-size: 560px, 720px;
   background-blend-mode: screen;
   animation: pana 80s linear infinite;
-  opacity: 0.35;
-  mask-image:
-    linear-gradient(90deg, #000, transparent 38px, transparent calc(100% - 38px), #000),
-    linear-gradient(#000, transparent 38px, transparent calc(100% - 38px), #000);
+  opacity: 0.1;
   [data-theme="light"] & { display: none; }
 }
 @keyframes pana {
