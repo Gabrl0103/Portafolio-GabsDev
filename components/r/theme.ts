@@ -68,8 +68,10 @@ export function scrollToSection(id: string) {
   else {
     const el = document.getElementById(id);
     if (!el) return;
-    // Con el relleno de la sección descontado, la etiqueta (01)… queda a 110 px del borde de arriba
-    const top = el.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(el).paddingTop) - 110;
+    // Con el relleno de la sección descontado, la etiqueta (01)… queda a 110 px del borde de arriba.
+    // "acerca" es un punto marcado dentro de la escena del inicio: ahí se va exacto.
+    const marker = el.getAttribute("aria-hidden") === "true";
+    const top = el.getBoundingClientRect().top + scrollY + (marker ? 0 : parseFloat(getComputedStyle(el).paddingTop) - 110);
     scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
   }
 }
