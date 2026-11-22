@@ -38,7 +38,7 @@ export default function GrainText({ text, className }: { text: string; className
     draw();
     addEventListener("resize", later);
     const mo = new MutationObserver(later);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-design"] });
     return () => {
       clearTimeout(t);
       removeEventListener("resize", later);

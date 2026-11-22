@@ -28,39 +28,20 @@ export const services: Service[] = [
     ],
   },
   {
-    title: "Apps móviles",
-    text: "Apps Android con pantallas claras y una API propia detrás, como Atalaya.",
-    items: [
-      "App Android (APK)",
-      "API y base de datos",
-      "Mapas y datos por ubicación",
-    ],
+    title: "Apps móviles y wearables",
+    text: "Apps Android y para reloj inteligente, con una API propia detrás, como Atalaya y Rumbo.",
+    items: ["App Android (APK)", "Interfaces para Wear OS", "Mapas, GPS y voz"],
     tools: [
       { name: "Ionic", icon: "ionic" },
       { name: "Capacitor", icon: "capacitor" },
-      { name: "Node.js", icon: "nodejs" },
-      { name: "PostgreSQL + PostGIS", icon: "postgresql" },
-      { name: "Render", icon: "render" },
-    ],
-  },
-  {
-    title: "Wearables",
-    text: "Apps para reloj inteligente pensadas para usarse sin mirar la pantalla, como Rumbo.",
-    items: [
-      "Interfaces para Wear OS",
-      "Vibraciones y voz",
-      "GPS y rutas a pie",
-    ],
-    tools: [
       { name: "Kotlin", icon: "kotlin" },
       { name: "Wear OS", icon: "wearos" },
       { name: "FastAPI", icon: "fastapi" },
-      { name: "Gemini API", icon: "gemini" },
     ],
   },
   {
     title: "Apps de escritorio",
-    text: "Programas que resuelven una tarea concreta y funcionan sin conexión, como Skillmap.",
+    text: "Programas que resuelven una tarea concreta y funcionan sin conexión, como Cenit Skillmap.",
     items: [
       "Ejecutables para Windows",
       "Funcionan offline",

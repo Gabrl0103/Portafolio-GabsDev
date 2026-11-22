@@ -81,6 +81,16 @@ export default function ProjectsR() {
 
   const close = useCallback(() => setOpen(null), []);
 
+  // Otras secciones abren un proyecto con openProject(id) (evento "open-project").
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const k = projects.findIndex((p) => p.id === (e as CustomEvent<string>).detail);
+      if (k >= 0) setOpen(k);
+    };
+    addEventListener("open-project", onOpen);
+    return () => removeEventListener("open-project", onOpen);
+  }, []);
+
   return (
     <section id="proyectos" className="pt-[clamp(40px,6vw,90px)] pb-[clamp(90px,11vw,170px)]">
       <div className="wrap">

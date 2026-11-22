@@ -7,24 +7,61 @@ import Clock from "../Clock";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
 import GrainStar from "./GrainStar";
+import useDesign from "./useDesign";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
 
 /** Palabra que aparece desenfocada y sube cuando se abre el sitio (<html class="go">). */
 const word =
   "inline-block translate-y-[.4em] opacity-0 blur-[14px] [transition:opacity_.9s_ease,filter_1s_ease,transform_1.1s_cubic-bezier(.16,1,.3,1)] in-[.go]:translate-y-0 in-[.go]:opacity-100 in-[.go]:blur-none";
-const fade = "translate-y-3.5 opacity-0 [transition:opacity_.9s_ease,transform_1.1s_cubic-bezier(.16,1,.3,1)] in-[.go]:translate-y-0 in-[.go]:opacity-100";
+const fade =
+  "translate-y-3.5 opacity-0 [transition:opacity_.9s_ease,transform_1.1s_cubic-bezier(.16,1,.3,1)] in-[.go]:translate-y-0 in-[.go]:opacity-100";
 
 /** Tarjetas flotantes con esquina redondeada que llevan a una sección (dx: hacia dónde salen al bajar) */
 const TAGS = [
-  { id: "acerca", label: "Acerca de mí", n: "01", c: "bg-olive text-pill", pos: "right-[5%] top-[25%] max-[900px]:right-[4%] max-[900px]:top-[19%]", r: "-5deg", w: ".9s", d: "7s", dl: "0s", dx: 1, dy: -0.4 },
-  { id: "proyectos", label: "Proyectos", n: "02", c: "bg-orange text-white", pos: "right-[3%] top-[51%] max-[900px]:right-[4%] max-[900px]:top-[57%]", r: "4deg", w: "1.1s", d: "8.5s", dl: "-2s", dx: 1, dy: 0.5 },
-  { id: "contacto", label: "Contacto", n: "06", c: "bg-cream text-pill", pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]", r: "-2deg", w: "1.3s", d: "6.5s", dl: "-4s", dx: 0.3, dy: -1 },
+  {
+    id: "acerca",
+    label: "Acerca de mí",
+    n: "01",
+    c: "bg-olive text-pill",
+    pos: "right-[5%] top-[25%] max-[900px]:right-[4%] max-[900px]:top-[19%]",
+    r: "-5deg",
+    w: ".9s",
+    d: "7s",
+    dl: "0s",
+    dx: 1,
+    dy: -0.4,
+  },
+  {
+    id: "proyectos",
+    label: "Proyectos",
+    n: "02",
+    c: "bg-orange text-white",
+    pos: "right-[3%] top-[51%] max-[900px]:right-[4%] max-[900px]:top-[57%]",
+    r: "4deg",
+    w: "1.1s",
+    d: "8.5s",
+    dl: "-2s",
+    dx: 1,
+    dy: 0.5,
+  },
+  {
+    id: "contacto",
+    label: "Contacto",
+    n: "06",
+    c: "bg-cream text-pill",
+    pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[58%]",
+    r: "-2deg",
+    w: "1.3s",
+    d: "6.5s",
+    dl: "-4s",
+    dx: 0.3,
+    dy: -1,
+  },
 ];
 
 const STATEMENT =
   "Soy Gabs, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
-
 
 /* Tramos de la escena (0 → 1 a lo largo del scroll) */
 const OPEN = 0.36; // la ventana termina de abrirse a pantalla completa
@@ -32,17 +69,26 @@ const DOCK = 0.5; // empieza a encogerse hacia Acerca de mí
 const DOCKED = 0.78; // ya está en su lugar junto al texto
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
-const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const ease = (t: number) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /** Tu foto en Acerca de mí; mientras no exista, un marcador sobre el leopardo. */
 function Portrait() {
   return site.portrait ? (
-    <Image src={site.portrait} alt={`Foto de ${site.name}`} fill sizes="(max-width: 900px) 45vw, 35vw" className="object-cover" />
+    <Image
+      src={site.portrait}
+      alt={`Foto de ${site.name}`}
+      fill
+      sizes="(max-width: 900px) 45vw, 35vw"
+      className="object-cover"
+    />
   ) : (
     <div className="absolute inset-0 grid place-content-center gap-2 bg-bg2 text-center">
       <div className="absolute inset-0 bg-(image:--leo) bg-[length:340px] opacity-[.18]" />
-      <b className="relative font-disp text-[clamp(22px,2.6vw,40px)] font-medium tracking-[-.04em] text-fg [text-shadow:0_2px_24px_rgba(0,0,0,.6)]">Tu foto aquí</b>
+      <b className="relative font-disp text-[clamp(22px,2.6vw,40px)] font-medium tracking-[-.04em] text-fg [text-shadow:0_2px_24px_rgba(0,0,0,.6)]">
+        Tu foto aquí
+      </b>
       <span className="mono relative text-soft">4:5 · retrato</span>
     </div>
   );
@@ -50,7 +96,14 @@ function Portrait() {
 
 /** Lo que se ve en la ventana: la estrella de brújula de Cenit hecha con grano, recortada y sin fondo. */
 function WindowContent() {
-  return <GrainStar className="absolute inset-0 size-full" />;
+  const design = useDesign();
+  return (
+    <GrainStar
+      key={design}
+      symbol={design === "atardecer" ? "moon" : "star"}
+      className="absolute inset-0 size-full"
+    />
+  );
 }
 
 /**
@@ -82,7 +135,9 @@ export default function IntroScene() {
       const t = setTimeout(() => setStill(true), 0);
       return () => clearTimeout(t);
     }
-    const spans = Array.from(stmt.current?.querySelectorAll<HTMLSpanElement>("span") ?? []);
+    const spans = Array.from(
+      stmt.current?.querySelectorAll<HTMLSpanElement>("span") ?? [],
+    );
     let raf = 0;
     const frame = () => {
       raf = requestAnimationFrame(frame);
@@ -103,15 +158,22 @@ export default function IntroScene() {
       // 1) Se abre el titular hacia los lados
       const e1 = ease(clamp(p / OPEN));
       const vw = S.width / 100;
-      if (line.current) line.current.style.transform = `translate3d(${(-e1 * 26 * vw).toFixed(1)}px,0,0)`;
-      if (name.current) name.current.style.transform = `translate3d(${(e1 * 18 * vw).toFixed(1)}px,0,0) scale(${(1 + e1 * 0.22).toFixed(3)})`;
-      fades.current.forEach((el) => el && (el.style.opacity = (1 - clamp(e1 * 2.2)).toFixed(3)));
+      if (line.current)
+        line.current.style.transform = `translate3d(${(-e1 * 26 * vw).toFixed(1)}px,0,0)`;
+      if (name.current)
+        name.current.style.transform = `translate3d(${(e1 * 18 * vw).toFixed(1)}px,0,0) scale(${(1 + e1 * 0.22).toFixed(3)})`;
+      fades.current.forEach(
+        (el) => el && (el.style.opacity = (1 - clamp(e1 * 2.2)).toFixed(3)),
+      );
       tags.current.forEach((el, i) => {
         if (!el) return;
         el.style.translate = `${(TAGS[i].dx * e1 * 40 * vw).toFixed(1)}px ${(TAGS[i].dy * e1 * 30 * vw).toFixed(1)}px`;
         el.style.opacity = (1 - clamp(e1 * 1.6)).toFixed(3);
       });
-      if (hero.current) hero.current.style.opacity = (1 - clamp((p - OPEN * 0.35) / (OPEN * 0.45))).toFixed(3);
+      if (hero.current)
+        hero.current.style.opacity = (
+          1 - clamp((p - OPEN * 0.35) / (OPEN * 0.45))
+        ).toFixed(3);
 
       // 2) La ventana: del hueco del titular a pantalla completa y luego a su lugar en Acerca de mí
       let x: number, y: number, ww: number, hh: number, r: number;
@@ -132,8 +194,12 @@ export default function IntroScene() {
       // Al llegar a Acerca de mí, la estrella se disuelve y la foto se revela de abajo hacia arriba
       {
         const e2 = ease(clamp((p - DOCK) / (DOCKED - DOCK)));
-        if (star.current) star.current.style.opacity = (1 - clamp((e2 - 0.45) / 0.4)).toFixed(3);
-        if (photo.current) photo.current.style.clipPath = `inset(${((1 - clamp((e2 - 0.4) / 0.6)) * 100).toFixed(1)}% 0 0 0 round 22px)`;
+        if (star.current)
+          star.current.style.opacity = (1 - clamp((e2 - 0.45) / 0.4)).toFixed(
+            3,
+          );
+        if (photo.current)
+          photo.current.style.clipPath = `inset(${((1 - clamp((e2 - 0.4) / 0.6)) * 100).toFixed(1)}% 0 0 0 round 22px)`;
       }
       w.style.left = `${x.toFixed(1)}px`;
       w.style.top = `${y.toFixed(1)}px`;
@@ -142,7 +208,10 @@ export default function IntroScene() {
       w.style.borderRadius = `${r.toFixed(1)}px`;
 
       // Leyendas mientras la ventana ocupa toda la pantalla
-      if (caps.current) caps.current.style.opacity = clamp(1 - Math.abs(p - (OPEN + DOCK) / 2) / 0.1).toFixed(3);
+      if (caps.current)
+        caps.current.style.opacity = clamp(
+          1 - Math.abs(p - (OPEN + DOCK) / 2) / 0.1,
+        ).toFixed(3);
 
       // 3) Acerca de mí aparece y se ilumina palabra por palabra
       const e3 = clamp((p - DOCK - 0.04) / 0.14);
@@ -152,18 +221,38 @@ export default function IntroScene() {
       }
       const lit = clamp((p - (DOCK + 0.1)) / (0.97 - (DOCK + 0.1)));
       const n = spans.length;
-      spans.forEach((s, i) => (s.style.opacity = (0.16 + 0.84 * clamp(lit * (n + 4) - i)).toFixed(2)));
+      spans.forEach(
+        (s, i) =>
+          (s.style.opacity = (0.16 + 0.84 * clamp(lit * (n + 4) - i)).toFixed(
+            2,
+          )),
+      );
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
-    <section ref={scene} id="inicio" className={cx("relative", still ? "h-auto" : "h-[320svh]")}>
+    <section
+      ref={scene}
+      id="inicio"
+      className={cx("relative", still ? "h-auto" : "h-[320svh]")}
+    >
       {/* Destino de los enlaces a "Acerca de mí": el punto donde el texto ya está en su lugar */}
-      {!still && <div id="acerca" aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-[180svh] h-[40svh]" />}
+      {!still && (
+        <div
+          id="acerca"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-[180svh] h-[40svh]"
+        />
+      )}
 
-      <div ref={stage} className={cx(still ? "relative" : "sticky top-0 h-svh overflow-hidden")}>
+      <div
+        ref={stage}
+        className={cx(
+          still ? "relative" : "sticky top-0 h-svh overflow-hidden",
+        )}
+      >
         {/* Inicio */}
         <div
           ref={hero}
@@ -180,7 +269,10 @@ export default function IntroScene() {
           </div>
 
           <h1 className="flex flex-col items-start">
-            <span ref={line} className="font-disp text-[clamp(34px,6.4vw,100px)] leading-none font-medium tracking-[-.045em] whitespace-nowrap will-change-transform">
+            <span
+              ref={line}
+              className="font-disp text-[clamp(34px,6.4vw,100px)] leading-none font-medium tracking-[-.045em] whitespace-nowrap will-change-transform"
+            >
               <span className={word} style={{ transitionDelay: ".1s" }}>
                 Hola,
               </span>{" "}
@@ -188,20 +280,48 @@ export default function IntroScene() {
                 soy
               </span>
               {/* Hueco de la ventana: de aquí sale la foto al bajar */}
-              <span ref={slot} aria-hidden="true" className="ml-[.28em] inline-block h-[.74em] w-[1.9em] rounded-[10px] align-[-.04em]" />
+              <span
+                ref={slot}
+                aria-hidden="true"
+                className="ml-[.28em] inline-block h-[.74em] w-[1.9em] rounded-[10px] align-[-.04em]"
+              />
             </span>
-            <span ref={name} className="-mt-[.03em] -ml-[.02em] origin-left will-change-transform">
+            <span
+              ref={name}
+              className="-mt-[.03em] -ml-[.02em] origin-left will-change-transform"
+            >
               <span className="block opacity-0 blur-[18px] [transition:opacity_1.2s_ease_.5s,filter_1.4s_ease_.5s] in-[.go]:opacity-100 in-[.go]:blur-none">
-                <GrainText text={site.name} className="text-[min(33vw,50vh)] text-fg max-[1180px]:text-[min(28vw,44vh)] max-[900px]:text-[min(36vw,40vh)]" />
+                <GrainText
+                  text={site.name}
+                  className="text-[min(33vw,50vh)] text-fg max-[1180px]:text-[min(28vw,44vh)] max-[900px]:text-[min(36vw,40vh)]"
+                />
               </span>
             </span>
           </h1>
 
-          <div ref={(el) => void (fades.current[1] = el)} className="flex flex-wrap items-end justify-between gap-x-10 gap-y-7">
-            <p className={cx("max-w-[24ch] font-disp text-[clamp(24px,2.7vw,44px)] leading-[1.1] font-medium tracking-[-.035em] text-fg max-[900px]:text-[25px]", fade)} style={{ transitionDelay: ".7s" }}>
-              Estudiante de Ingeniería de Software. Construyo <mark className="bg-transparent text-olive">apps de escritorio, Android, Wear OS y web</mark>.
+          <div
+            ref={(el) => void (fades.current[1] = el)}
+            className="flex flex-wrap items-end justify-between gap-x-10 gap-y-7"
+          >
+            <p
+              className={cx(
+                "max-w-[24ch] font-disp text-[clamp(24px,2.7vw,44px)] leading-[1.1] font-medium tracking-[-.035em] text-fg max-[900px]:text-[25px]",
+                fade,
+              )}
+              style={{ transitionDelay: ".7s" }}
+            >
+              Estudiante de Ingeniería de Software. Construyo{" "}
+              <mark className="bg-transparent text-olive">
+                apps de escritorio, Android, Wear OS y web
+              </mark>
+              .
             </p>
-            <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className={cx(btnF, "mag", fade)} style={{ transitionDelay: ".9s" }}>
+            <a
+              href={site.cv}
+              download="CV-Gabriel-Guerrero.pdf"
+              className={cx(btnF, "mag", fade)}
+              style={{ transitionDelay: ".9s" }}
+            >
               Descargar CV ↓
             </a>
           </div>
@@ -217,7 +337,14 @@ export default function IntroScene() {
                   e.preventDefault();
                   scrollToSection(t.id);
                 }}
-                style={{ rotate: t.r, "--d": t.d, animationDelay: t.dl, transitionDelay: t.w } as React.CSSProperties}
+                style={
+                  {
+                    rotate: t.r,
+                    "--d": t.d,
+                    animationDelay: t.dl,
+                    transitionDelay: t.w,
+                  } as React.CSSProperties
+                }
                 className={cx(
                   "pointer-events-auto absolute flex aspect-[1.55/1] w-[clamp(150px,15.5vw,236px)] animate-bob items-end justify-between rounded-[0_0_clamp(34px,3.8vw,62px)_0] px-[clamp(14px,1.4vw,22px)] py-[clamp(12px,1.2vw,18px)] font-disp text-[clamp(14px,1.15vw,17px)] font-medium opacity-0 [transform:scale(.6)] [transition:opacity_.7s,transform_1s_cubic-bezier(.3,1.6,.5,1)] in-[.go]:opacity-100 in-[.go]:[transform:none] hover:[transform:translateY(-8px)_rotate(-3deg)] max-[900px]:w-[150px]",
                   t.c,
@@ -241,9 +368,14 @@ export default function IntroScene() {
             <div ref={star} className="absolute inset-0">
               <WindowContent />
             </div>
-            <div ref={caps} className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0">
+            <div
+              ref={caps}
+              className="mono absolute inset-x-0 bottom-0 flex justify-between p-[max(20px,env(safe-area-inset-left,0px))] pb-[34px] text-fg opacity-0"
+            >
               <span>Ing. de Software · Pasto</span>
-              <span className="max-[600px]:hidden">Hecho con código, sin video</span>
+              <span className="max-[600px]:hidden">
+                Hecho con código, sin video
+              </span>
               <span>Sigue bajando ↓</span>
             </div>
           </div>
@@ -253,7 +385,12 @@ export default function IntroScene() {
         <div
           ref={about}
           id={still ? "acerca" : undefined}
-          className={cx("inset-0 z-[2] flex items-center", still ? "relative py-[clamp(90px,11vw,170px)]" : "absolute pt-[88px] pb-6 opacity-0")}
+          className={cx(
+            "inset-0 z-[2] flex items-center",
+            still
+              ? "relative py-[clamp(90px,11vw,170px)]"
+              : "absolute pt-[88px] pb-6 opacity-0",
+          )}
         >
           <div className="wrap w-full">
             <div className="grid grid-cols-[minmax(0,1.35fr)_minmax(0,.8fr)] items-center gap-[clamp(30px,6vw,110px)] max-[900px]:grid-cols-[1fr_40%] max-[900px]:items-start max-[900px]:gap-x-4 max-[900px]:gap-y-6">
@@ -267,19 +404,42 @@ export default function IntroScene() {
                   className="mt-8 font-disp text-[clamp(26px,3.7vw,58px)] leading-[1.08] font-medium tracking-[-.04em] text-pretty max-[900px]:mt-0 max-[900px]:text-[clamp(22px,6.4vw,30px)]"
                 >
                   {words.map((w, i) => (
-                    <span key={i} aria-hidden="true" className={cx("transition-opacity duration-150", still ? "opacity-100" : "opacity-[.16]")}>
+                    <span
+                      key={i}
+                      aria-hidden="true"
+                      className={cx(
+                        "transition-opacity duration-150",
+                        still ? "opacity-100" : "opacity-[.16]",
+                      )}
+                    >
                       {w}{" "}
                     </span>
                   ))}
                 </p>
               </div>
               <div className="max-[900px]:contents">
-                <div className={cx(lab, "hidden max-[900px]:flex max-[900px]:self-start")}>
+                <div
+                  className={cx(
+                    lab,
+                    "hidden max-[900px]:flex max-[900px]:self-start",
+                  )}
+                >
                   <b>(01)</b> Acerca de mí
                 </div>
                 {/* Lugar donde se acomoda la ventana */}
-                <div ref={dock} className="relative aspect-[4/5] w-full max-w-[calc((100svh-170px)*.8)] justify-self-end overflow-hidden rounded-[22px] max-[900px]:max-w-none">
-                  <div ref={photo} className="absolute inset-0" style={still ? undefined : { clipPath: "inset(100% 0 0 0 round 22px)" }}>
+                <div
+                  ref={dock}
+                  className="relative aspect-[4/5] w-full max-w-[calc((100svh-170px)*.8)] justify-self-end overflow-hidden rounded-[22px] max-[900px]:max-w-none"
+                >
+                  <div
+                    ref={photo}
+                    className="absolute inset-0"
+                    style={
+                      still
+                        ? undefined
+                        : { clipPath: "inset(100% 0 0 0 round 22px)" }
+                    }
+                  >
                     <Portrait />
                   </div>
                 </div>
