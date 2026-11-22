@@ -6,15 +6,15 @@
  *  las convierte en utilidades de Tailwind: bg-bg, text-fg, bg-olive…
  *
  *  Paleta (oscuro / claro):
- *    bg      fondo de la página          #0D0E0F / #F3F1EB
- *    bg2     fondo de tarjetas           #161719 / #E8E5DC
+ *    bg      fondo de la página          #0D0E0F / #E4CFB8 (papel beige)
+ *    bg2     fondo de tarjetas           #161719 / #D9C2A8
  *    fg      texto principal             #ECE9E2 / #111213
  *    soft    texto secundario            #B4B3AD / #4A4B4D
  *    mut     texto apagado y etiquetas   #7F8082 / #77787A
  *    line    bordes y divisiones         fg al 14 % / 15 %
  *    olive   acento oliva                #A9BC5B
  *    orange  acento naranja              #E5532D
- *    cream   acento crema                #F1E6D3 / #E1D2B6
+ *    cream   acento crema                #F1E6D3 / #C7AA88
  *    pill    texto sobre los acentos     #101113
  * ===================================================================
  */
@@ -59,19 +59,19 @@
     color-scheme: dark;
   }
 
-  /* Tema claro */
+  /* Tema claro: beige de papel, como la portada de referencia (tiras de papel y fotografía en blanco y negro) */
   :root[data-theme="light"] {
-    --bg: #f3f1eb;
-    --bg2: #e8e5dc;
-    --fg: #111213;
-    --soft: #4a4b4d;
-    --mut: #77787a;
-    --line: rgba(17, 18, 19, 0.15);
-    --fgr: 17, 18, 19;
-    --bgr: 243, 241, 235;
-    --cream: #e1d2b6;
+    --bg: #e4cfb8;
+    --bg2: #d9c2a8;
+    --fg: #1a1512;
+    --soft: #4a3f36;
+    --mut: #7a6a5c;
+    --line: rgba(26, 21, 18, 0.16);
+    --fgr: 26, 21, 18;
+    --bgr: 228, 207, 184;
+    --cream: #c7aa88;
     --stk: #fff;
-    --txo: 0.26;
+    --txo: 0.2;
     --txb: multiply;
     color-scheme: light;
   }

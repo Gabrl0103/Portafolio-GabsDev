@@ -3,6 +3,7 @@ import { testimonials } from "@/data/testimonials";
 import { cx } from "../ui";
 import { lab } from "./btn";
 import SplitTitle from "./SplitTitle";
+import Tape from "./Tape";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const CARDS = ["bg-olive text-pill", "bg-cream text-pill", "bg-orange text-white"];
@@ -27,6 +28,7 @@ export default function TestimonialsR() {
                 CARDS[i % 3],
               )}
             >
+              <Tape v={i} className="top-0 left-1/2 -translate-x-1/2 rotate-[1deg]" />
               <div className="mono flex justify-between">
                 <span>
                   {pad(i + 1)} / {pad(testimonials.length)}

@@ -8,6 +8,7 @@ import Calendar from "./Calendar";
 import FooterR from "./FooterR";
 import MessageForm from "./MessageForm";
 import SplitTitle from "./SplitTitle";
+import Tape from "./Tape";
 import { copyText } from "./theme";
 
 const INFO = [
@@ -80,8 +81,9 @@ export default function ContactR() {
 
           <div
             data-a="right"
-            className="rv rounded-3xl border border-line bg-[rgba(var(--bgr),.78)] p-[clamp(18px,2.2vw,30px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] backdrop-blur-[16px]"
+            className="rv relative rounded-3xl border border-line bg-[rgba(var(--bgr),.78)] p-[clamp(18px,2.2vw,30px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] backdrop-blur-[16px]"
           >
+            <Tape v={2} className="-top-3 right-12 rotate-[5deg]" />
             <div role="tablist" aria-label="Forma de contacto" className="flex gap-1 rounded-full border border-line p-1">
               {(
                 [

@@ -7,6 +7,7 @@ import Clock from "../Clock";
 import { cx } from "../ui";
 import { btnF, lab } from "./btn";
 import GrainStar from "./GrainStar";
+import Tape, { TapeStrips } from "./Tape";
 import useDesign from "./useDesign";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
@@ -257,10 +258,11 @@ export default function IntroScene() {
         <div
           ref={hero}
           className={cx(
-            "inset-0 flex flex-col justify-between pt-[calc(96px+env(safe-area-inset-top,0px))] pr-[max(20px,env(safe-area-inset-right,0px))] pb-[34px] pl-[max(20px,env(safe-area-inset-left,0px))]",
+            "isolate inset-0 flex flex-col justify-between pt-[calc(96px+env(safe-area-inset-top,0px))] pr-[max(20px,env(safe-area-inset-right,0px))] pb-[34px] pl-[max(20px,env(safe-area-inset-left,0px))]",
             still ? "relative h-svh" : "absolute",
           )}
         >
+          <TapeStrips />
           <div ref={(el) => void (fades.current[0] = el)}>
             <div className={cx("mono flex justify-between text-mut", fade)}>
               <span className="max-[400px]:hidden">{site.role}</span>
@@ -440,6 +442,14 @@ export default function IntroScene() {
                         : { clipPath: "inset(100% 0 0 0 round 22px)" }
                     }
                   >
+                    <Tape
+                      v={0}
+                      className="top-0 left-[-14px] -rotate-[28deg]"
+                    />
+                    <Tape
+                      v={1}
+                      className="right-[-14px] bottom-1 -rotate-[26deg]"
+                    />
                     <Portrait />
                   </div>
                 </div>

@@ -45,7 +45,7 @@ export function toggleTheme(e?: { currentTarget: EventTarget | null }) {
   }
   // Navegadores sin View Transitions: una capa del color nuevo crece en círculo y luego se desvanece.
   const ov = document.createElement("div");
-  ov.style.cssText = `position:fixed;inset:0;z-index:800;pointer-events:none;background:${next === "light" ? "#f3f1eb" : "#0d0e0f"}`;
+  ov.style.cssText = `position:fixed;inset:0;z-index:800;pointer-events:none;background:${next === "light" ? "#e4cfb8" : "#0d0e0f"}`;
   document.body.appendChild(ov);
   const a = ov.animate(
     { clipPath: clip },
