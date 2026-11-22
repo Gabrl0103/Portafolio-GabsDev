@@ -12,9 +12,10 @@
  *    soft    texto secundario            #B4B3AD / #4A4B4D
  *    mut     texto apagado y etiquetas   #7F8082 / #77787A
  *    line    bordes y divisiones         fg al 14 % / 15 %
- *    olive   acento oliva                #A9BC5B
- *    orange  acento naranja              #E5532D
- *    cream   acento crema                #F1E6D3 / #C7AA88
+ *    olive   acento oliva                #A9BC5B / #5F7A3A (salvia)
+ *    orange  acento naranja              #E5532D / #B24A28 (terracota)
+ *    cream   acento crema                #F1E6D3 / #9A7650 (caramelo)
+ *  En el tema claro, Servicios y Contacto son bandas café oscuro (utilidad `banda` en app/globals.css).
  *    pill    texto sobre los acentos     #101113
  * ===================================================================
  */
@@ -69,7 +70,10 @@
     --line: rgba(26, 21, 18, 0.16);
     --fgr: 26, 21, 18;
     --bgr: 228, 207, 184;
-    --cream: #c7aa88;
+    /* Acentos más profundos para que se lean sobre el papel: salvia, terracota y caramelo */
+    --olive: #5f7a3a;
+    --orange: #b24a28;
+    --cream: #9a7650;
     --stk: #fff;
     --txo: 0.2;
     --txb: multiply;
