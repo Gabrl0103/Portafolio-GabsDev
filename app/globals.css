@@ -20,6 +20,12 @@
   --ease-back: cubic-bezier(0.3, 1.5, 0.5, 1);
   --animate-bob: bob var(--d, 7s) ease-in-out infinite;
 
+  --animate-brillo: brillo 4.5s ease-in-out infinite;
+
+  @keyframes brillo {
+    0%, 100% { opacity: 0.7; scale: 0.94; }
+    50% { opacity: 1; scale: 1.04; }
+  }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
     50% { translate: 0 -14px; }

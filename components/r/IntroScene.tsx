@@ -94,14 +94,30 @@ function Portrait() {
   );
 }
 
-/** Lo que se ve en la ventana: la luna creciente hecha con grano, recortada y sin fondo. */
+/**
+ * Lo que se ve en la ventana, hecho con grano y sin fondo:
+ * en el tema oscuro, la estrella de Cenit como un diamante blanco con resplandor; en el claro, la luna.
+ */
 function WindowContent() {
-  return <GrainStar symbol="moon" className="absolute inset-0 size-full" />;
+  return (
+    <>
+      {/* Resplandor del diamante: una luz blanca suave que respira detrás de la estrella */}
+      <div className="absolute inset-0 animate-brillo bg-[radial-gradient(closest-side,rgba(236,242,255,.2),rgba(236,242,255,.07)_40%,transparent_80%)] light:hidden" />
+      <GrainStar
+        symbol="diamond"
+        className="absolute inset-0 size-full light:hidden"
+      />
+      <GrainStar
+        symbol="moon"
+        className="absolute inset-0 hidden size-full light:block"
+      />
+    </>
+  );
 }
 
 /**
  * Inicio y Acerca de mí en una sola escena fija (inspirada en paulvl.eu):
- * la ventana con la luna de grano que está en el titular se abre a pantalla completa
+ * la ventana con el símbolo de grano (diamante o luna) que está en el titular se abre a pantalla completa
  * al bajar y luego se encoge hasta quedar junto al texto de Acerca de mí.
  */
 export default function IntroScene() {
@@ -184,7 +200,7 @@ export default function IntroScene() {
         hh = lerp(S.height, d.height, e2);
         r = lerp(0, 22, e2);
       }
-      // Al llegar a Acerca de mí, la luna se disuelve y la foto se revela de abajo hacia arriba
+      // Al llegar a Acerca de mí, el símbolo se disuelve y la foto se revela de abajo hacia arriba
       {
         const e2 = ease(clamp((p - DOCK) / (DOCKED - DOCK)));
         if (star.current)
