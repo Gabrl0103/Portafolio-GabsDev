@@ -148,7 +148,7 @@ export default function ProjectList({
 
                 <span
                   className={cx(
-                    "block truncate font-serif text-[clamp(34px,5.3vw,92px)] leading-[1.05] font-light tracking-[-.01em] uppercase transition-[color,translate,opacity] duration-700 ease-expo max-[900px]:text-[clamp(30px,9vw,44px)] max-[900px]:whitespace-normal",
+                    "block truncate font-serif text-[clamp(38px,5.8vw,100px)] leading-[1.05] font-medium tracking-[-.035em] transition-[color,translate,opacity] duration-700 ease-expo max-[900px]:text-[clamp(30px,9vw,44px)] max-[900px]:whitespace-normal",
                     a
                       ? "translate-x-3 text-fg"
                       : dim
