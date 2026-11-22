@@ -7,7 +7,7 @@ import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
 import Gallery from "./Gallery";
-import ProjectStrips, { COLORS, pad, Visual } from "./ProjectStrips";
+import ProjectList, { COLORS, pad, Visual } from "./ProjectList";
 import SplitTitle from "./SplitTitle";
 
 const detailRows: [keyof Project["detail"], string][] = [
@@ -20,7 +20,7 @@ const detailRows: [keyof Project["detail"], string][] = [
 /** Enlaces del proyecto en orden: demo, principal y secundario. */
 const links = (p: Project) => [p.demo, p.primary, p.secondary].filter((l): l is ProjectLink => !!l);
 
-/** Proyectos: franjas que se abren al pasar el cursor y el detalle a pantalla completa. */
+/** Proyectos: índice editorial con capturas flotantes y el detalle a pantalla completa. */
 export default function ProjectsR() {
   const [open, setOpen] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -55,7 +55,7 @@ export default function ProjectsR() {
           <span className="mono rv text-mut">({pad(projects.length)})</span>
         </div>
 
-        <ProjectStrips onOpen={setOpen} />
+        <ProjectList onOpen={setOpen} />
       </div>
 
       {mounted && <Detail k={open} onClose={close} />}
