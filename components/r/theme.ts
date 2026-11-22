@@ -45,7 +45,7 @@ export function toggleTheme(e?: { currentTarget: EventTarget | null }) {
   }
   // Navegadores sin View Transitions: una capa del color nuevo crece en círculo y luego se desvanece.
   const ov = document.createElement("div");
-  ov.style.cssText = `position:fixed;inset:0;z-index:800;pointer-events:none;background:${next === "light" ? "#e4cfb8" : "#0d0e0f"}`;
+  ov.style.cssText = `position:fixed;inset:0;z-index:800;pointer-events:none;background:${next === "light" ? "#e4cfb8" : "#0f0d12"}`;
   document.body.appendChild(ov);
   const a = ov.animate(
     { clipPath: clip },
@@ -84,56 +84,4 @@ export async function copyText(t: string) {
 /** Abre el detalle de un proyecto desde cualquier sección (lo escucha ProjectsR). */
 export function openProject(id: string) {
   dispatchEvent(new CustomEvent("open-project", { detail: id }));
-}
-
-/** Diseños disponibles: el original y el alternativo "Atardecer" (solo desde el menú). */
-export type Design = "original" | "atardecer";
-
-export function currentDesign(): Design {
-  return document.documentElement.getAttribute("data-design") === "atardecer"
-    ? "atardecer"
-    : "original";
-}
-
-/**
- * Cambia de diseño, lo recuerda y avisa a los componentes que dibujan en canvas.
- * El diseño nuevo se abre en círculo desde el centro de la pantalla (como el cambio de tema).
- */
-export function setDesign(d: Design) {
-  const root = document.documentElement;
-  if (currentDesign() === d) return;
-  const apply = () => {
-    if (d === "atardecer") root.setAttribute("data-design", "atardecer");
-    else root.removeAttribute("data-design");
-    try {
-      localStorage.setItem("design", d);
-    } catch {}
-    dispatchEvent(new CustomEvent("design-change", { detail: d }));
-  };
-  if (
-    !document.startViewTransition ||
-    matchMedia("(prefers-reduced-motion: reduce)").matches
-  )
-    return apply();
-  const x = innerWidth / 2;
-  const y = innerHeight / 2;
-  const rad = Math.hypot(x, y);
-  document
-    .startViewTransition(apply)
-    .ready.then(() =>
-      root.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${rad}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 1000,
-          easing: "cubic-bezier(.65,0,.35,1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      ),
-    )
-    .catch(() => {});
 }

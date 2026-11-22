@@ -27,13 +27,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0D0E0F" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F0D12" },
     { media: "(prefers-color-scheme: light)", color: "#E4CFB8" },
   ],
 };
 
 /** Fija el tema antes de pintar para evitar parpadeo. */
-const themeScript = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.setAttribute('data-theme',t);if(localStorage.getItem('design')==='atardecer')r.setAttribute('data-design','atardecer');}catch(e){r.setAttribute('data-theme','dark');}})();`;
+const themeScript = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.setAttribute('data-theme',t);}catch(e){r.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

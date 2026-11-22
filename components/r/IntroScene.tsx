@@ -8,7 +8,6 @@ import { cx } from "../ui";
 import { btnF, lab } from "./btn";
 import GrainStar from "./GrainStar";
 import Tape, { TapeStrips } from "./Tape";
-import useDesign from "./useDesign";
 import GrainText from "./GrainText";
 import { scrollToSection } from "./theme";
 
@@ -95,21 +94,14 @@ function Portrait() {
   );
 }
 
-/** Lo que se ve en la ventana: la estrella de brújula de Cenit hecha con grano, recortada y sin fondo. */
+/** Lo que se ve en la ventana: la luna creciente hecha con grano, recortada y sin fondo. */
 function WindowContent() {
-  const design = useDesign();
-  return (
-    <GrainStar
-      key={design}
-      symbol={design === "atardecer" ? "moon" : "star"}
-      className="absolute inset-0 size-full"
-    />
-  );
+  return <GrainStar symbol="moon" className="absolute inset-0 size-full" />;
 }
 
 /**
  * Inicio y Acerca de mí en una sola escena fija (inspirada en paulvl.eu):
- * la ventana con la estrella de grano que está en el titular se abre a pantalla completa
+ * la ventana con la luna de grano que está en el titular se abre a pantalla completa
  * al bajar y luego se encoge hasta quedar junto al texto de Acerca de mí.
  */
 export default function IntroScene() {
@@ -192,7 +184,7 @@ export default function IntroScene() {
         hh = lerp(S.height, d.height, e2);
         r = lerp(0, 22, e2);
       }
-      // Al llegar a Acerca de mí, la estrella se disuelve y la foto se revela de abajo hacia arriba
+      // Al llegar a Acerca de mí, la luna se disuelve y la foto se revela de abajo hacia arriba
       {
         const e2 = ease(clamp((p - DOCK) / (DOCKED - DOCK)));
         if (star.current)

@@ -6,8 +6,8 @@
  *  las convierte en utilidades de Tailwind: bg-bg, text-fg, bg-olive…
  *
  *  Paleta (oscuro / claro):
- *    bg      fondo de la página          #0D0E0F / #E4CFB8 (papel beige)
- *    bg2     fondo de tarjetas           #161719 / #D9C2A8
+ *    bg      fondo de la página          #0F0D12 (negro con matiz morado) / #E4CFB8 (papel beige)
+ *    bg2     fondo de tarjetas           #1C1622 (morado oscuro) / #D9C2A8
  *    fg      texto principal             #ECE9E2 / #111213
  *    soft    texto secundario            #B4B3AD / #4A4B4D
  *    mut     texto apagado y etiquetas   #7F8082 / #77787A
@@ -36,15 +36,15 @@
   /* Tema oscuro (por defecto) */
   :root,
   :root[data-theme="dark"] {
-    --bg: #0d0e0f;
-    --bg2: #161719;
+    --bg: #0f0d12;
+    --bg2: #1c1622;
     --fg: #ece9e2;
     --soft: #b4b3ad;
     --mut: #7f8082;
     --line: rgba(236, 233, 226, 0.14);
     /* Los mismos colores en R, G, B para transparencias: rgba(var(--fgr), .1) */
     --fgr: 236, 233, 226;
-    --bgr: 13, 14, 15;
+    --bgr: 15, 13, 18;
 
     --olive: #a9bc5b;
     --orange: #e5532d;
@@ -74,64 +74,5 @@
     --txo: 0.2;
     --txb: multiply;
     color-scheme: light;
-  }
-}
-
-/*
- * ===================================================================
- *  Diseño alternativo "Atardecer" (se elige desde el menú: <html data-design="atardecer">)
- *  Inspirado en una sala frente a una piscina al atardecer: cielo morado y naranja,
- *  agua turquesa, sofá crema y mármol. Oscuro = atardecer; claro = sala de día.
- *  Las texturas de animales se cambian por mármol y tela bouclé.
- * ===================================================================
- */
-@layer base {
-  :root[data-design="atardecer"],
-  :root[data-design="atardecer"][data-theme="dark"] {
-    --bg: #1b1324;
-    --bg2: #261a32;
-    --fg: #f4e9dc;
-    --soft: #cfc0b7;
-    --mut: #958598;
-    --line: rgba(244, 233, 220, 0.14);
-    --fgr: 244, 233, 220;
-    --bgr: 27, 19, 36;
-    --olive: #5fe0d2;
-    --orange: #ff6b3d;
-    --cream: #e7a94c;
-    --pill: #1b1324;
-    --stk: #000;
-    --txo: 0.12;
-    --txb: soft-light;
-    /* Cielo arriba, horizonte y agua de piscina abajo (fondo del inicio) */
-    --sky: radial-gradient(1100px 260px at 50% 86%, rgba(70, 217, 200, 0.45), transparent 70%),
-      linear-gradient(180deg, #0a1230 0%, #24173f 32%, #6c2752 56%, #c9455d 68%, #0c2a30 70%, #0f3b40 84%, #1b1324 100%);
-    color-scheme: dark;
-  }
-  :root[data-design="atardecer"][data-theme="light"] {
-    --bg: #ede3d6;
-    --bg2: #e3d6c5;
-    --fg: #2b1a26;
-    --soft: #5b4651;
-    --mut: #8a7781;
-    --line: rgba(43, 26, 38, 0.15);
-    --fgr: 43, 26, 38;
-    --bgr: 237, 227, 214;
-    --olive: #1aa89c;
-    --orange: #8e2434;
-    --cream: #d89a3a;
-    --pill: #fff7ee;
-    --stk: #fff;
-    --txo: 0.22;
-    --txb: multiply;
-    --sky: linear-gradient(180deg, #d9c3d6 0%, #eec2c0 35%, #f6b394 60%, #f7c79a 70%, #9fded5 71%, #c9ece6 84%, #ede3d6 100%);
-    color-scheme: light;
-  }
-  :root[data-design="atardecer"] body {
-    --tex: url(/img/atardecer/marmol.jpg);
-    --leo: url(/img/atardecer/boucle.jpg);
-  }
-  :root[data-design="atardecer"] #inicio > .sticky {
-    background: var(--sky);
   }
 }

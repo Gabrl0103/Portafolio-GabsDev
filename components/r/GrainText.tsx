@@ -7,7 +7,13 @@ import { grain, rgbOf } from "@/lib/grain";
  * Texto con grano dibujado en un canvas. El tamaño y el color salen de las clases
  * (text-[…], text-fg) y se vuelve a dibujar al cambiar el tema o el tamaño de la ventana.
  */
-export default function GrainText({ text, className }: { text: string; className?: string }) {
+export default function GrainText({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -38,7 +44,10 @@ export default function GrainText({ text, className }: { text: string; className
     draw();
     addEventListener("resize", later);
     const mo = new MutationObserver(later);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-design"] });
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
     return () => {
       clearTimeout(t);
       removeEventListener("resize", later);
@@ -46,5 +55,12 @@ export default function GrainText({ text, className }: { text: string; className
     };
   }, [text]);
 
-  return <canvas ref={ref} role="img" aria-label={text} className={`block max-w-none ${className ?? ""}`} />;
+  return (
+    <canvas
+      ref={ref}
+      role="img"
+      aria-label={text}
+      className={`block max-w-none ${className ?? ""}`}
+    />
+  );
 }
