@@ -35,7 +35,7 @@ export default function TestimonialsR() {
                 </span>
                 <span aria-hidden="true">“</span>
               </div>
-              <blockquote className="max-w-[20em] font-disp text-[clamp(28px,4.4vw,70px)] leading-[1.04] font-medium tracking-[-.045em]">{t.quote}</blockquote>
+              <blockquote className="max-w-[20em] font-disp text-[clamp(22px,3vw,46px)] leading-[1.1] font-medium tracking-[-.045em]">{t.quote}</blockquote>
               <figcaption className="flex items-end justify-between gap-5 font-disp text-[15px] font-medium">
                 <span>
                   {t.name}
