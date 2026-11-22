@@ -32,7 +32,7 @@ export default function ServicesR() {
   const { services, sections } = useContent();
   const odd = services.length % 2 === 1;
   return (
-    <section id="servicios" className="tx pana [--txk:.6] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="tx pana banda [--txk:.6] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> {sections.find((s) => s.id === "servicios")?.label}

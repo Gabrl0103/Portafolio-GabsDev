@@ -35,7 +35,7 @@ export default function TestimonialsR() {
               key={i}
               style={{ top: `calc(90px + ${i * 26}px)` }}
               className={cx(
-                "sticky isolate mb-[12vh] flex min-h-[min(62vh,520px)] flex-col justify-between gap-[30px] overflow-hidden rounded-[26px] p-[clamp(24px,3.4vw,52px)] shadow-[0_30px_70px_-40px_rgba(0,0,0,.6)] before:absolute before:inset-0 before:-z-1 before:bg-(image:--tex) before:bg-[length:360px] before:opacity-[.22] before:mix-blend-multiply",
+                "sticky isolate mb-[12vh] flex min-h-[min(62vh,520px)] flex-col justify-between gap-[30px] overflow-hidden rounded-[26px] p-[clamp(24px,3.4vw,52px)] shadow-[0_30px_70px_-40px_rgba(0,0,0,.6)] before:absolute before:inset-0 before:-z-1 before:bg-(image:--tex) before:bg-[length:360px] before:opacity-[.22] before:mix-blend-multiply light:before:opacity-[.1]",
                 CARD,
               )}
             >

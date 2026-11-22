@@ -41,7 +41,7 @@ export default function ExperienceR() {
   return (
     <section
       id="experiencia"
-      className="tx overflow-x-clip bg-[linear-gradient(180deg,transparent,#121014_30%,#121014_70%,transparent)] py-[clamp(90px,11vw,170px)] [--tx:url(/img/boucle.jpg)] [--txk:2] light:bg-none light:[--txk:.75]"
+      className="tx overflow-x-clip bg-[linear-gradient(180deg,transparent,#121014_30%,#121014_70%,transparent)] py-[clamp(90px,11vw,170px)] [--tx:url(/img/boucle.jpg)] [--txk:2] light:bg-none light:before:hidden"
     >
       <div ref={wrap} className="wrap relative isolate">
         <div

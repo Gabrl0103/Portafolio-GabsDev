@@ -82,12 +82,8 @@
     background-blend-mode: screen;
     animation: pana 80s linear infinite;
   }
-  [data-theme="light"] &::before {
-    background-image: radial-gradient(circle, rgba(26, 21, 18, 0.55) 1.1px, transparent 1.7px);
-    background-size: 26px 26px;
-    background-blend-mode: normal;
-    animation: none;
-  }
+  /* En el tema claro Servicios es una banda oscura lisa */
+  [data-theme="light"] &::before { display: none; }
 }
 /*
  * Tarjetas de Servicios (tema oscuro), sin depender del desenfoque del navegador:
@@ -133,6 +129,31 @@
   background:
     linear-gradient(180deg, var(--bg), transparent 220px, transparent calc(100% - 220px), var(--bg)),
     radial-gradient(900px 540px at var(--gx, 90%) var(--gy, 0%), color-mix(in srgb, var(--gc, var(--orange)) 9%, transparent), transparent 70%);
+  /* En el tema claro el fondo es liso: el ritmo lo dan las bandas oscuras */
+  [data-theme="light"] & { background: none; }
+}
+/*
+ * Banda oscura del tema claro (Servicios y Contacto): la sección cambia su paleta a café oscuro
+ * y entra y sale con un degradado. Con --banda-fin: none la banda sigue oscura hasta el final (Contacto y pie).
+ */
+@utility banda {
+  [data-theme="light"] & {
+    --bg: #231c17;
+    --bg2: #2d241e;
+    --fg: #f1e6d3;
+    --soft: #cbbfae;
+    --mut: #9c8f80;
+    --line: rgba(241, 230, 211, 0.14);
+    --fgr: 241, 230, 211;
+    --bgr: 35, 28, 23;
+    --pill: #1a1512;
+    --olive: #a9bc5b;
+    --orange: #e07a52;
+    --cream: #e8c28a;
+    --stk: #000;
+    color: var(--fg);
+    background: linear-gradient(180deg, transparent, #231c17 220px, #231c17 calc(100% - 220px), var(--banda-fin, transparent));
+  }
 }
 /* Aparece al entrar en pantalla (Reveal.tsx añade .vis). Variantes con data-a */
 @utility rv {
