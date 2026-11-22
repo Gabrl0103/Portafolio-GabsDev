@@ -53,8 +53,13 @@
   font: 500 clamp(44px, 8.6vw, 150px) / 0.92 var(--font-disp);
   letter-spacing: -0.05em;
 }
-/* Sección con textura de fondo (cuero o leopardo), desvanecida arriba y abajo */
-@utility tx {
+/*
+ * Material único de fondo: cuero con una luz suave de color. Se usa en Servicios, Experiencia y Contacto,
+ * igual en ambos temas. --gc color de la luz · --gx --gy dónde está.
+ * --cuero-fin: #000 para que el cuero siga hasta el final (Contacto y pie).
+ * --cuero-mezcla y --cuero-op ajustan cómo se ve sobre el papel del tema claro.
+ */
+@utility cuero {
   position: relative;
   isolation: isolate;
   &::before {
@@ -63,30 +68,38 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: var(--tx, var(--tex));
-    background-size: 560px;
-    opacity: calc(var(--txo) * var(--txk, 1.5));
-    mix-blend-mode: var(--txb);
-    /* Entra y sale con un fundido largo, para que no se note dónde empieza la sección */
-    mask-image: linear-gradient(180deg, transparent, #000 min(34%, 340px), #000 max(66%, calc(100% - 340px)), transparent);
+    background-image:
+      url(/img/cuero-oscuro.jpg),
+      radial-gradient(70% 60% at var(--gx, 80%) var(--gy, 30%), color-mix(in srgb, var(--gc, var(--olive)) 20%, transparent), transparent 70%);
+    background-size: 420px, cover;
+    background-repeat: repeat, no-repeat;
+    background-blend-mode: soft-light, normal;
+    opacity: 0.9;
+    mask-image: linear-gradient(180deg, transparent, #000 min(30%, 300px), #000 max(70%, calc(100% - 300px)), var(--cuero-fin, transparent));
+  }
+  [data-theme="light"] &::before {
+    background-image:
+      url(/img/cuero.jpg),
+      radial-gradient(70% 60% at var(--gx, 80%) var(--gy, 30%), color-mix(in srgb, var(--gc, var(--olive)) 24%, transparent), transparent 70%);
+    background-blend-mode: normal;
+    mix-blend-mode: var(--cuero-mezcla, soft-light);
+    opacity: var(--cuero-op, 0.55);
   }
 }
-/*
- * Pana de Servicios. Oscuro: dos capas de pana que se desplazan despacio en sentidos
- * contrarios; al cruzarse forman ondas que se mueven. Claro: retícula de puntos fija.
- */
-@utility pana {
+/* El mismo cuero, muy sutil, dentro de tarjetas y paneles */
+@utility cuero-tarjeta {
+  isolation: isolate;
   &::before {
-    background-image: url(/img/pana.jpg), url(/img/pana.jpg);
-    background-size: 560px, 720px;
-    background-blend-mode: screen;
-    animation: pana 80s linear infinite;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: url(/img/cuero.jpg) 0 0 / 360px;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
   }
-  /* En el tema claro Servicios es una banda oscura lisa */
-  [data-theme="light"] &::before { display: none; }
-}
-@keyframes pana {
-  to { background-position: 0 560px, 0 -720px; }
 }
 /*
  * Luz de color suave en una esquina de las secciones lisas (Ritmo: liso con grano y luz / textura).
@@ -189,12 +202,6 @@
   .sp .li { display: block; transform: translateY(112%) rotate(4deg); transform-origin: 0 100%; transition: transform 1.3s var(--ease-expo); transition-delay: calc(var(--i) * 0.13s); }
   .sp.vis .li { transform: none; }
 
-  /* Textura que sigue al cursor dentro de una tarjeta (--mx, --my) */
-  .tex-hover {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.6s;
-    background-image: var(--leo); background-size: 250px; mix-blend-mode: hard-light;
-    mask-image: radial-gradient(circle 250px at var(--mx, 50%) var(--my, 50%), #000 38%, transparent);
-  }
 }
 
 /* Cambio de tema: el tema nuevo entra en círculo sobre el anterior (theme.ts) */
