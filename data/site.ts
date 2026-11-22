@@ -17,7 +17,7 @@ export const site = {
   instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",
   /** Tu foto en Acerca de mí (vertical 4:5). Ponla en /public/images y escribe la ruta, p. ej. "/images/gabs.jpg". Vacío = marcador. */
-  portrait: "",
+  portrait: "/images/gabriel-retrato.webp",
   year: 2026,
 } as const;
 
