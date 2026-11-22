@@ -4,7 +4,6 @@ import { cx } from "../ui";
 import { lab } from "./btn";
 import SplitTitle from "./SplitTitle";
 
-const pad = (n: number) => String(n).padStart(2, "0");
 const COLORS = [
   "var(--olive)",
   "var(--cream)",
@@ -21,7 +20,7 @@ const brand = (n: TechIconName) => {
 
 /**
  * Servicios: una tarjeta por servicio en cuadrícula de 2 columnas (1 en celular),
- * con número de color, logos de las tecnologías, descripción y lo que incluye.
+ * con los logos de las tecnologías (su nombre aparece al pasar el cursor), descripción y lo que incluye.
  * Si el número de servicios es impar, el último ocupa todo el ancho.
  */
 export default function ServicesR() {
@@ -59,29 +58,38 @@ export default function ServicesR() {
                   )}
                 >
                   <div>
-                    <div className="flex items-start justify-between gap-4">
-                      <span className="grid size-12 shrink-0 place-items-center rounded-full bg-(--c) font-mono text-sm font-medium text-pill">
-                        {pad(i + 1)}
-                      </span>
-                      {s.tools.length > 0 && (
-                        <ul
-                          className="flex flex-wrap items-center justify-end gap-3"
-                          aria-label="Con qué lo hago"
-                        >
-                          {s.tools.map((t) => (
-                            <li
-                              key={t.name}
-                              title={t.name}
+                    {s.tools.length > 0 && (
+                      <ul
+                        className="flex flex-wrap items-center gap-2"
+                        aria-label="Con qué lo hago"
+                      >
+                        {s.tools.map((t) => (
+                          <li key={t.name} className="group/tool relative">
+                            {/* Al pasar el cursor (o con el teclado) aparece el nombre de la tecnología */}
+                            <span
+                              tabIndex={0}
+                              aria-label={t.name}
                               style={{ color: brand(t.icon) }}
+                              className="grid size-10 cursor-default place-items-center rounded-xl border border-line bg-bg/40 outline-offset-2 transition-[border-color,translate] duration-300 group-hover/tool:-translate-y-0.5 group-hover/tool:border-fg/40"
                             >
-                              <TechIcon name={t.icon} size={22} />
-                              <span className="sr-only">{t.name}</span>
-                            </li>
-                          ))}
-                        </ul>
+                              <TechIcon name={t.icon} size={20} />
+                            </span>
+                            <span
+                              role="tooltip"
+                              className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-10 -translate-x-1/2 translate-y-1 rounded-lg bg-fg px-2.5 py-1 font-disp text-[13px] font-medium whitespace-nowrap text-bg opacity-0 shadow-lg transition-[opacity,translate] duration-200 group-focus-within/tool:translate-y-0 group-focus-within/tool:opacity-100 group-hover/tool:translate-y-0 group-hover/tool:opacity-100"
+                            >
+                              {t.name}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <h3
+                      className={cx(
+                        "font-disp text-[clamp(32px,3.4vw,48px)] leading-none font-medium tracking-[-.045em] transition-colors duration-300 group-hover:text-(--c)",
+                        s.tools.length > 0 && "mt-8",
                       )}
-                    </div>
-                    <h3 className="mt-8 font-disp text-[clamp(32px,3.4vw,48px)] leading-none font-medium tracking-[-.045em] transition-colors duration-300 group-hover:text-(--c)">
+                    >
                       {s.title}
                     </h3>
                     <p className="mt-4 max-w-[30em] text-[17px] leading-normal text-soft">
