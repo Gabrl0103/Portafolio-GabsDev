@@ -43,9 +43,9 @@ export default function ProjectsR() {
   }, []);
 
   return (
-    <section id="proyectos" className="glow [--gc:var(--cream)] [--gx:92%] [--gy:4%] light:[--gc:var(--orange)] pt-[clamp(40px,6vw,90px)] pb-[clamp(90px,11vw,170px)]">
+    <section id="proyectos" className="glow [--gc:var(--cream)] [--gx:92%] [--gy:4%] light:[--gc:var(--orange)] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
-        <div className="mt-7 flex items-end justify-between gap-5">
+        <div className="flex items-end justify-between gap-5">
           <div>
             <div className={cx(lab, "rv")}>
               <b>(02)</b> Proyectos
