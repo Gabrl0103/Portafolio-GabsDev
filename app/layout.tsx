@@ -9,13 +9,13 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["40
 const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 /** Etiquetas en mayúsculas */
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
-/** Texto con grano ("Gabs" gigante y la intro) */
+/** Texto con grano ("Gabriel" gigante y la intro) */
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: "800" });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
   description:
-    "Portafolio de Gabs, estudiante de Ingeniería de Software en Pasto. Apps web, móvil y de escritorio con Next.js, TypeScript y Tailwind CSS.",
+    "Portafolio de Gabriel Guerrero, estudiante de Ingeniería de Software en Pasto. Apps web, móvil y de escritorio con Next.js, TypeScript y Tailwind CSS.",
   openGraph: {
     title: `${site.name} · Portafolio`,
     description: "Diseño y construyo apps web, móvil y de escritorio.",

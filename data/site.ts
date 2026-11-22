@@ -3,7 +3,7 @@
  * Lo que está entre [corchetes] es un marcador pendiente.
  */
 export const site = {
-  name: "Gabs",
+  name: "Gabriel",
   role: "Desarrollador Full Stack & IA",
   city: "Pasto, Colombia",
   university: "Universidad Cooperativa de Colombia",

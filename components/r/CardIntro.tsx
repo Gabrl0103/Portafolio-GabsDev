@@ -1,5 +1,6 @@
 "use client";
 
+import { site } from "@/data/site";
 import { useEffect, useRef, useState } from "react";
 import { grain } from "@/lib/grain";
 
@@ -61,7 +62,7 @@ export default function CardIntro() {
       const cols = Math.ceil(W / sx) + 2;
       const rows = Math.ceil(H / sy) + 2;
       const two = GRAIN.map((g) => grain("2", 300, g).toDataURL());
-      const name = GRAIN.map((g) => grain("Gabs", 120, g).toDataURL());
+      const name = GRAIN.map((g) => grain(site.name, 120, g).toDataURL());
       const els: { el: HTMLDivElement; r: number; x: number; y: number }[] = [];
       const mono = "position:absolute;font:500 clamp(7px,.72vw,10px)/1.45 var(--font-mono);letter-spacing:.1em;text-transform:uppercase";
 
