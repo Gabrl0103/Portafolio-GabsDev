@@ -81,6 +81,20 @@
     animation: none;
   }
 }
+/* Centro de las tarjetas de Servicios: la misma pana ya desenfocada, con sus ondas suaves en movimiento */
+@utility pana-soft {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url(/img/pana-suave.jpg), url(/img/pana-suave.jpg);
+  background-size: 560px, 720px;
+  background-blend-mode: screen;
+  animation: pana 80s linear infinite;
+  opacity: 0.11;
+  [data-theme="light"] & { display: none; }
+}
 /* Borde de las tarjetas de Servicios: la pana nítida solo en la orilla, desvaneciéndose hacia adentro */
 @utility pana-edge {
   position: absolute;
