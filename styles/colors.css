@@ -53,10 +53,6 @@
     --pill: #101113;
     /* Trazo de los logos que dependen del tema */
     --stk: #000;
-
-    /* Texturas de fondo: opacidad y modo de mezcla */
-    --txo: 0.13;
-    --txb: soft-light;
     color-scheme: dark;
   }
 
@@ -75,8 +71,6 @@
     --orange: #b24a28;
     --cream: #9a7650;
     --stk: #fff;
-    --txo: 0.2;
-    --txb: multiply;
     color-scheme: light;
   }
 }

@@ -28,7 +28,7 @@ export default function ContactR() {
   return (
     <section
       id="contacto"
-      className="banda relative isolate overflow-hidden pt-[clamp(90px,11vw,170px)] [--banda-fin:#33281f] before:absolute before:inset-0 before:-z-1 before:bg-[url(/img/cuero-oscuro.jpg)] before:bg-[length:420px] before:opacity-[.8] before:[mask-image:linear-gradient(180deg,transparent,#000_min(40%,380px))] light:before:mix-blend-soft-light light:before:bg-(image:--tex) light:before:opacity-[.18] light:after:hidden after:absolute after:inset-0 after:-z-1 after:bg-[linear-gradient(180deg,var(--bg)_0,transparent_30%,transparent_70%,rgba(var(--bgr),.6))]"
+      className="cuero banda relative isolate overflow-hidden pt-[clamp(90px,11vw,170px)] [--banda-fin:#33281f] [--cuero-fin:#000] [--gc:var(--orange)] [--gx:15%] [--gy:20%]"
     >
       <div className="wrap">
         <div className={cx(lab, "rv")}>
@@ -85,7 +85,7 @@ export default function ContactR() {
 
           <div
             data-a="right"
-            className="rv relative rounded-3xl border border-line bg-[rgba(var(--bgr),.78)] p-[clamp(18px,2.2vw,30px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] backdrop-blur-[16px]"
+            className="rv cuero-tarjeta relative rounded-3xl border border-line bg-[rgba(var(--bgr),.78)] p-[clamp(18px,2.2vw,30px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] backdrop-blur-[16px]"
           >
             <Tape v={2} className="-top-3 right-12 rotate-[5deg]" />
             <div role="tablist" aria-label={t("Forma de contacto", "How to contact me")} className="flex gap-1 rounded-full border border-line p-1">
