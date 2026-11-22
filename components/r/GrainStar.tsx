@@ -19,8 +19,12 @@ const MOON_PATH = "M14.6 2.6A10.4 10.4 0 1 0 21.4 18.2A8.4 8.4 0 1 1 14.6 2.6Z";
 const GOLD = [255, 214, 150];
 const AMBER = [231, 169, 76];
 const MOONLIGHT = [255, 246, 226];
+/** Diamante: la estrella de Cenit en blanco hielo, con facetas, destellos y resplandor. */
+const ICE = [214, 222, 236];
+const STEEL = [118, 128, 150];
+const WHITE = [255, 255, 255];
 
-export type GrainSymbol = "star" | "moon";
+export type GrainSymbol = "star" | "moon" | "diamond";
 
 /**
  * Estrella de grano: la estrella de Cenit dibujada punto a punto con grano (como el "Gabriel" del inicio).
@@ -43,8 +47,13 @@ export default function GrainStar({
     const mctx = mask.getContext("2d", { willReadFrequently: true });
     if (!cv || !ctx || !mctx) return;
     const moon = symbol === "moon";
+    const gem = symbol === "diamond";
     const STAR = new Path2D(moon ? MOON_PATH : STAR_PATH);
-    const [A, B, HI] = moon ? [GOLD, AMBER, MOONLIGHT] : [OLIVE, ORANGE, CREAM];
+    const [A, B, HI] = moon
+      ? [GOLD, AMBER, MOONLIGHT]
+      : gem
+        ? [ICE, STEEL, WHITE]
+        : [OLIVE, ORANGE, CREAM];
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let W = 0;
     let H = 0;
@@ -76,7 +85,8 @@ export default function GrainStar({
       size();
       if (!img) return;
       const t = (now - t0) / 1000;
-      const S = (Math.min(W, H) * 0.86) / 22; // la estrella mide 22 de alto en su viewBox
+      // la estrella mide 22 de alto en su viewBox; el diamante deja sitio para su resplandor
+      const S = (Math.min(W, H) * (gem ? 0.76 : 0.86)) / 22;
       const breathe = 1 + 0.025 * Math.sin(t * 1.3);
       // Aguja: se balancea alrededor del norte y de vez en cuando gira un poco más
       const ang =
@@ -100,10 +110,35 @@ export default function GrainStar({
       const R = 11 * S;
       const ca = Math.cos(-ang);
       const sa = Math.sin(-ang);
+      // Diamante: el resplandor late despacio y un destello cruza las facetas cada pocos segundos
+      const pulse = 0.85 + 0.15 * Math.sin(t * 1.7);
+      const flareK = 0.75 + 0.25 * Math.sin(t * 2.3 + 1);
+      const sweep = ((t * 0.45) % 3) - 1.5;
       for (let k = 0, y = 0; y < H; y++) {
         for (let x = 0; x < W; x++, k += 4) {
           const dens = a[k + 3] / 255;
           if (dens < 0.02 || Math.random() > Math.min(1, dens * 1.15)) {
+            if (gem && dens < 0.5) {
+              // Resplandor de grano: halo suave y una cruz de luz fija, como el brillo de una piedra
+              const gx = (x - cx) / R;
+              const gy = (y - cy) / R;
+              const halo = 0.42 * Math.exp(-(gx * gx + gy * gy) * 1.9) * pulse;
+              const flare =
+                flareK *
+                (Math.exp(-(gy * gy) / 0.0016) * Math.exp(-Math.abs(gx) * 1.3) +
+                  0.8 *
+                    Math.exp(-(gx * gx) / 0.0016) *
+                    Math.exp(-Math.abs(gy) * 1.5));
+              const g = Math.min(1, halo + flare * 0.75);
+              if (g > 0.02 && Math.random() < g * 1.4) {
+                const w = 235 + Math.random() * 20;
+                d[k] = w;
+                d[k + 1] = w;
+                d[k + 2] = 255;
+                d[k + 3] = (120 + Math.random() * 135) * Math.min(1, g * 1.6);
+                continue;
+              }
+            }
             d[k + 3] = 0;
             continue;
           }
@@ -114,7 +149,13 @@ export default function GrainStar({
           const v = (dx * sa + dy * ca) / R;
           // Facetas: cada punta tiene un lado claro y uno oscuro, como una estrella tallada
           // Estrella: facetas como una piedra tallada. Luna: luz que baja de arriba.
-          const facet = moon ? 0.85 - v * 0.25 : u > 0 !== v > 0 ? 1 : 0.62;
+          const facet = moon
+            ? 0.85 - v * 0.25
+            : u > 0 !== v > 0
+              ? 1
+              : gem
+                ? 0.42
+                : 0.62;
           const core = Math.max(0, 1 - Math.hypot(u, v) * 1.6);
           const light = Math.min(1.15, 0.45 + facet * 0.45 + core * 0.5);
           // Color: olivo → naranja a lo largo de la diagonal, con un brillo que la recorre
@@ -127,7 +168,15 @@ export default function GrainStar({
                 0.25 * Math.sin(t * 0.8 + v * 3),
             ),
           );
-          const spec = Math.min(1, Math.max(0, core * 1.4 - 0.25));
+          // Brillo: el centro, y en el diamante también el destello que cruza y chispas sueltas
+          const glint = gem
+            ? Math.exp(-(((u + v) * 0.7 - sweep) ** 2) / 0.01)
+            : 0;
+          const spark = gem && Math.random() < 0.02 ? 1 : 0;
+          const spec = Math.min(
+            1,
+            Math.max(0, core * (gem ? 1.8 : 1.4) - 0.25) + glint * 0.9 + spark,
+          );
           const n = (Math.random() - 0.5) * 50;
           for (let c = 0; c < 3; c++) {
             const base = A[c] + (B[c] - A[c]) * m;

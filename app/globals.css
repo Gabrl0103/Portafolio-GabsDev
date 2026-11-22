@@ -20,6 +20,12 @@
   --ease-back: cubic-bezier(0.3, 1.5, 0.5, 1);
   --animate-bob: bob var(--d, 7s) ease-in-out infinite;
 
+  --animate-brillo: brillo 4.5s ease-in-out infinite;
+
+  @keyframes brillo {
+    0%, 100% { opacity: 0.7; scale: 0.94; }
+    50% { opacity: 1; scale: 1.04; }
+  }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
     50% { translate: 0 -14px; }
@@ -121,7 +127,10 @@
  * --gx --gy: posición · --gc: color de acento
  */
 @utility glow {
-  background: radial-gradient(900px 540px at var(--gx, 90%) var(--gy, 0%), color-mix(in srgb, var(--gc, var(--orange)) 9%, transparent), transparent 70%);
+  /* Arriba y abajo la luz se funde con el fondo, para que no se corte en el borde de la sección */
+  background:
+    linear-gradient(180deg, var(--bg), transparent 220px, transparent calc(100% - 220px), var(--bg)),
+    radial-gradient(900px 540px at var(--gx, 90%) var(--gy, 0%), color-mix(in srgb, var(--gc, var(--orange)) 9%, transparent), transparent 70%);
 }
 /* Aparece al entrar en pantalla (Reveal.tsx añade .vis). Variantes con data-a */
 @utility rv {
