@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
-import { sections, site } from "@/data/site";
+import { site } from "@/data/site";
 import { testimonials } from "@/data/testimonials";
+import { useContent } from "@/lib/content";
+import { otherLangHref, useLang, useT } from "@/lib/i18n";
 import Clock from "../Clock";
 import { cx } from "../ui";
 import GrainText from "./GrainText";
@@ -41,6 +43,9 @@ function ThemeIcon() {
  * y menú de pantalla completa que se abre como una cortina.
  */
 export default function Nav() {
+  const t = useT();
+  const lang = useLang();
+  const { sections } = useContent();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("");
@@ -76,7 +81,7 @@ export default function Nav() {
       if (el) io.observe(el);
     });
     return () => io.disconnect();
-  }, []);
+  }, [sections]);
 
   // Bloquea el scroll con el menú abierto y lo cierra con Escape.
   useEffect(() => {
@@ -110,7 +115,7 @@ export default function Nav() {
         </a>
 
         <nav
-          aria-label="Secciones"
+          aria-label={t("Secciones", "Sections")}
           className="flex items-center gap-[clamp(14px,1.8vw,28px)] font-disp text-sm font-medium tracking-[-.01em] max-[1180px]:hidden"
         >
           {sections
@@ -141,10 +146,19 @@ export default function Nav() {
         </nav>
 
         <div className="flex items-center gap-3">
+          {/* Idioma: lleva a la misma página en el otro idioma */}
+          <a
+            href={otherLangHref(lang)}
+            hrefLang={lang === "en" ? "es" : "en"}
+            aria-label={t("Ver en inglés", "View in Spanish")}
+            className="mono grid h-[38px] place-items-center rounded-full border border-current px-3.5"
+          >
+            {lang === "en" ? "ES" : "EN"}
+          </a>
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label="Cambiar tema claro u oscuro"
+            aria-label={t("Cambiar tema claro u oscuro", "Toggle light or dark theme")}
             className="grid size-[38px] cursor-pointer place-items-center rounded-full border border-current bg-transparent"
           >
             <ThemeIcon />
@@ -156,7 +170,7 @@ export default function Nav() {
             aria-controls="menu"
             className="flex h-[38px] cursor-pointer items-center gap-2.5 rounded-full border border-current bg-transparent pr-4 pl-[18px]"
           >
-            <span className="mono">{open ? "Cerrar" : "Menú"}</span>
+            <span className="mono">{open ? t("Cerrar", "Close") : t("Menú", "Menu")}</span>
             <svg
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -176,7 +190,7 @@ export default function Nav() {
         id="menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menú de navegación"
+        aria-label={t("Menú de navegación", "Navigation menu")}
         inert={!open}
         className={cx(
           "fixed inset-0 z-[99] bg-bg [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1),visibility_0s_.85s] before:pointer-events-none before:absolute before:inset-0 before:bg-(image:--leo) before:bg-[length:480px] before:opacity-10 before:mix-blend-(--txb)",
@@ -234,7 +248,7 @@ export default function Nav() {
             }}
             className="mono flex h-[46px] cursor-pointer items-center justify-center rounded-md border border-fg bg-fg text-bg transition-colors hover:border-orange hover:bg-orange hover:text-white"
           >
-            {copied ? "¡Copiado!" : "Copiar correo"}
+            {copied ? t("¡Copiado!", "Copied!") : t("Copiar correo", "Copy email")}
           </button>
           <a
             href={site.github}
@@ -253,7 +267,7 @@ export default function Nav() {
             onClick={toggleTheme}
             className="flex cursor-pointer items-center gap-2 border-0 bg-transparent"
           >
-            ◐ Tema
+            ◐ {t("Tema", "Theme")}
           </button>
         </div>
       </div>

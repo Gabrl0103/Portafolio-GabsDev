@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { projects } from "@/data/projects";
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import type { Project } from "@/types";
 import { cx } from "../ui";
 import RefArt from "./RefArt";
@@ -38,11 +39,11 @@ export function Visual({
   );
 }
 
-/** "Proyecto académico · Wear OS · En equipo" → "Wear OS" */
+/** "Proyecto académico · Wear OS · En equipo" → "Wear OS" (también en inglés: "Academic project · … · Team") */
 const platform = (kind: string) =>
   kind
     .split(" · ")
-    .filter((x) => !x.startsWith("Proyecto") && x !== "En equipo")
+    .filter((x) => !/^(Proyecto|Project|University|Academic|Client|Business)\b/.test(x) && x !== "En equipo" && x !== "Team")
     .join(" · ");
 
 type Shot = { src: string; ratio: number };
@@ -88,6 +89,8 @@ export default function ProjectList({
 }: {
   onOpen: (k: number) => void;
 }) {
+  const t = useT();
+  const { projects } = useContent();
   const [on, setOn] = useState<number | null>(null);
   const [rowY, setRowY] = useState(0);
 
@@ -131,7 +134,7 @@ export default function ProjectList({
                 onMouseEnter={pick(k)}
                 onFocus={pick(k)}
                 onClick={() => onOpen(k)}
-                aria-label={`Abrir ${p.title}`}
+                aria-label={t(`Abrir ${p.title}`, `Open ${p.title}`)}
                 className="grid w-full cursor-pointer grid-cols-[clamp(90px,9vw,130px)_minmax(0,1fr)_minmax(0,auto)_28px] items-center gap-x-[clamp(16px,2vw,32px)] py-[clamp(10px,1.2vw,18px)] text-left max-[900px]:grid-cols-[minmax(0,1fr)_96px] max-[900px]:gap-y-2 max-[900px]:py-5"
               >
                 <span
@@ -140,7 +143,7 @@ export default function ProjectList({
                     a ? "text-fg" : "text-mut",
                   )}
                 >
-                  Proyecto /{pad(k + 1)}
+                  {t("Proyecto", "Project")} /{pad(k + 1)}
                 </span>
 
                 <span

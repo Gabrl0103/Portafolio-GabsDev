@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { projects } from "@/data/projects";
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
@@ -10,11 +11,11 @@ import Gallery from "./Gallery";
 import ProjectList, { COLORS, pad, Visual } from "./ProjectList";
 import SplitTitle from "./SplitTitle";
 
-const detailRows: [keyof Project["detail"], string][] = [
-  ["problema", "Problema"],
-  ["solucion", "Solución"],
-  ["rol", "Mi rol"],
-  ["resultado", "Resultado"],
+const detailRows: [keyof Project["detail"], string, string][] = [
+  ["problema", "Problema", "Problem"],
+  ["solucion", "Solución", "Solution"],
+  ["rol", "Mi rol", "My role"],
+  ["resultado", "Resultado", "Outcome"],
 ];
 
 /** Enlaces del proyecto en orden: demo, principal y secundario. */
@@ -22,6 +23,8 @@ const links = (p: Project) => [p.demo, p.primary, p.secondary].filter((l): l is 
 
 /** Proyectos: índice editorial con capturas flotantes y el detalle a pantalla completa. */
 export default function ProjectsR() {
+  const t = useT();
+  const { projects, sections } = useContent();
   const [open, setOpen] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -40,7 +43,7 @@ export default function ProjectsR() {
     };
     addEventListener("open-project", onOpen);
     return () => removeEventListener("open-project", onOpen);
-  }, []);
+  }, [projects]);
 
   return (
     <section id="proyectos" className="glow [--gc:var(--cream)] [--gx:92%] [--gy:4%] light:[--gc:var(--orange)] py-[clamp(90px,11vw,170px)]">
@@ -48,9 +51,9 @@ export default function ProjectsR() {
         <div className="flex items-end justify-between gap-5">
           <div>
             <div className={cx(lab, "rv")}>
-              <b>(02)</b> Proyectos
+              <b>(02)</b> {sections.find((s) => s.id === "proyectos")?.label}
             </div>
-            <SplitTitle lines={["Trabajo", "seleccionado"]} className="mt-[22px]" />
+            <SplitTitle lines={[t("Trabajo", "Selected"), t("seleccionado", "work")]} className="mt-[22px]" />
           </div>
           <span className="mono rv text-mut">({pad(projects.length)})</span>
         </div>
@@ -65,6 +68,8 @@ export default function ProjectsR() {
 
 /** Detalle del proyecto: sube desde abajo y ocupa toda la pantalla. */
 function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
+  const t = useT();
+  const { projects } = useContent();
   const [last, setLast] = useState(0);
   if (k !== null && k !== last) setLast(k);
   const p = projects[k ?? last];
@@ -94,7 +99,7 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
       ref={panel}
       role="dialog"
       aria-modal="true"
-      aria-label={`Detalle de ${p.title}`}
+      aria-label={t(`Detalle de ${p.title}`, `${p.title} details`)}
       inert={!isOpen}
       style={{ "--pa": color } as React.CSSProperties}
       className={cx(
@@ -107,7 +112,7 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
           {pad((k ?? last) + 1)} / {pad(projects.length)}
         </span>
         <button ref={closeBtn} type="button" onClick={onClose} className={btn}>
-          Cerrar ✕
+          {t("Cerrar", "Close")} ✕
         </button>
       </div>
       <div className="mx-auto mt-10 grid max-w-[1360px] grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-[clamp(24px,5vw,90px)] max-[900px]:grid-cols-1">
@@ -128,9 +133,9 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
           <p className="max-w-[32em] text-[clamp(18px,1.7vw,24px)] leading-[1.4] text-soft">{p.description}</p>
           <p className="mono mt-[18px] text-mut">{p.tags.join(" · ")}</p>
           <dl className="mt-[30px] border-t border-line">
-            {detailRows.map(([key, label]) => (
+            {detailRows.map(([key, es, en]) => (
               <div key={key} className="grid grid-cols-[120px_1fr] gap-4 border-b border-line py-4 max-[900px]:grid-cols-1 max-[900px]:gap-1">
-                <dt className="mono text-mut">{label}</dt>
+                <dt className="mono text-mut">{t(es, en)}</dt>
                 <dd className="m-0 text-soft">{p.detail[key]}</dd>
               </div>
             ))}
@@ -143,7 +148,7 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
                 </a>
               ) : (
                 <span key={i} className={cx(btn, "pointer-events-none opacity-50")}>
-                  {l.label} · {l.note ?? "Pronto"}
+                  {l.label} · {l.note ?? t("Pronto", "Soon")}
                 </span>
               ),
             )}

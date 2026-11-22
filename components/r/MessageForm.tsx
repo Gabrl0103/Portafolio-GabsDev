@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 import { isEmail, sendMessage } from "@/lib/send";
 import { cx } from "../ui";
 import { btn, btnF } from "./btn";
@@ -13,6 +14,7 @@ const input =
 
 /** Formulario de contacto: nombre, correo y mensaje, con validación y confirmación. */
 export default function MessageForm() {
+  const t = useT();
   const [values, setValues] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [stage, setStage] = useState<"idle" | "sending" | "sent">("idle");
@@ -26,9 +28,9 @@ export default function MessageForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errs: Errors = {};
-    if (values.name.trim().length < 2) errs.name = "Escribe tu nombre.";
-    if (!isEmail(values.email)) errs.email = "Escribe un correo válido.";
-    if (values.message.trim().length < 10) errs.message = "Cuéntame un poco más (mínimo 10 caracteres).";
+    if (values.name.trim().length < 2) errs.name = t("Escribe tu nombre.", "Please enter your name.");
+    if (!isEmail(values.email)) errs.email = t("Escribe un correo válido.", "Please enter a valid email.");
+    if (values.message.trim().length < 10) errs.message = t("Cuéntame un poco más (mínimo 10 caracteres).", "Tell me a bit more (at least 10 characters).");
     setErrors(errs);
     const first = Object.keys(errs)[0];
     if (first) {
@@ -53,8 +55,8 @@ export default function MessageForm() {
   if (stage === "sent")
     return (
       <div role="status" className="mt-[22px] rounded-[14px] border border-dashed border-line p-5">
-        <b className="block font-disp text-[clamp(22px,2vw,28px)] font-medium tracking-[-.03em]">¡Mensaje listo!</b>
-        <p className="mt-2 text-soft">Gracias, {values.name.trim().split(" ")[0]}. Te respondo a {values.email.trim()} en menos de 24 horas.</p>
+        <b className="block font-disp text-[clamp(22px,2vw,28px)] font-medium tracking-[-.03em]">{t("¡Mensaje listo!", "Message sent!")}</b>
+        <p className="mt-2 text-soft">{t("Gracias", "Thanks")}, {values.name.trim().split(" ")[0]}. {t("Te respondo a", "I'll reply to")} {values.email.trim()} {t("en menos de 24 horas.", "within 24 hours.")}</p>
         <button
           type="button"
           onClick={() => {
@@ -63,7 +65,7 @@ export default function MessageForm() {
           }}
           className={cx(btn, "mt-4 h-10")}
         >
-          Escribir otro
+          {t("Escribir otro", "Write another")}
         </button>
       </div>
     );
@@ -85,31 +87,31 @@ export default function MessageForm() {
   });
 
   return (
-    <form noValidate onSubmit={onSubmit} aria-label="Enviar un mensaje" className="mt-[22px] flex flex-col gap-4">
+    <form noValidate onSubmit={onSubmit} aria-label={t("Enviar un mensaje", "Send a message")} className="mt-[22px] flex flex-col gap-4">
       <div>
         <label htmlFor="mf-name" className="mono mb-2 block text-mut">
-          Nombre
+          {t("Nombre", "Name")}
         </label>
-        <input {...field("name")} type="text" autoComplete="name" placeholder="Nombre y apellido" className={cx(input, "h-[46px]")} />
+        <input {...field("name")} type="text" autoComplete="name" placeholder={t("Nombre y apellido", "Full name")} className={cx(input, "h-[46px]")} />
         {err("name")}
       </div>
       <div>
         <label htmlFor="mf-email" className="mono mb-2 block text-mut">
-          Correo
+          {t("Correo", "Email")}
         </label>
-        <input {...field("email")} type="email" autoComplete="email" placeholder="tu@correo.com" className={cx(input, "h-[46px]")} />
+        <input {...field("email")} type="email" autoComplete="email" placeholder={t("tu@correo.com", "you@email.com")} className={cx(input, "h-[46px]")} />
         {err("email")}
       </div>
       <div>
         <label htmlFor="mf-message" className="mono mb-2 block text-mut">
-          Mensaje
+          {t("Mensaje", "Message")}
         </label>
-        <textarea {...field("message")} rows={5} maxLength={800} placeholder="Cuéntame qué necesitas" className={cx(input, "resize-none py-3")} />
+        <textarea {...field("message")} rows={5} maxLength={800} placeholder={t("Cuéntame qué necesitas", "Tell me what you need")} className={cx(input, "resize-none py-3")} />
         {err("message")}
       </div>
-      {failed && <p className="text-sm text-orange">No se pudo enviar. Inténtalo de nuevo o escríbeme directo al correo.</p>}
+      {failed && <p className="text-sm text-orange">{t("No se pudo enviar. Inténtalo de nuevo o escríbeme directo al correo.", "It couldn't be sent. Try again or email me directly.")}</p>}
       <button type="submit" disabled={stage === "sending"} className={cx(btnF, "h-[52px] w-full justify-center disabled:opacity-50")}>
-        {stage === "sending" ? "Enviando…" : "Enviar mensaje"}
+        {stage === "sending" ? t("Enviando…", "Sending…") : t("Enviar mensaje", "Send message")}
       </button>
     </form>
   );

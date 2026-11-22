@@ -1,4 +1,7 @@
-import { services } from "@/data/services";
+"use client";
+
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import TechIcon, { brandColor, type TechIconName } from "../TechIcon";
 import { cx } from "../ui";
 import { lab } from "./btn";
@@ -25,14 +28,16 @@ const brand = (n: TechIconName) => {
  * Si el número de servicios es impar, el último ocupa todo el ancho.
  */
 export default function ServicesR() {
+  const t = useT();
+  const { services, sections } = useContent();
   const odd = services.length % 2 === 1;
   return (
     <section id="servicios" className="tx pana [--txk:.6] light:[--txk:2] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
-          <b>(03)</b> Servicios
+          <b>(03)</b> {sections.find((s) => s.id === "servicios")?.label}
         </div>
-        <SplitTitle lines={["Lo que", "puedo hacer"]} className="mt-[22px]" />
+        <SplitTitle lines={[t("Lo que", "What I"), t("puedo hacer", "can do")]} className="mt-[22px]" />
 
         <ul className="mt-[clamp(36px,5vw,64px)] grid grid-cols-2 gap-3 max-[900px]:grid-cols-1">
           {services.map((s, i) => {
@@ -79,7 +84,7 @@ export default function ServicesR() {
                     {s.tools.length > 0 && (
                       <ul
                         className="flex flex-wrap items-center gap-2"
-                        aria-label="Con qué lo hago"
+                        aria-label={t("Con qué lo hago", "What I use")}
                       >
                         {s.tools.map((t, k) => (
                           <li
@@ -123,7 +128,7 @@ export default function ServicesR() {
                   {wide && (
                     <ul
                       className="flex flex-wrap gap-2 md:justify-end"
-                      aria-label="Incluye"
+                      aria-label={t("Incluye", "Includes")}
                     >
                       {s.items.map((it, k) => (
                         <li
@@ -142,7 +147,7 @@ export default function ServicesR() {
                 {!wide && (
                   <ul
                     className="mt-auto flex flex-wrap gap-2 pt-7"
-                    aria-label="Incluye"
+                    aria-label={t("Incluye", "Includes")}
                   >
                     {s.items.map((it, k) => (
                       <li

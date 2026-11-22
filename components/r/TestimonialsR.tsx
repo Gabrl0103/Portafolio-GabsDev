@@ -1,5 +1,7 @@
-import { site } from "@/data/site";
-import { testimonials } from "@/data/testimonials";
+"use client";
+
+import { useContent } from "@/lib/content";
+import { useT } from "@/lib/i18n";
 import { cx } from "../ui";
 import { lab } from "./btn";
 import SplitTitle from "./SplitTitle";
@@ -11,6 +13,8 @@ const CARD = "bg-[#e9dccb] text-[#1a1512] light:bg-[#f3ebdf]";
 
 /** Testimonios: tarjetas que se apilan al bajar (sticky). */
 export default function TestimonialsR() {
+  const t = useT();
+  const { site, testimonials, sections } = useContent();
   return (
     <section
       id="testimonios"
@@ -18,15 +22,15 @@ export default function TestimonialsR() {
     >
       <div className="wrap">
         <div className={cx(lab, "rv")}>
-          <b>(04)</b> Testimonios
+          <b>(04)</b> {sections.find((s) => s.id === "testimonios")?.label}
         </div>
         <SplitTitle
-          lines={["Lo que dicen", "de trabajar conmigo"]}
+          lines={[t("Lo que dicen", "What people say"), t("de trabajar conmigo", "about working with me")]}
           className="mt-[22px]"
         />
 
         <div className="mt-[clamp(40px,6vw,80px)]">
-          {testimonials.map((t, i) => (
+          {testimonials.map((q, i) => (
             <figure
               key={i}
               style={{ top: `calc(90px + ${i * 26}px)` }}
@@ -46,13 +50,13 @@ export default function TestimonialsR() {
                 <span aria-hidden="true">“</span>
               </div>
               <blockquote className="max-w-[20em] font-disp text-[clamp(22px,3vw,46px)] leading-[1.1] font-medium tracking-[-.045em]">
-                {t.quote}
+                {q.quote}
               </blockquote>
               <figcaption className="flex items-end justify-between gap-5 font-disp text-[15px] font-medium">
                 <span>
-                  {t.name}
+                  {q.name}
                   <small className="block font-sans text-sm font-normal opacity-70">
-                    {t.role}
+                    {q.role}
                   </small>
                 </span>
                 <span className="mono whitespace-nowrap">
