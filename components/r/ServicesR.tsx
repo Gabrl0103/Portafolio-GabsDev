@@ -3,6 +3,7 @@ import TechIcon, { brandColor, type TechIconName } from "../TechIcon";
 import { cx } from "../ui";
 import { lab } from "./btn";
 import SplitTitle from "./SplitTitle";
+import Tape from "./Tape";
 
 const COLORS = [
   "var(--olive)",
@@ -47,10 +48,22 @@ export default function ServicesR() {
                   } as React.CSSProperties
                 }
                 className={cx(
-                  "rv group flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] transition-[border-color,translate] duration-500 ease-expo hover:-translate-y-1 hover:border-(--c)",
+                  "rv group relative flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] transition-[border-color,translate] duration-500 ease-expo hover:-translate-y-1 hover:border-(--c)",
                   wide ? "col-span-2 max-[900px]:col-span-1" : "min-h-[340px]",
                 )}
               >
+                {/* Cinta solo en algunas tarjetas, para que se vea casual */}
+                {(i === 1 || i === 2 || wide) && (
+                  <Tape
+                    v={i}
+                    className={cx(
+                      "-top-3",
+                      i === 2
+                        ? "left-10 -rotate-[4deg]"
+                        : "right-10 rotate-[3deg]",
+                    )}
+                  />
+                )}
                 <div
                   className={cx(
                     wide &&

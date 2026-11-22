@@ -9,6 +9,7 @@ import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
 import Gallery from "./Gallery";
 import RefArt from "./RefArt";
+import Tape from "./Tape";
 import RollText from "./RollText";
 import SplitTitle from "./SplitTitle";
 
@@ -113,8 +114,15 @@ export default function ProjectsR() {
               }}
               data-a={k % 2 ? "blur" : "clip"}
               style={{ "--pa": COLORS[k % 3], "--hc": COLORS[k % 3] } as React.CSSProperties}
-              className={cx("trig rv group min-w-0 translate-y-(--py)", k % 2 === 1 && "mt-[clamp(50px,10vw,170px)] max-[900px]:mt-0")}
+              className={cx("trig rv group relative min-w-0 translate-y-(--py) [&.vis]:[clip-path:none]!", k % 2 === 1 && "mt-[clamp(50px,10vw,170px)] max-[900px]:mt-0")}
             >
+              <Tape
+                v={k}
+                className={cx(
+                  "-top-3 transition-transform duration-700 ease-expo group-hover:-translate-y-[18px]",
+                  k % 2 ? "right-8 rotate-[4deg]" : "left-8 -rotate-[5deg]",
+                )}
+              />
               <button
                 type="button"
                 aria-label={`Abrir ${p.title}`}
