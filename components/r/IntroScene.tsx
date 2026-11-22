@@ -235,6 +235,8 @@ export default function IntroScene() {
       const e3 = clamp((p - DOCK - 0.04) / 0.14);
       if (about.current) {
         about.current.style.opacity = e3.toFixed(3);
+        // Mientras está invisible no debe tapar las tarjetas del inicio (si no, no se pueden tocar)
+        about.current.style.pointerEvents = e3 > 0.5 ? "" : "none";
         about.current.style.transform = `translate3d(0,${((1 - e3) * 40).toFixed(1)}px,0)`;
       }
       const lit = clamp((p - (DOCK + 0.1)) / (0.97 - (DOCK + 0.1)));
@@ -405,7 +407,7 @@ export default function IntroScene() {
             "inset-0 z-[2] flex items-center",
             still
               ? "relative py-[clamp(90px,11vw,170px)]"
-              : "absolute pt-[88px] pb-6 opacity-0",
+              : "pointer-events-none absolute pt-[88px] pb-6 opacity-0",
           )}
         >
           <div className="wrap w-full">
