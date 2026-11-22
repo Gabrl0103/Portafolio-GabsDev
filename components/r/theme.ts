@@ -56,3 +56,8 @@ export async function copyText(t: string) {
     return false;
   }
 }
+
+/** Abre el detalle de un proyecto desde cualquier sección (lo escucha ProjectsR). */
+export function openProject(id: string) {
+  dispatchEvent(new CustomEvent("open-project", { detail: id }));
+}

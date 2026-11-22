@@ -1,8 +1,9 @@
 /* ---------- Acerca de mí ---------- */
 
 /** Bloque "Ahora mismo" */
-export const now = [
-  { label: "Últimos proyectos", value: "Cenit Skillmap, Rumbo y Atalaya" },
+export const now: { label: string; value: string; projects?: string[] }[] = [
+  /** `projects`: ids de data/projects.ts; cada nombre abre su proyecto */
+  { label: "Últimos proyectos", value: "Cenit Skillmap, Rumbo y Atalaya", projects: ["skillmap", "rumbo", "atalaya"] },
   { label: "Aprendiendo", value: "Landing pages UX/UI, IA en páginas web, SaaS y marketing digital" },
   { label: "Disponibilidad", value: "Abierto a prácticas y freelance para ganar experiencia" },
 ];
