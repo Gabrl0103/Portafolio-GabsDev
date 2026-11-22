@@ -24,7 +24,7 @@ export default function ContactR() {
   return (
     <section
       id="contacto"
-      className="relative isolate overflow-hidden bg-[radial-gradient(900px_560px_at_8%_12%,color-mix(in_srgb,var(--olive)_9%,transparent),transparent_70%),radial-gradient(900px_560px_at_96%_88%,color-mix(in_srgb,var(--orange)_9%,transparent),transparent_70%)] pt-[clamp(90px,11vw,170px)]"
+      className="relative isolate overflow-hidden pt-[clamp(90px,11vw,170px)] before:absolute before:inset-0 before:-z-1 before:bg-(image:--tex) before:bg-[length:420px] before:opacity-[.32] before:mix-blend-soft-light after:absolute after:inset-0 after:-z-1 after:bg-[linear-gradient(180deg,var(--bg)_0,transparent_30%,transparent_70%,rgba(var(--bgr),.6))]"
     >
       <div className="wrap">
         <div className={cx(lab, "rv")}>
