@@ -6,15 +6,15 @@ import type { Testimonial } from "@/types";
  */
 export const testimonials: Testimonial[] = [
   {
-    name: "Neveo, heladería y açaí",
-    role: "Constancia laboral · Pasto",
+    name: "Felipe Ocaña",
+    role: "Neveo, heladería y açaí · Constancia laboral",
     quote:
       "Gabriel labora en Neveo en el área de atención al cliente y redes, demostrando buen desempeño de sus labores con responsabilidad, excelente trabajo en equipo, resolución de problemas y tolerancia.",
     rating: 5,
   },
   {
-    name: "Cliente de marketing y redes",
-    role: "Emprendimiento en Pasto",
+    name: "Neveo, heladería y açaí",
+    role: "Cliente de marketing y redes · Pasto",
     quote:
       "El trabajo de Gabriel es algo que me deja sin palabras, porque siempre es una persona que te colabora, te ayuda a innovar y te propone nuevas ideas. Lo recomiendo 100 %: en mis negocios ha hecho que me actualice y que sea más fácil llegar a mis clientes.",
     rating: 5,
