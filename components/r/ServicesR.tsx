@@ -1,25 +1,31 @@
-"use client";
-
-import { useState } from "react";
 import { services } from "@/data/services";
 import TechIcon, { brandColor, type TechIconName } from "../TechIcon";
 import { cx } from "../ui";
 import { lab } from "./btn";
-import RollText from "./RollText";
 import SplitTitle from "./SplitTitle";
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const COLORS = ["var(--olive)", "var(--cream)", "var(--orange)"];
+const COLORS = [
+  "var(--olive)",
+  "var(--cream)",
+  "var(--orange)",
+  "var(--olive)",
+  "var(--cream)",
+];
+
 /** Color de marca del logo; los casi negros y los propios usan el color del texto. */
 const brand = (n: TechIconName) => {
   const c = brandColor(n);
   return c.startsWith("var(") ? "var(--fg)" : c;
 };
 
-/** Servicios: acordeón de filas grandes con lo que incluye cada uno y con qué lo hago; solo una abierta a la vez. */
+/**
+ * Servicios: una tarjeta por servicio en cuadrícula de 2 columnas (1 en celular),
+ * con número de color, logos de las tecnologías, descripción y lo que incluye.
+ * Si el número de servicios es impar, el último ocupa todo el ancho.
+ */
 export default function ServicesR() {
-  const [open, setOpen] = useState<number | null>(0);
-
+  const odd = services.length % 2 === 1;
   return (
     <section id="servicios" className="tx py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
@@ -28,116 +34,91 @@ export default function ServicesR() {
         </div>
         <SplitTitle lines={["Lo que", "puedo hacer"]} className="mt-[22px]" />
 
-        <ul className="mt-[clamp(36px,5vw,70px)] border-t border-line">
+        <ul className="mt-[clamp(36px,5vw,64px)] grid grid-cols-2 gap-3 max-[900px]:grid-cols-1">
           {services.map((s, i) => {
-            const isOpen = open === i;
+            const wide = odd && i === services.length - 1;
             return (
               <li
                 key={s.title}
-                data-a="left"
+                data-a="blur"
                 style={
                   {
-                    "--c": COLORS[i % 3],
-                    "--hc": COLORS[i % 3],
-                    transitionDelay: `${i * 0.06}s`,
+                    "--c": COLORS[i % COLORS.length],
+                    transitionDelay: `${(i % 2) * 0.08}s`,
                   } as React.CSSProperties
                 }
-                className="trig rv group relative border-b border-line"
+                className={cx(
+                  "rv group flex flex-col rounded-[24px] border border-line bg-bg2 p-[clamp(24px,2.6vw,38px)] transition-[border-color,translate] duration-500 ease-expo hover:-translate-y-1 hover:border-(--c)",
+                  wide ? "col-span-2 max-[900px]:col-span-1" : "min-h-[340px]",
+                )}
               >
-                <button
-                  type="button"
-                  aria-expanded={isOpen}
-                  aria-controls={`sv-${i}`}
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="grid w-full cursor-pointer grid-cols-[clamp(40px,6vw,90px)_minmax(0,1fr)_auto_44px] items-center gap-x-5 gap-y-2.5 border-0 bg-transparent py-[clamp(22px,2.6vw,38px)] text-left text-fg max-[900px]:grid-cols-[34px_minmax(0,1fr)_44px] max-[900px]:gap-x-3"
-                >
-                  <span className="mono text-mut">{pad(i + 1)}</span>
-                  <span className="font-disp text-[clamp(34px,6.4vw,104px)] leading-none font-medium tracking-[-.05em] transition-colors group-hover:text-(--c)">
-                    <RollText text={s.title} />
-                  </span>
-                  <span
-                    className="flex items-center justify-end gap-3 text-mut max-[900px]:hidden"
-                    aria-hidden="true"
-                  >
-                    {s.tools.map((t) => (
-                      <span
-                        key={t.name}
-                        style={{ "--bc": brand(t.icon) } as React.CSSProperties}
-                        className="transition-colors duration-300 group-hover:text-(--bc)"
-                      >
-                        <TechIcon name={t.icon} size={22} />
-                      </span>
-                    ))}
-                  </span>
-                  <span
-                    className={cx(
-                      "grid size-11 place-items-center rounded-full border border-line transition-[background-color,border-color,rotate] duration-600 ease-quint group-hover:border-(--c) group-hover:bg-(--c) group-hover:text-pill",
-                      isOpen && "rotate-45 border-(--c) bg-(--c) text-pill",
-                    )}
-                  >
-                    <svg
-                      viewBox="0 0 16 16"
-                      aria-hidden="true"
-                      className="size-4 fill-none stroke-current stroke-[1.8]"
-                    >
-                      <path d="M8 2v12M2 8h12" />
-                    </svg>
-                  </span>
-                </button>
                 <div
-                  id={`sv-${i}`}
-                  inert={!isOpen}
                   className={cx(
-                    "grid transition-[grid-template-rows] duration-800 ease-quint",
-                    isOpen
-                      ? "grid-rows-[1fr]"
-                      : "invisible grid-rows-[0fr] [transition:grid-template-rows_.8s_cubic-bezier(.76,0,.24,1),visibility_0s_.8s]",
+                    wide &&
+                      "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-end gap-x-[clamp(30px,5vw,80px)] gap-y-6 max-[900px]:grid-cols-1",
                   )}
                 >
-                  <div className="overflow-hidden">
-                    <div className="grid grid-cols-[clamp(40px,6vw,90px)_minmax(0,1fr)_minmax(0,1fr)] gap-x-5 gap-y-2.5 pb-[clamp(24px,3vw,40px)] max-[900px]:grid-cols-[34px_1fr]">
-                      <p className="col-start-2 max-w-[30em] text-[clamp(18px,1.6vw,22px)] leading-[1.45] text-soft">
-                        {s.text}
-                      </p>
-                      <div className="col-start-3 max-[900px]:col-start-2">
-                        <h3 className="mono text-mut">Incluye</h3>
-                        <ul className="mt-2.5 flex flex-wrap gap-2">
-                          {s.items.map((it) => (
+                  <div>
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="grid size-12 shrink-0 place-items-center rounded-full bg-(--c) font-mono text-sm font-medium text-pill">
+                        {pad(i + 1)}
+                      </span>
+                      {s.tools.length > 0 && (
+                        <ul
+                          className="flex flex-wrap items-center justify-end gap-3"
+                          aria-label="Con qué lo hago"
+                        >
+                          {s.tools.map((t) => (
                             <li
-                              key={it}
-                              className="rounded-full border border-line px-4 py-2 font-disp text-sm font-medium"
+                              key={t.name}
+                              title={t.name}
+                              style={{ color: brand(t.icon) }}
                             >
-                              {it}
+                              <TechIcon name={t.icon} size={22} />
+                              <span className="sr-only">{t.name}</span>
                             </li>
                           ))}
                         </ul>
-                        {s.tools.length > 0 && (
-                          <>
-                            <h3 className="mono mt-5 text-mut">
-                              Con qué lo hago
-                            </h3>
-                            <ul className="mt-2.5 flex flex-wrap gap-2">
-                              {s.tools.map((t) => (
-                                <li
-                                  key={t.name}
-                                  className="flex items-center gap-2 rounded-full bg-[rgba(var(--fgr),.06)] py-1.5 pr-4 pl-2 font-disp text-sm font-medium"
-                                >
-                                  <span
-                                    style={{ color: brand(t.icon) }}
-                                    className="grid size-7 place-items-center rounded-full bg-bg"
-                                  >
-                                    <TechIcon name={t.icon} size={16} />
-                                  </span>
-                                  {t.name}
-                                </li>
-                              ))}
-                            </ul>
-                          </>
-                        )}
-                      </div>
+                      )}
                     </div>
+                    <h3 className="mt-8 font-disp text-[clamp(32px,3.4vw,48px)] leading-none font-medium tracking-[-.045em] transition-colors duration-300 group-hover:text-(--c)">
+                      {s.title}
+                    </h3>
+                    <p className="mt-4 max-w-[30em] text-[17px] leading-normal text-soft">
+                      {s.text}
+                    </p>
                   </div>
+                  {wide && (
+                    <ul
+                      className="flex flex-wrap gap-2 md:justify-end"
+                      aria-label="Incluye"
+                    >
+                      {s.items.map((it) => (
+                        <li
+                          key={it}
+                          className="rounded-full border border-line px-4 py-2 font-disp text-sm font-medium"
+                        >
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
+                {!wide && (
+                  <ul
+                    className="mt-auto flex flex-wrap gap-2 pt-7"
+                    aria-label="Incluye"
+                  >
+                    {s.items.map((it) => (
+                      <li
+                        key={it}
+                        className="rounded-full border border-line px-4 py-2 font-disp text-sm font-medium"
+                      >
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             );
           })}
