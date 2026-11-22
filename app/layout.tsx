@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 };
 
 /** Fija el tema antes de pintar para evitar parpadeo. */
-const themeScript = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.setAttribute('data-theme',t);}catch(e){r.setAttribute('data-theme','dark');}})();`;
+const themeScript = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.setAttribute('data-theme',t);if(localStorage.getItem('design')==='atardecer')r.setAttribute('data-design','atardecer');}catch(e){r.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

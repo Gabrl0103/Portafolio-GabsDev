@@ -10,7 +10,14 @@ import Clock from "../Clock";
 import { cx } from "../ui";
 import GrainText from "./GrainText";
 import RollText from "./RollText";
-import { copyText, scrollToSection, toggleTheme } from "./theme";
+import {
+  copyText,
+  currentDesign,
+  scrollToSection,
+  setDesign,
+  toggleTheme,
+} from "./theme";
+import useDesign from "./useDesign";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const COLORS = ["var(--olive)", "var(--cream)", "var(--orange)"];
@@ -25,7 +32,11 @@ const SUP: Record<string, string> = {
 
 function ThemeIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="size-[15px] fill-none stroke-current stroke-[1.8]" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      className="size-[15px] fill-none stroke-current stroke-[1.8]"
+      aria-hidden="true"
+    >
       <circle cx="12" cy="12" r="8.5" />
       <path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" className="fill-current" />
     </svg>
@@ -41,6 +52,7 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("");
   const [copied, setCopied] = useState(false);
+  const design = useDesign();
   const openRef = useRef(open);
   useEffect(() => {
     openRef.current = open;
@@ -74,6 +86,29 @@ export default function Nav() {
     return () => io.disconnect();
   }, []);
 
+  // Easter egg: presionar "2" tres veces seguidas activa (o quita) el diseño Atardecer.
+  useEffect(() => {
+    let hits: number[] = [];
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (e.key !== "2" || e.repeat || e.ctrlKey || e.metaKey || e.altKey)
+        return;
+      if (
+        t &&
+        (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
+      )
+        return;
+      const now = performance.now();
+      hits = [...hits.filter((h) => now - h < 1200), now];
+      if (hits.length >= 3) {
+        hits = [];
+        setDesign(currentDesign() === "atardecer" ? "original" : "atardecer");
+      }
+    };
+    addEventListener("keydown", onKey);
+    return () => removeEventListener("keydown", onKey);
+  }, []);
+
   // Bloquea el scroll con el menú abierto y lo cierra con Escape.
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -97,11 +132,18 @@ export default function Nav() {
           hidden && "-translate-y-[120%]",
         )}
       >
-        <a href="#inicio" onClick={goTo("inicio")} className="font-disp text-[22px] leading-none font-semibold tracking-[-.04em]">
+        <a
+          href="#inicio"
+          onClick={goTo("inicio")}
+          className="font-disp text-[22px] leading-none font-semibold tracking-[-.04em]"
+        >
           {site.name}
         </a>
 
-        <nav aria-label="Secciones" className="flex items-center gap-[clamp(14px,1.8vw,28px)] font-disp text-sm font-medium tracking-[-.01em] max-[1180px]:hidden">
+        <nav
+          aria-label="Secciones"
+          className="flex items-center gap-[clamp(14px,1.8vw,28px)] font-disp text-sm font-medium tracking-[-.01em] max-[1180px]:hidden"
+        >
           {sections
             .filter((s) => s.top)
             .map((s) => (
@@ -112,19 +154,30 @@ export default function Nav() {
                 aria-current={active === s.id ? "true" : undefined}
                 className={cx(
                   "trig relative py-1 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-current after:transition-transform after:duration-500 after:ease-expo",
-                  active === s.id ? "after:origin-left after:scale-x-100" : "after:origin-right after:scale-x-0 hover:after:origin-left hover:after:scale-x-100",
+                  active === s.id
+                    ? "after:origin-left after:scale-x-100"
+                    : "after:origin-right after:scale-x-0 hover:after:origin-left hover:after:scale-x-100",
                 )}
               >
                 <RollText text={s.label} />
               </a>
             ))}
-          <a href={site.cv} download="CV-Gabriel-Guerrero.pdf" className="rounded-full border border-current px-4 py-2">
+          <a
+            href={site.cv}
+            download="CV-Gabriel-Guerrero.pdf"
+            className="rounded-full border border-current px-4 py-2"
+          >
             CV ↓
           </a>
         </nav>
 
         <div className="flex items-center gap-3">
-          <button type="button" onClick={toggleTheme} aria-label="Cambiar tema claro u oscuro" className="grid size-[38px] cursor-pointer place-items-center rounded-full border border-current bg-transparent">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Cambiar tema claro u oscuro"
+            className="grid size-[38px] cursor-pointer place-items-center rounded-full border border-current bg-transparent"
+          >
             <ThemeIcon />
           </button>
           <button
@@ -135,7 +188,14 @@ export default function Nav() {
             className="flex h-[38px] cursor-pointer items-center gap-2.5 rounded-full border border-current bg-transparent pr-4 pl-[18px]"
           >
             <span className="mono">{open ? "Cerrar" : "Menú"}</span>
-            <svg viewBox="0 0 20 20" aria-hidden="true" className={cx("size-4 fill-none stroke-current stroke-[1.8] transition-transform duration-500 ease-quint", open && "rotate-90")}>
+            <svg
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+              className={cx(
+                "size-4 fill-none stroke-current stroke-[1.8] transition-transform duration-500 ease-quint",
+                open && "rotate-90",
+              )}
+            >
               <path d="M3 7h14M3 13h14" />
             </svg>
           </button>
@@ -151,7 +211,9 @@ export default function Nav() {
         inert={!open}
         className={cx(
           "fixed inset-0 z-[99] bg-bg [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1),visibility_0s_.85s] before:pointer-events-none before:absolute before:inset-0 before:bg-(image:--leo) before:bg-[length:480px] before:opacity-10 before:mix-blend-(--txb)",
-          open ? "visible [clip-path:inset(0)] [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1)]" : "invisible [clip-path:inset(0_0_100%_0)]",
+          open
+            ? "visible [clip-path:inset(0)] [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1)]"
+            : "invisible [clip-path:inset(0_0_100%_0)]",
         )}
       >
         <ol className="group/list absolute top-[calc(92px+env(safe-area-inset-top,0px))] left-[max(20px,env(safe-area-inset-left,0px))] flex flex-col max-[760px]:top-[calc(84px+env(safe-area-inset-top,0px))]">
@@ -160,7 +222,13 @@ export default function Nav() {
               <a
                 href={`#${s.id}`}
                 onClick={goTo(s.id)}
-                style={{ "--c": COLORS[i % 3], "--hc": COLORS[i % 3], transitionDelay: open ? `${i * 60 + 250}ms, 0s` : "0s" } as React.CSSProperties}
+                style={
+                  {
+                    "--c": COLORS[i % 3],
+                    "--hc": COLORS[i % 3],
+                    transitionDelay: open ? `${i * 60 + 250}ms, 0s` : "0s",
+                  } as React.CSSProperties
+                }
                 className={cx(
                   "trig group/item grid grid-cols-[clamp(34px,5vw,64px)_auto_auto] items-start text-fg [transition:transform_.6s_cubic-bezier(.16,1,.3,1),opacity_.4s] group-hover/list:opacity-[.22] hover:!translate-x-3.5 hover:!opacity-100 hover:![transition-delay:0s]",
                   open ? "translate-y-0" : "translate-y-[105%]",
@@ -170,7 +238,9 @@ export default function Nav() {
                 <span className="font-disp text-[clamp(38px,min(8.4vw,9.2vh),128px)] leading-[.98] font-semibold tracking-[-.05em] uppercase group-hover/item:text-(--c)">
                   <RollText text={s.label} />
                 </span>
-                <sup className="mt-[.9em] ml-3.5 align-top font-mono text-[11px] font-medium tracking-[.1em] text-soft">{SUP[s.id]}</sup>
+                <sup className="mt-[.9em] ml-3.5 align-top font-mono text-[11px] font-medium tracking-[.1em] text-soft">
+                  {SUP[s.id]}
+                </sup>
               </a>
             </li>
           ))}
@@ -209,9 +279,43 @@ export default function Nav() {
 
         <div className="mono absolute right-[max(20px,env(safe-area-inset-right,0px))] bottom-[calc(22px+env(safe-area-inset-bottom,0px))] left-[max(20px,env(safe-area-inset-left,0px))] flex items-center justify-between border-t border-line pt-4 text-soft">
           <Clock prefix="Pasto · " />
-          <button type="button" onClick={toggleTheme} className="flex cursor-pointer items-center gap-2 border-0 bg-transparent">
-            ◐ Tema
-          </button>
+          <div className="flex items-center gap-5">
+            {/* Diseño alternativo: solo se elige desde aquí */}
+            <div
+              role="group"
+              aria-label="Diseño"
+              className="flex items-center gap-1 rounded-full border border-line p-1"
+            >
+              {(
+                [
+                  ["original", "Original"],
+                  ["atardecer", "Atardecer"],
+                ] as const
+              ).map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={design === id}
+                  onClick={() => setDesign(id)}
+                  className={cx(
+                    "mono cursor-pointer rounded-full border-0 px-3 py-1.5 transition-colors duration-300",
+                    design === id
+                      ? "bg-fg text-bg"
+                      : "bg-transparent text-soft hover:text-fg",
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex cursor-pointer items-center gap-2 border-0 bg-transparent"
+            >
+              ◐ Tema
+            </button>
+          </div>
         </div>
       </div>
     </>
