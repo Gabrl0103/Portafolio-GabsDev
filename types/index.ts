@@ -1,5 +1,12 @@
 /** Ilustraciones SVG disponibles mientras no haya capturas reales. */
-export type ProjectArt = "skillmap" | "firemap" | "watch" | "neveo" | "sencia" | "servicios" | "asqua";
+export type ProjectArt =
+  | "skillmap"
+  | "firemap"
+  | "watch"
+  | "neveo"
+  | "sencia"
+  | "servicios"
+  | "asqua";
 
 /** Formato en el que se muestra la vista previa del proyecto. */
 export type ProjectFormat = "web" | "desktop" | "mobile" | "watch";
@@ -16,10 +23,14 @@ export interface ProjectLink {
  * Capturas y videos del proyecto (se ven en el detalle).
  * image/video: archivos en /public/proyectos/<id>/ · youtube: solo el id del video.
  */
-export type ProjectMedia =
+export type ProjectMedia = (
   | { type: "image"; src: string; alt: string }
   | { type: "video"; src: string; alt: string; poster?: string }
-  | { type: "youtube"; id: string; alt: string };
+  | { type: "youtube"; id: string; alt: string }
+) & {
+  /** Ancho / alto del archivo: el visor toma esta forma para que no queden franjas vacías (p. ej. 1440 / 900). */
+  ratio?: number;
+};
 
 export interface Project {
   id: string;
@@ -70,6 +81,3 @@ export interface Experience {
   end: string;
   description: string;
 }
-
-
-
