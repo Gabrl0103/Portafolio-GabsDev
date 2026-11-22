@@ -1,20 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { projects } from "@/data/projects";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import { btn, btnF, lab } from "./btn";
+import { chip } from "./Calendar";
 import Gallery from "./Gallery";
-import RefArt from "./RefArt";
-import Tape from "./Tape";
-import RollText from "./RollText";
+import { COLORS, pad, ProjectChapters, ProjectPoster, ProjectStrips, Visual } from "./ProjectViews";
 import SplitTitle from "./SplitTitle";
 
-const pad = (n: number) => String(n).padStart(2, "0");
-const COLORS = ["var(--olive)", "var(--orange)", "var(--cream)"];
 const detailRows: [keyof Project["detail"], string][] = [
   ["problema", "Problema"],
   ["solucion", "Solución"],
@@ -22,63 +18,40 @@ const detailRows: [keyof Project["detail"], string][] = [
   ["resultado", "Resultado"],
 ];
 
-/** Portada: `image`, o la primera imagen de la galería. */
-const cover = (p: Project) => p.image ?? p.media?.find((m) => m.type === "image")?.src;
-
-/** Vista del proyecto: captura real si existe; si no, la ilustración. */
-function Visual({ p, className }: { p: Project; className?: string }) {
-  const src = cover(p);
-  return src ? (
-    <Image src={src} alt={`Captura de ${p.title}`} fill sizes="(max-width: 900px) 100vw, 50vw" className={cx("object-cover", className)} />
-  ) : (
-    <RefArt art={p.art} className={cx("block h-full w-full", className)} />
-  );
-}
-
 /** Enlaces del proyecto en orden: demo, principal y secundario. */
 const links = (p: Project) => [p.demo, p.primary, p.secondary].filter((l): l is ProjectLink => !!l);
 
-/** Enlace subrayado; sin dirección se muestra con su nota ("Privado") o como "Pronto". */
-function TextLink({ link }: { link: ProjectLink }) {
-  if (!link.href)
-    return (
-      <span className="border-b border-line pb-0.5 text-mut">
-        {link.label} · {link.note ?? "Pronto"}
-      </span>
-    );
-  return (
-    <a href={link.href} target="_blank" rel="noopener noreferrer" className="border-b border-line pb-0.5 transition-colors duration-300 hover:border-orange hover:text-orange">
-      {link.label} ↗
-    </a>
-  );
-}
+/** Tres formas de presentar los proyectos, para compararlas en el sitio (después se deja una). */
+const VIEWS = [
+  { id: "capitulos", label: "Capítulos" },
+  { id: "franjas", label: "Franjas" },
+  { id: "poster", label: "Póster" },
+] as const;
+type View = (typeof VIEWS)[number]["id"];
 
-/** Proyectos: cuadrícula de 2 columnas (1 en celular) con desplazamiento escalonado y detalle a pantalla completa. */
+/** Proyectos: tres vistas a elegir y el detalle a pantalla completa. */
 export default function ProjectsR() {
   const [open, setOpen] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
-  const cards = useRef<(HTMLElement | null)[]>([]);
+  const [view, setView] = useState<View>("capitulos");
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 0);
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return () => clearTimeout(t);
-    // Parallax suave: las columnas se mueven a distinta velocidad.
-    let raf = 0;
-    const frame = () => {
-      const vh = innerHeight;
-      cards.current.forEach((a, i) => {
-        if (!a) return;
-        const q = a.getBoundingClientRect();
-        if (q.bottom > -100 && q.top < vh + 100) a.style.setProperty("--py", `${((i % 2 ? 1 : -0.5) * (q.top + q.height / 2 - vh / 2) * -0.07).toFixed(1)}px`);
-      });
-      raf = requestAnimationFrame(frame);
-    };
-    raf = requestAnimationFrame(frame);
-    return () => {
-      clearTimeout(t);
-      cancelAnimationFrame(raf);
-    };
+    const t = setTimeout(() => {
+      setMounted(true);
+      try {
+        const v = localStorage.getItem("vista-proyectos");
+        if (VIEWS.some((x) => x.id === v)) setView(v as View);
+      } catch {}
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
+
+  const choose = (v: View) => {
+    setView(v);
+    try {
+      localStorage.setItem("vista-proyectos", v);
+    } catch {}
+  };
 
   const close = useCallback(() => setOpen(null), []);
 
@@ -105,67 +78,19 @@ export default function ProjectsR() {
           <span className="mono rv text-mut">({pad(projects.length)})</span>
         </div>
 
-        <div className="mt-[clamp(40px,6vw,90px)] grid grid-cols-2 items-start gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(30px,5vw,90px)] max-[900px]:grid-cols-1">
-          {projects.map((p, k) => (
-            <article
-              key={p.id}
-              ref={(el) => {
-                cards.current[k] = el;
-              }}
-              data-a={k % 2 ? "blur" : "clip"}
-              style={{ "--pa": COLORS[k % 3], "--hc": COLORS[k % 3] } as React.CSSProperties}
-              className={cx("trig rv group relative min-w-0 translate-y-(--py) [&.vis]:[clip-path:none]!", k % 2 === 1 && "mt-[clamp(50px,10vw,170px)] max-[900px]:mt-0")}
-            >
-              <Tape
-                v={k}
-                className={cx(
-                  "-top-3 transition-transform duration-700 ease-expo group-hover:-translate-y-[18px]",
-                  k % 2 ? "right-8 rotate-[4deg]" : "left-8 -rotate-[5deg]",
-                )}
-              />
-              <button
-                type="button"
-                aria-label={`Abrir ${p.title}`}
-                onClick={() => setOpen(k)}
-                onPointerMove={(e) => {
-                  const r = e.currentTarget.getBoundingClientRect();
-                  e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-                  e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
-                }}
-                className="group/card relative isolate block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-[20px] border-0 bg-bg2 p-0 text-left transition-[transform,box-shadow] duration-700 ease-expo hover:-translate-y-[18px] hover:shadow-[0_40px_70px_-30px_rgba(0,0,0,.65)] focus-visible:-translate-y-[18px]"
-              >
-                <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--pa)_16%,var(--bg2))] transition-transform duration-1100 ease-expo group-hover/card:scale-[1.07]">
-                  <Visual p={p} className="grayscale-[1] contrast-[.95] transition-[filter] duration-700 group-hover/card:grayscale-0 group-hover/card:contrast-100" />
-                </div>
-                {/* La textura solo sobre las ilustraciones; con capturas reales ensucia la imagen */}
-                {!cover(p) && <div className="tex-hover z-[1] group-hover/card:opacity-100" />}
-                <div className="absolute inset-x-3.5 bottom-3.5 z-[2] flex translate-y-[130%] items-center justify-between rounded-[14px] bg-[rgba(var(--bgr),.72)] px-4 py-3 backdrop-blur-[14px] transition-transform duration-700 ease-expo group-hover/card:translate-y-0 group-focus-visible/card:translate-y-0">
-                  <span className="mono">Ver proyecto</span>
-                  <span>↗</span>
-                </div>
-              </button>
-              <div className="mt-[18px] flex flex-wrap items-baseline justify-between gap-3.5">
-                <h3 className="font-disp text-[clamp(26px,3vw,40px)] leading-none font-medium tracking-[-.04em] transition-colors group-hover:text-(--pa)">
-                  <RollText text={p.title} />
-                </h3>
-                <span className="inline-block rounded-full bg-(--pa) px-3 py-1 font-mono text-[11px] font-medium tracking-[.1em] text-pill uppercase">{p.kind}</span>
-              </div>
-              <p className="mt-3 max-w-[34em] text-[15px] leading-relaxed text-soft">{p.description}</p>
-              <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Tecnologías">
-                {p.tags.map((t) => (
-                  <li key={t} className="rounded-full border border-line px-3 py-1 font-mono text-[11px] tracking-[.06em] text-mut uppercase">
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-4 flex flex-wrap gap-[18px] font-disp text-sm font-medium">
-                {links(p).map((l) => (
-                  <TextLink key={l.label} link={l} />
-                ))}
-              </div>
-            </article>
+        {/* Selector temporal de vista */}
+        <div role="group" aria-label="Vista de proyectos" className="mt-8 flex flex-wrap items-center gap-2">
+          <span className="mono mr-1 text-mut">Vista</span>
+          {VIEWS.map((v) => (
+            <button key={v.id} type="button" aria-pressed={view === v.id} onClick={() => choose(v.id)} style={{ "--c": "var(--cream)" } as React.CSSProperties} className={chip(view === v.id)}>
+              {v.label}
+            </button>
           ))}
         </div>
+
+        {view === "capitulos" && <ProjectChapters onOpen={setOpen} />}
+        {view === "franjas" && <ProjectStrips onOpen={setOpen} />}
+        {view === "poster" && <ProjectPoster onOpen={setOpen} />}
       </div>
 
       {mounted && <Detail k={open} onClose={close} />}
