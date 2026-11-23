@@ -70,8 +70,10 @@ export const projectsEn: Record<string, ProjectText> = {
     alts: [
       "Cenit Skillmap demo: My Path, Map and Analyzer",
       "Cenit skills map grouped by area",
-      "Job offer analyzer showing 70% compatibility",
-      "My Path: readiness level towards Frontend Senior",
+      "Job posting analyzer with skills compatibility",
+      "My Path: readiness level and this week's priority gaps",
+      "Goal: pick the role you want to reach and your readiness level",
+      "Skills: the whole catalog with what you master, are learning and still need",
     ],
     detail: {
       problema:
@@ -137,6 +139,8 @@ export const projectsEn: Record<string, ProjectText> = {
       "Home: average risk in Nariño and highest-risk areas",
       "Map with Buesaco's risk detail",
       "Wildfire history in Nariño since 2019",
+      "Map of Nariño with each municipality's risk and the risk levels",
+      "What the score depends on: dry weather, nearby hotspots and fire history",
     ],
     secondary: { label: "Download APK" },
     detail: {
@@ -156,7 +160,9 @@ export const projectsEn: Record<string, ProjectText> = {
     alts: [
       "Walkthrough of Sencia's commercial briefing, from contact details to submission",
       "Start of the commercial briefing: contact details and progress bar",
+      "Operations section: hours, staff, capacity and areas of the space",
       "Style and facade sections with chosen options",
+      "Wrapping up and sending the briefing to Sencia Estudio",
       "Briefing submission confirmation",
     ],
     primary: { label: "Code", note: "Private" },

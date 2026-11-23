@@ -51,6 +51,18 @@ export const projects: Project[] = [
         ratio: 2160 / 1350,
         alt: "Mi Ruta: nivel de preparación hacia Frontend Senior",
       },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/objetivo.webp",
+        ratio: 1440 / 900,
+        alt: "Objetivo: elige el rol al que quieres llegar y tu nivel de preparación",
+      },
+      {
+        type: "image",
+        src: "/proyectos/skillmap/habilidades.webp",
+        ratio: 1440 / 900,
+        alt: "Habilidades: todo el catálogo con lo que dominas, lo que aprendes y lo que falta",
+      },
     ],
     primary: {
       label: "GitHub · Frontend",
@@ -224,6 +236,18 @@ export const projects: Project[] = [
         ratio: 1082 / 2202,
         alt: "Historial de incendios en Nariño desde 2019",
       },
+      {
+        type: "image",
+        src: "/proyectos/atalaya/mapa.webp",
+        ratio: 1080 / 2198,
+        alt: "Mapa de Nariño con el riesgo de cada municipio y los niveles de riesgo",
+      },
+      {
+        type: "image",
+        src: "/proyectos/atalaya/factores.webp",
+        ratio: 1080 / 2198,
+        alt: "De qué depende el puntaje: clima seco, focos cercanos e historial de incendios",
+      },
     ],
     format: "mobile",
     primary: {
@@ -278,9 +302,21 @@ export const projects: Project[] = [
       },
       {
         type: "image",
+        src: "/proyectos/sencia/operacion.webp",
+        ratio: 800 / 964,
+        alt: "Sección Operación: horario, personas, capacidad y zonas del espacio",
+      },
+      {
+        type: "image",
         src: "/proyectos/sencia/tu-negocio.webp",
         ratio: 800 / 964,
         alt: "Secciones de estilo y fachada con opciones elegidas",
+      },
+      {
+        type: "image",
+        src: "/proyectos/sencia/cierre.webp",
+        ratio: 800 / 964,
+        alt: "Para cerrar y enviar el briefing a Sencia Estudio",
       },
       {
         type: "image",
