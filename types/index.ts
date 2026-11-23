@@ -30,6 +30,8 @@ export type ProjectMedia = (
 ) & {
   /** Ancho / alto del archivo: el visor toma esta forma para que no queden franjas vacías (p. ej. 1440 / 900). */
   ratio?: number;
+  /** Pantalla redonda (reloj): se muestra recortada en círculo */
+  round?: boolean;
 };
 
 export interface Project {
@@ -46,6 +48,8 @@ export interface Project {
   art: ProjectArt;
   /** Galería del detalle. La primera imagen también se usa como portada si no hay `image`. */
   media?: ProjectMedia[];
+  /** Video que corre en el cuadro principal de Proyectos; si falta, se usa el primero de `media` */
+  preview?: { src: string; ratio?: number; round?: boolean };
   /** web = navegador · desktop = ventana de escritorio · mobile = celular · watch = reloj */
   format: ProjectFormat;
   /** Enlace al repositorio (GitHub) o al perfil principal. */

@@ -87,12 +87,16 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
       <div
         style={{
           aspectRatio: ratio,
-          width: `min(100%, calc(min(78svh, 760px) * ${ratio}))`,
+          width: cur.round
+            ? "min(100%, 62svh, 520px)"
+            : `min(100%, calc(min(78svh, 760px) * ${ratio}))`,
         }}
         className={cx(
           "relative mx-auto overflow-hidden bg-fg/[.06]",
-          ratio < 0.7 &&
-            "rounded-[30px] border-[7px] border-[#1d1d1d] shadow-[0_30px_60px_-30px_rgba(0,0,0,.6)]",
+          cur.round
+            ? "rounded-full border-[8px] border-[#1d1d1d] shadow-[0_30px_60px_-30px_rgba(0,0,0,.6)]"
+            : ratio < 0.7 &&
+                "rounded-[30px] border-[7px] border-[#1d1d1d] shadow-[0_30px_60px_-30px_rgba(0,0,0,.6)]",
         )}
       >
         <Viewer key={i} m={cur} />

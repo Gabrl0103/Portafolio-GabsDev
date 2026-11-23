@@ -17,7 +17,8 @@ export const experience: Experience[] = [
     place: "Sencia, estudio de diseño interior",
     start: "",
     end: "Oct 2026",
-    description: "Diseñé, desarrollé y desplegué una aplicación de briefings con formularios, panel privado, exportación a PDF y CSV y avisos por correo, en planes gratuitos.",
+    description:
+      "Diseñé, desarrollé y desplegué una aplicación de briefings con formularios, panel privado, exportación a PDF y CSV y avisos por correo, en planes gratuitos.",
   },
   {
     kind: "academica",
@@ -25,7 +26,8 @@ export const experience: Experience[] = [
     place: "Universidad Cooperativa de Colombia · Pasto",
     start: "Feb 2024",
     end: "Hoy",
-    description: "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Atalaya (Android) y ServiciosYa (web, en equipo).",
+    description:
+      "Cursando quinto semestre. Proyectos académicos como Rumbo (Wear OS), Atalaya (Android) y ServiciosYa (web, en equipo).",
   },
   {
     kind: "academica",

@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
@@ -52,7 +58,20 @@ function LinkTag({ l }: { l: ProjectLink }) {
   );
 }
 
-const demoMedia = (p: Project) => p.media?.find((m) => m.type === "video");
+/** Escritorio (constelación) o celular (fila): solo se reproduce la demo de la vista visible */
+const WIDE = "(min-width: 901px)";
+const useWide = () =>
+  useSyncExternalStore(
+    (cb) => {
+      const mq = matchMedia(WIDE);
+      mq.addEventListener("change", cb);
+      return () => mq.removeEventListener("change", cb);
+    },
+    () => matchMedia(WIDE).matches,
+    () => true,
+  );
+const demoMedia = (p: Project) =>
+  p.preview ?? p.media?.find((m) => m.type === "video");
 const demo = (p: Project) => demoMedia(p)?.src;
 
 /**
@@ -86,7 +105,11 @@ const box = ([x, y]: [number, number], h: number, w = (h * 4) / 3) =>
     height: `calc(var(--sh) * ${h / 100})`,
   }) as React.CSSProperties;
 
-/** Portada de un proyecto; en el principal, la demo se reproduce al pasar el cursor */
+/**
+ * Portada de un proyecto. En el principal, mientras la sección está en pantalla, la demo
+ * corre sola (en silencio y en bucle) sobre la portada desenfocada, con el marco que le
+ * corresponde: teléfono para apps de celular, ventana para las de escritorio y web.
+ */
 function Cover({
   p,
   main,
@@ -96,7 +119,7 @@ function Cover({
   p: Project;
   main: boolean;
   sizes: string;
-  /** Celular: la demo corre sola, en silencio (no hay cursor) */
+  /** La sección está en pantalla: la demo del principal se reproduce */
   auto?: boolean;
 }) {
   const t = useT();
@@ -104,89 +127,101 @@ function Cover({
   const [playing, setPlaying] = useState(false);
   const src = demo(p);
   const ratio = demoMedia(p)?.ratio ?? 16 / 10;
-  const play = () => {
-    if (!main || !v.current) return;
-    v.current.currentTime = 0;
-    v.current
-      .play()
+  const on = main && !!auto;
+  // 4:3 como el cuadro (p. ej. el reloj de Rumbo): llena el cuadro sin marco
+  const frame = demoMedia(p)?.round
+    ? "round"
+    : Math.abs(ratio - 4 / 3) < 0.05
+      ? "full"
+      : ratio < 0.7
+        ? "phone"
+        : ratio < 1.2
+          ? "card"
+          : "window";
+  // al dejar de ser el principal se detiene la demo
+  if (!on && playing) setPlaying(false);
+  useEffect(() => {
+    const el = v.current;
+    if (!el) return;
+    if (!on || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.pause();
+      return;
+    }
+    el.currentTime = 0;
+    el.play()
       .then(() => setPlaying(true))
       .catch(() => {});
-  };
-  const stop = () => {
-    v.current?.pause();
-    setPlaying(false);
-  };
-  // al dejar de ser el principal se detiene la demo
-  if (!main && playing) setPlaying(false);
-  useEffect(() => {
-    if (!main) v.current?.pause();
-    else if (auto && !matchMedia("(prefers-reduced-motion: reduce)").matches)
-      v.current
-        ?.play()
-        .then(() => setPlaying(true))
-        .catch(() => {});
-  }, [main, auto]);
+  }, [on]);
   return (
-    <span
-      onMouseEnter={play}
-      onMouseLeave={stop}
-      className="absolute inset-0 block overflow-hidden bg-[#111]"
-    >
+    <span className="absolute inset-0 block overflow-hidden bg-[#111]">
       {cover(p) && (
         <Image
           src={cover(p)!}
           alt=""
           fill
           sizes={sizes}
-          className="object-cover"
+          className={cx(
+            "object-cover transition-[filter,scale] duration-700",
+            playing && "scale-110 blur-md brightness-[.55]",
+          )}
         />
       )}
       {src && (
-        // Demos verticales (apps de celular) se ven dentro de un teléfono; las horizontales llenan el cuadro
         <span
           className={cx(
-            "absolute inset-0 grid place-items-center transition-opacity duration-500",
-            ratio < 0.9 && "bg-[#0b0b0b]",
-            playing ? "opacity-100" : "opacity-0",
+            "absolute inset-0 grid place-items-center transition-[opacity,scale] duration-700 ease-expo",
+            playing ? "scale-100 opacity-100" : "scale-[.96] opacity-0",
           )}
         >
           <span
-            style={ratio < 0.9 ? { aspectRatio: ratio } : undefined}
+            style={frame === "full" ? undefined : { aspectRatio: ratio }}
             className={cx(
               "relative block overflow-hidden",
-              ratio < 0.9
-                ? cx(
-                    "h-[90%] shadow-[0_20px_50px_-20px_rgba(0,0,0,.9)]",
-                    ratio < 0.7
-                      ? "rounded-[22px] border-[6px] border-[#2a2a2a]"
-                      : "rounded-md",
-                  )
-                : "h-full w-full",
+              frame === "full"
+                ? "h-full w-full"
+                : "shadow-[0_24px_50px_-20px_rgba(0,0,0,.9)]",
+              frame === "round" &&
+                "h-[88%] rounded-full border-[6px] border-[#2a2a2a]",
+              frame === "phone" &&
+                "h-[90%] rounded-[22px] border-[6px] border-[#2a2a2a]",
+              frame === "card" && "h-[90%] rounded-md",
+              frame === "window" &&
+                "w-[90%] rounded-md border-t-[14px] border-[#2a2a2a]",
             )}
           >
+            {frame === "window" && (
+              <span
+                aria-hidden="true"
+                className="absolute -top-[10px] left-2 flex gap-1"
+              >
+                {[0, 1, 2].map((d) => (
+                  <i key={d} className="size-1.5 rounded-full bg-white/35" />
+                ))}
+              </span>
+            )}
             <video
               ref={v}
               src={src}
               muted
               loop
               playsInline
-              preload={auto ? "metadata" : "none"}
+              preload={main ? "auto" : "none"}
               aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </span>
         </span>
       )}
-      <span
-        className={cx(
-          "label absolute top-2.5 right-2.5 rounded-full bg-[#e9e5dd] px-2.5 py-1 font-semibold text-[#111] transition-opacity duration-500",
-          main && !playing ? "opacity-100 delay-700" : "opacity-0",
-        )}
-      >
-        {src
-          ? t("▶ Pasa el cursor: demo", "▶ Hover for the demo")
-          : t("Ver proyecto ↗", "View project ↗")}
-      </span>
+      {!src && (
+        <span
+          className={cx(
+            "label absolute top-2.5 right-2.5 rounded-full bg-[#e9e5dd] px-2.5 py-1 font-semibold text-[#111] transition-opacity duration-500",
+            main ? "opacity-100 delay-700" : "opacity-0",
+          )}
+        >
+          {t("Ver proyecto ↗", "View project ↗")}
+        </span>
+      )}
     </span>
   );
 }
@@ -204,9 +239,20 @@ export default function Projects() {
   const [order, setOrder] = useState(() => projects.map((_, i) => i));
   const [moved, setMoved] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const close = useCallback(() => setOpen(null), []);
+  const closeRef = useRef<() => void>(() => {});
+  const close = useCallback(() => closeRef.current(), []);
   const strip = useRef<HTMLUListElement>(null);
   const sec = useRef<HTMLElement>(null);
+  // la demo del principal corre solo mientras la sección está en pantalla
+  const [inView, setInView] = useState(false);
+  const wide = useWide();
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.4,
+    });
+    if (sec.current) io.observe(sec.current);
+    return () => io.disconnect();
+  }, []);
   // alto del escenario: de él salen el tamaño y la posición de los cuadros
   const stage = useRef<HTMLDivElement>(null);
   const [sh, setSh] = useState(680);
@@ -221,16 +267,34 @@ export default function Projects() {
   }, []);
   // El detalle se abre creciendo desde el cuadro del proyecto
   const [from, setFrom] = useState<string | null>(null);
-  const openAt = (i: number, el: HTMLElement) => {
-    // el cuadro principal visible (escritorio o celular); si no, el botón tocado
+  /** Recorte con la forma del cuadro principal visible (escritorio o celular) */
+  const rectOf = (el?: HTMLElement) => {
     const card =
       [
         ...(sec.current?.querySelectorAll<HTMLElement>("[data-cover]") ?? []),
       ].find((c) => c.offsetParent) ?? el;
+    if (!card) return null;
     const r = card.getBoundingClientRect();
-    setFrom(
-      `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 6px)`,
-    );
+    return `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 6px)`;
+  };
+  // Al cerrar, el panel vuelve a encogerse hacia el cuadro principal tal como está ahora
+  useEffect(() => {
+    closeRef.current = () => {
+      setFrom(rectOf());
+      setOpen(null);
+    };
+  });
+  // Si dentro del detalle se pasa a otro proyecto, la constelación lo deja al centro
+  const show = (i: number) => {
+    setOrder((o) => {
+      const k = o.indexOf(i);
+      return k > 0 ? [...o.slice(k), ...o.slice(0, k)] : o;
+    });
+    setMoved(false);
+    setOpen(i);
+  };
+  const openAt = (i: number, el: HTMLElement) => {
+    setFrom(rectOf(el));
     // un cuadro después, para que el panel parta desde ahí
     requestAnimationFrame(() => requestAnimationFrame(() => setOpen(i)));
   };
@@ -420,7 +484,12 @@ export default function Projects() {
                   : "z-[2] opacity-60 grayscale hover:opacity-100",
               )}
             >
-              <Cover p={q} main={main} sizes={main ? "34vw" : "20vw"} />
+              <Cover
+                p={q}
+                main={main}
+                auto={inView && wide}
+                sizes={main ? "34vw" : "20vw"}
+              />
               <span className="label absolute top-2 left-2.5 text-white mix-blend-difference">
                 {pad(i + 1)}
               </span>
@@ -491,7 +560,7 @@ export default function Projects() {
           aria-label={t(`Ver ${p.title}`, `View ${p.title}`)}
         >
           <span key={p.id} className="unveil absolute inset-0 block">
-            <Cover p={p} main auto sizes="100vw" />
+            <Cover p={p} main auto={inView && !wide} sizes="100vw" />
           </span>
         </button>
         {caption}
@@ -531,7 +600,7 @@ export default function Projects() {
         </div>
       </div>
 
-      <Detail k={open} from={from} onClose={close} onGo={setOpen} />
+      <Detail k={open} from={from} onClose={close} onGo={show} />
     </section>
   );
 }
@@ -614,31 +683,30 @@ function Detail({
       aria-label={p.title}
       inert={!isOpen}
       className={cx(
-        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg transition-[clip-path,visibility] duration-[1000ms] ease-expo max-[700px]:px-[18px]",
+        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg max-[700px]:px-[18px]",
         isOpen ? "visible" : "invisible",
       )}
       style={{
         clipPath: isOpen
           ? "inset(0px 0px 0px 0px round 0px)"
           : (from ?? "inset(100% 0px 0px 0px round 0px)"),
+        opacity: isOpen ? 1 : 0,
+        // Abrir: crece rápido y frena. Cerrar: el contenido se va primero, el panel
+        // se encoge con suavidad hacia el cuadro y al final se desvanece sobre él.
+        transition: isOpen
+          ? "clip-path 1000ms cubic-bezier(.16,1,.3,1), opacity 0ms, visibility 0ms"
+          : "clip-path 850ms cubic-bezier(.65,0,.35,1) 120ms, opacity 380ms ease 620ms, visibility 0ms 1000ms",
       }}
     >
-      {isOpen && cover(p) && (
-        <div
-          key={`c${seq}-${i}`}
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-10 animate-[cover-out_.6s_ease_.55s_both]"
-        >
-          <Image
-            src={cover(p)!}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      )}
-      <div key={`${seq}-${i}`}>
+      <div
+        key={`${seq}-${i}`}
+        className={cx(
+          "transition-[opacity,translate] ease-out",
+          isOpen
+            ? "translate-y-0 opacity-100 duration-0"
+            : "-translate-y-3 opacity-0 duration-300",
+        )}
+      >
         <div
           className="label rise flex items-center justify-between border-b border-line pb-3"
           style={d(250)}

@@ -70,8 +70,10 @@ export const projectsEn: Record<string, ProjectText> = {
     alts: [
       "Cenit Skillmap demo: My Path, Map and Analyzer",
       "Cenit skills map grouped by area",
-      "Job offer analyzer showing 70% compatibility",
-      "My Path: readiness level towards Frontend Senior",
+      "Job posting analyzer with skills compatibility",
+      "My Path: readiness level and this week's priority gaps",
+      "Goal: pick the role you want to reach and your readiness level",
+      "Skills: the whole catalog with what you master, are learning and still need",
     ],
     detail: {
       problema:
@@ -88,7 +90,12 @@ export const projectsEn: Record<string, ProjectText> = {
       "A Wear OS smartwatch app that guides blind and low-vision people with vibrations while they walk. You say your destination out loud and the watch takes you there with vibration patterns and spoken guidance.",
     kind: "Academic project · Wear OS",
     alts: [
-      "Walkthrough of Rumbo's screens, from the spoken destination to arrival",
+      "Rumbo running on the Wear OS emulator: destination, vibrations, route and rerouting",
+      "Destination confirmed: Parque infantil, 269 m and 4 minutes away on foot",
+      "Upcoming turn alert: turn left in 37 m",
+      "GPS map on route: your position and the path, with the next turn in 51 m",
+      "AI assistant: asked “how far is it?”, it answers “about 470 meters left”",
+      "End of the route: You've arrived! at Parque infantil",
     ],
     detail: {
       problema:
@@ -132,6 +139,8 @@ export const projectsEn: Record<string, ProjectText> = {
       "Home: average risk in Nariño and highest-risk areas",
       "Map with Buesaco's risk detail",
       "Wildfire history in Nariño since 2019",
+      "Map of Nariño with each municipality's risk and the risk levels",
+      "What the score depends on: dry weather, nearby hotspots and fire history",
     ],
     secondary: { label: "Download APK" },
     detail: {
@@ -151,7 +160,9 @@ export const projectsEn: Record<string, ProjectText> = {
     alts: [
       "Walkthrough of Sencia's commercial briefing, from contact details to submission",
       "Start of the commercial briefing: contact details and progress bar",
+      "Operations section: hours, staff, capacity and areas of the space",
       "Style and facade sections with chosen options",
+      "Wrapping up and sending the briefing to Sencia Estudio",
       "Briefing submission confirmation",
     ],
     primary: { label: "Code", note: "Private" },
@@ -170,7 +181,15 @@ export const projectsEn: Record<string, ProjectText> = {
     description:
       "A desktop point-of-sale system for Neveo, an ice cream and açaí shop in Pasto: sales, tables, inventory, cash closing and a sales analyzer in one place.",
     kind: "Business project · Desktop",
-    primary: { label: "Code", note: "On request" },
+    alts: [
+      "Neveo POS running: shift, tables, order, payment, reports and analysis",
+      "Tables: which are taken and how much each one owes",
+      "A table's order: catalog by category and the current order",
+      "Payment: method, cash received and change",
+      "Today's shift: sales by payment method and expected cash",
+      "Sales analysis: peak hours, best sellers and combo ideas",
+    ],
+    primary: { label: "GitHub" },
     secondary: { label: "Neveo on Instagram" },
     detail: {
       problema:
@@ -197,9 +216,12 @@ export const projectsEn: Record<string, ProjectText> = {
       "AI",
     ],
     alts: [
-      "ServiciosYa home: all your bills in one place",
-      "ServiciosYa home: pay with Nequi, PSE or card",
-      "ServiciosYa home: AI analyzes your consumption",
+      "ServiciosYa running: home, bills, AI analysis, autopay and notifications",
+      "Home: total due this month, upcoming due dates and AI insights",
+      "My bills: water, power, gas and internet with their status",
+      "AI analysis: next bill forecast and comparison with neighbors",
+      "Notifications: due dates, unusual consumption and confirmed payments",
+      "Autopay: rules to pay services automatically",
     ],
     detail: {
       problema:
