@@ -225,51 +225,33 @@
     border-color 0.5s ease !important;
 }
 
-/* ===== Opciones de paso entre secciones (ScrollFx, ?scroll=) ===== */
+/* ===== Paso entre secciones (ScrollFx): apilar + telón =====
+ * Cada sección se queda quieta al terminar y la siguiente sube encima como una lámina
+ * con esquinas que se abre hasta ocupar la pantalla; la de abajo se aleja y oscurece.
+ * --e: cuánto ha entrado la sección (0 → 1)   --p: cuánto la tapa la siguiente (0 → 1) */
 html[data-scroll] main > section {
-  background: var(--bg);
-}
-
-/* apilar: la sección se queda y la siguiente sube encima; la de abajo se aleja y oscurece */
-html[data-scroll="apilar"] main > section {
   position: sticky;
+  background: var(--bg);
   transform: scale(calc(1 - 0.05 * var(--p, 0)));
   transform-origin: 50% 100%;
-  box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, calc(0.35 * var(--e, 0)));
+  /* los costados entran menos que el margen de la sección, así nunca se corta el texto */
+  --side: calc((1 - var(--e, 1)) * min(26px, 3.5vw));
+  --r: calc((1 - var(--e, 1)) * 40px);
+  clip-path: inset(0 var(--side) 0 var(--side) round var(--r) var(--r) 0 0);
 }
-html[data-scroll="apilar"] main > section::after {
+html[data-scroll] main > section:first-child {
+  clip-path: none;
+}
+html[data-scroll] main > section > * {
+  transform: translateY(calc((1 - var(--e, 1)) * 60px));
+}
+html[data-scroll] main > section::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: #000;
-  opacity: calc(0.55 * var(--p, 0));
-}
-
-/* imán: el scroll se detiene al inicio de cada sección */
-html[data-scroll="iman"] {
-  scroll-snap-type: y proximity;
-}
-html[data-scroll="iman"] main > section {
-  scroll-snap-align: start;
-}
-
-/* telón: sobre negro, cada sección entra como una lámina con esquinas y se abre */
-html[data-scroll="telon"] main {
-  background: var(--t-bg);
-}
-html[data-scroll="telon"] main > section {
-  position: relative;
-  clip-path: inset(
-    0 calc((1 - var(--e, 1)) * 6%) 0 calc((1 - var(--e, 1)) * 6%) round
-      calc((1 - var(--e, 1)) * 36px) calc((1 - var(--e, 1)) * 36px) 0 0
-  );
-}
-html[data-scroll="telon"] main > section > * {
-  transform: translateY(calc((1 - var(--e, 1)) * 60px));
-}
-html[data-scroll="telon"] main > section:first-child {
-  clip-path: none;
+  opacity: calc(0.6 * var(--p, 0));
 }
 
 @media (prefers-reduced-motion: reduce) {
