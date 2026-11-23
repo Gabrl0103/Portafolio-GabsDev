@@ -210,9 +210,12 @@ export const projectsEn: Record<string, ProjectText> = {
       "AI",
     ],
     alts: [
-      "ServiciosYa home: all your bills in one place",
-      "ServiciosYa home: pay with Nequi, PSE or card",
-      "ServiciosYa home: AI analyzes your consumption",
+      "ServiciosYa running: home, bills, AI analysis, autopay and notifications",
+      "Home: total due this month, upcoming due dates and AI insights",
+      "My bills: water, power, gas and internet with their status",
+      "AI analysis: next bill forecast and comparison with neighbors",
+      "Notifications: due dates, unusual consumption and confirmed payments",
+      "Autopay: rules to pay services automatically",
     ],
     detail: {
       problema:
