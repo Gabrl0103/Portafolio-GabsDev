@@ -8,7 +8,7 @@ import { useT } from "@/lib/i18n";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import Gallery from "./Gallery";
-import { ArrowDown, ArrowOut, PageHead, pad } from "./parts";
+import { ArrowOut, PageHead, goTo, pad } from "./parts";
 
 /** Abre el detalle de un proyecto desde cualquier parte del sitio */
 export const openProject = (id: string) =>
@@ -25,8 +25,6 @@ const platform = (kind: string) =>
         x !== "Team",
     )
     .join(" · ");
-const lead = (p: Project) =>
-  p.description.split(". ")[0].replace(/\.$/, "") + ".";
 const cover = (p: Project) =>
   p.image ?? p.media?.find((m) => m.type === "image")?.src;
 const links = (p: Project) =>
@@ -54,22 +52,139 @@ function LinkTag({ l }: { l: ProjectLink }) {
   );
 }
 
+const demo = (p: Project) => p.media?.find((m) => m.type === "video")?.src;
+
 /**
- * Proyectos: a la izquierda el título y la captura del proyecto activo (cambia con el cursor);
- * a la derecha la lista con plataforma, descripción, tecnologías y enlaces. Cada fila abre su detalle.
+ * Cuadros de la constelación (en % del escenario, según el boceto):
+ * el centro es el proyecto elegido y #1…#6 los que esperan; "Próximo" lleva el #1 al centro.
+ */
+const MAIN = [31.1, 23.8, 33.5, 38.1];
+const SLOTS = [
+  [39.1, 1, 18.6, 17.3], // #1
+  [36, 77.7, 27.3, 20.8], // #2
+  [68, 62.9, 15.8, 17.3], // #3
+  [21.1, 10.4, 10.6, 14.4], // #4
+  [67.4, 7.9, 12.7, 15.8], // #5
+  [1.2, 31.7, 18, 19.8], // #6
+];
+const HABLEMOS = [77.6, 31.2, 21.1, 24.3]; // #7
+const GITHUB = [11.8, 65.8, 19.9, 17.8];
+const box = (r: number[]) =>
+  ({
+    left: `${r[0]}%`,
+    top: `${r[1]}%`,
+    width: `${r[2]}%`,
+    height: `${r[3]}%`,
+  }) as React.CSSProperties;
+
+/** Portada de un proyecto; en el principal, la demo se reproduce al pasar el cursor */
+function Cover({
+  p,
+  main,
+  sizes,
+  auto,
+}: {
+  p: Project;
+  main: boolean;
+  sizes: string;
+  /** Celular: la demo corre sola, en silencio (no hay cursor) */
+  auto?: boolean;
+}) {
+  const t = useT();
+  const v = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const src = demo(p);
+  const play = () => {
+    if (!main || !v.current) return;
+    v.current.currentTime = 0;
+    v.current
+      .play()
+      .then(() => setPlaying(true))
+      .catch(() => {});
+  };
+  const stop = () => {
+    v.current?.pause();
+    setPlaying(false);
+  };
+  // al dejar de ser el principal se detiene la demo
+  if (!main && playing) setPlaying(false);
+  useEffect(() => {
+    if (!main) v.current?.pause();
+    else if (auto && !matchMedia("(prefers-reduced-motion: reduce)").matches)
+      v.current
+        ?.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+  }, [main, auto]);
+  return (
+    <span
+      onMouseEnter={play}
+      onMouseLeave={stop}
+      className="absolute inset-0 block overflow-hidden bg-[#111]"
+    >
+      {cover(p) && (
+        <Image
+          src={cover(p)!}
+          alt=""
+          fill
+          sizes={sizes}
+          className="object-cover"
+        />
+      )}
+      {src && (
+        <video
+          ref={v}
+          src={src}
+          muted
+          loop
+          playsInline
+          preload={auto ? "metadata" : "none"}
+          aria-hidden="true"
+          className={cx(
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",
+            playing ? "opacity-100" : "opacity-0",
+          )}
+        />
+      )}
+      <span
+        className={cx(
+          "label absolute top-2.5 right-2.5 rounded-full bg-[#e9e5dd] px-2.5 py-1 font-semibold text-[#111] transition-opacity duration-500",
+          main && !playing ? "opacity-100 delay-700" : "opacity-0",
+        )}
+      >
+        {src
+          ? t("▶ Pasa el cursor: demo", "▶ Hover for the demo")
+          : t("Ver proyecto ↗", "View project ↗")}
+      </span>
+    </span>
+  );
+}
+
+/**
+ * Proyectos como constelación (boceto de Gabriel): el elegido al centro y a color,
+ * los demás alrededor en gris. "Próximo proyecto" los hace subir uno por uno hasta el #1
+ * y de ahí al centro; también se puede tocar cualquiera para elegirlo.
+ * En celular: el elegido arriba y los demás en una fila que se desliza.
  */
 export default function Projects() {
   const t = useT();
   const { projects, sections, site } = useContent();
-  const [on, setOn] = useState(0);
-  const [prev, setPrev] = useState(0);
+  const n = projects.length;
+  const [order, setOrder] = useState(() => projects.map((_, i) => i));
+  const [moved, setMoved] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const hover = (i: number) => {
-    if (i === on) return;
-    setPrev(on);
-    setOn(i);
-  };
   const close = useCallback(() => setOpen(null), []);
+  const strip = useRef<HTMLUListElement>(null);
+  const go = (k: number) => {
+    if (k <= 0) return;
+    setMoved(true);
+    setOrder((o) => [...o.slice(k), ...o.slice(0, k)]);
+  };
+
+  // en celular la fila vuelve al inicio al cambiar de proyecto
+  useEffect(() => {
+    strip.current?.scrollTo({ left: 0, behavior: "smooth" });
+  }, [order]);
 
   useEffect(() => {
     const onOpen = (e: Event) => {
@@ -82,157 +197,213 @@ export default function Projects() {
     return () => removeEventListener("open-project", onOpen);
   }, [projects]);
 
-  const cur = projects[on];
+  const cur = order[0];
+  const p = projects[cur];
+  const caption = (
+    <div
+      key={p.id}
+      className="flex items-start justify-between gap-4 max-[900px]:flex-col max-[900px]:gap-3"
+    >
+      <div className="rise" style={{ animationDelay: moved ? "450ms" : "0ms" }}>
+        <p className="label text-soft">
+          {pad(cur + 1)} / {pad(n)} · {platform(p.kind)}
+        </p>
+        <h3 className="mt-1 text-[clamp(24px,2.2vw,34px)] leading-none font-extrabold tracking-[-.04em]">
+          {p.title}
+        </h3>
+        <p className="label mt-2 flex flex-wrap gap-x-3 gap-y-1">
+          <span className="text-soft">{p.tags.slice(0, 3).join(" · ")}</span>
+        </p>
+        <p className="label mt-2 flex flex-wrap gap-3">
+          {links(p).map((l) => (
+            <LinkTag key={l.label} l={l} />
+          ))}
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(cur)}
+        className="pill pill-fill rise shrink-0 px-4! py-2.5!"
+        style={{ animationDelay: moved ? "600ms" : "0ms" }}
+      >
+        {t("Ver proyecto ↗", "View project ↗")}
+      </button>
+    </div>
+  );
+  const nextBtn = (
+    <button
+      type="button"
+      onClick={() => go(1)}
+      className="group flex w-full items-end justify-between gap-3 text-left"
+    >
+      <span className="text-[clamp(17px,1.5vw,22px)] leading-[1.05] font-extrabold tracking-[-.04em]">
+        {t("Próximo", "Next")}
+        <br />
+        {t("proyecto", "project")}
+      </span>
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fg text-bg transition-transform duration-500 ease-expo group-hover:translate-x-1">
+        →
+      </span>
+    </button>
+  );
+
   return (
     <section
       id="proyectos"
-      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] pb-8 max-[700px]:px-[18px] max-[700px]:pt-[70px]"
     >
       <PageHead n={2} label={sections[1].label} />
-      <div className="my-auto grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
-        <div>
-          <h2 className="display rv text-[118px] max-[900px]:text-[64px]">
+
+      {/* Escritorio: la constelación del boceto */}
+      <div className="relative -mt-6 min-h-[600px] flex-1 max-[900px]:hidden">
+        <div className="rv absolute top-0 left-0">
+          <h2 className="display text-[clamp(52px,4.6vw,72px)]">
             {t("Proyec-", "Pro-")}
             <br />
             {t("tos", "jects")}
           </h2>
-          {/* Captura del proyecto activo */}
-          <div className="sticky top-20 mt-9 max-[900px]:hidden">
-            {/* La captura nueva se descubre de abajo hacia arriba sobre la anterior */}
-            <div className="relative aspect-[4/3] overflow-hidden bg-fg/[.06]">
-              {projects.map((p, i) => {
-                const src = cover(p);
-                return src ? (
-                  <Image
-                    key={p.id}
-                    src={src}
-                    alt=""
-                    fill
-                    sizes="50vw"
-                    className={cx(
-                      "bn object-cover",
-                      prev === i ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                ) : null;
-              })}
-              {cover(cur) && (
-                <div
-                  key={cur.id}
-                  className="unveil absolute inset-0 overflow-hidden"
-                >
-                  <Image
-                    src={cover(cur)!}
-                    alt=""
-                    fill
-                    sizes="50vw"
-                    className="bn animate-[zoom-out_1.4s_var(--ease-expo)_both] object-cover"
-                  />
-                </div>
-              )}
-              <span className="display absolute right-4 bottom-3 overflow-hidden text-[64px] leading-none text-white mix-blend-difference">
-                <span key={cur.id} className="rise block">
-                  {pad(on + 1)}
-                </span>
-              </span>
-            </div>
-            <div className="label mt-2 flex justify-between overflow-hidden">
-              <span key={cur.id} className="rise">
-                {cur.title}
-              </span>
-              <span className="text-soft">{platform(cur.kind)}</span>
-            </div>
-          </div>
+          <p className="label mt-3 text-soft">
+            {t("Toca un cuadro para elegirlo", "Tap a box to choose it")}
+          </p>
         </div>
 
-        <ol className="border-t border-line">
-          {projects.map((p, i) => (
-            <li
-              key={p.id}
-              className="rv relative border-b border-line"
-              style={{ transitionDelay: `${i * 70}ms` }}
+        {projects.map((q, i) => {
+          const k = order.indexOf(i);
+          const main = k === 0;
+          // al avanzar, primero llega el del centro y después cada cuadro en orden
+          const delay = moved ? (k === n - 1 ? n * 80 : k * 80) : 0;
+          return (
+            <button
+              key={q.id}
+              type="button"
+              onClick={() => (main ? setOpen(i) : go(k))}
+              aria-label={
+                main
+                  ? t(`Ver ${q.title}`, `View ${q.title}`)
+                  : t(`Elegir ${q.title}`, `Choose ${q.title}`)
+              }
+              aria-current={main || undefined}
+              style={{
+                ...box(main ? MAIN : SLOTS[k - 1]),
+                transitionDelay: `${delay}ms`,
+              }}
+              className={cx(
+                "group absolute block text-left transition-[left,top,width,height,filter,opacity] duration-1000 ease-expo",
+                main
+                  ? "z-[3] cursor-default"
+                  : "z-[2] opacity-60 grayscale hover:opacity-100",
+              )}
             >
-              {/* Línea que se dibuja bajo el proyecto activo */}
+              <Cover p={q} main={main} sizes={main ? "34vw" : "20vw"} />
+              <span className="label absolute top-2 left-2.5 text-white mix-blend-difference">
+                {pad(i + 1)}
+              </span>
               <span
-                aria-hidden="true"
                 className={cx(
-                  "absolute -bottom-px left-0 h-[2px] w-full origin-left bg-fg transition-transform duration-700 ease-expo",
-                  on === i ? "scale-x-100" : "scale-x-0",
+                  "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-2.5 pt-5 pb-2 text-[13px] font-bold tracking-[-.02em] text-white transition-opacity duration-500",
+                  main ? "opacity-0" : "opacity-100",
                 )}
-              />
-              <div
-                role="button"
-                tabIndex={0}
-                onMouseEnter={() => hover(i)}
-                onFocus={() => hover(i)}
-                onClick={() => setOpen(i)}
-                onKeyDown={(e) =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  (e.preventDefault(), setOpen(i))
-                }
-                aria-label={t(`Ver ${p.title}`, `View ${p.title}`)}
-                className="grid cursor-pointer grid-cols-2 items-end gap-x-5 gap-y-1 py-[18px] max-[700px]:grid-cols-1"
               >
-                <div>
-                  <p className="label mb-1.5 text-soft">
-                    <b className="mr-2 text-fg">{pad(i + 1)}</b>
-                    {platform(p.kind)}
-                  </p>
-                  <h3
-                    className={cx(
-                      "flex items-center gap-2 text-[26px] font-extrabold tracking-[-.035em] transition-transform duration-500 ease-expo",
-                      on === i && "translate-x-2",
-                    )}
-                  >
-                    {p.title}
-                    <span
-                      aria-hidden="true"
-                      className={cx(
-                        "text-[18px] transition-[opacity,translate] duration-500 ease-expo",
-                        on === i
-                          ? "translate-x-0 opacity-100"
-                          : "-translate-x-2 opacity-0",
-                      )}
-                    >
-                      ↗
-                    </span>
-                  </h3>
-                </div>
-                <p className="text-right text-[13px] leading-[1.45] text-soft max-[700px]:text-left">
-                  {lead(p)}
-                </p>
-                <div className="label col-span-full mt-1 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-soft">
-                  <span>{p.tags.slice(0, 3).join(" · ")}</span>
-                  <span className="flex gap-3 text-fg">
-                    {links(p).map((l) => (
-                      <LinkTag key={l.label} l={l} />
-                    ))}
-                  </span>
-                </div>
-              </div>
+                {q.title}
+              </span>
+            </button>
+          );
+        })}
+
+        <div
+          style={{ ...box([MAIN[0], MAIN[1] + MAIN[3] + 1.6, MAIN[2], 13]) }}
+          className="absolute"
+          aria-live="polite"
+        >
+          {caption}
+        </div>
+
+        <div
+          style={box(GITHUB)}
+          className="absolute flex flex-col justify-between border border-fg p-3.5"
+        >
+          <a
+            href={site.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="label hover:underline"
+          >
+            {t("Más en GitHub ↗", "More on GitHub ↗")}
+          </a>
+          {nextBtn}
+        </div>
+
+        <a
+          href="#contacto"
+          onClick={(e) => {
+            e.preventDefault();
+            goTo("contacto");
+          }}
+          style={box(HABLEMOS)}
+          className="group absolute flex flex-col justify-between border border-dashed border-line p-3.5 transition-colors hover:border-fg"
+        >
+          <span className="label text-soft">
+            {t("¿Tienes un proyecto?", "Got a project?")}
+          </span>
+          <b className="text-[clamp(18px,1.6vw,24px)] font-extrabold tracking-[-.04em]">
+            {t("Hablemos", "Let's talk")}{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
+              ↗
+            </span>
+          </b>
+        </a>
+      </div>
+
+      {/* Celular: el elegido arriba, los demás en una fila */}
+      <div className="flex flex-1 flex-col justify-center gap-5 min-[901px]:hidden">
+        <h2 className="display rv text-[56px]">{t("Proyectos", "Projects")}</h2>
+        <button
+          type="button"
+          onClick={() => setOpen(cur)}
+          className="relative block aspect-[16/10] w-full overflow-hidden"
+          aria-label={t(`Ver ${p.title}`, `View ${p.title}`)}
+        >
+          <span key={p.id} className="unveil absolute inset-0 block">
+            <Cover p={p} main auto sizes="100vw" />
+          </span>
+        </button>
+        {caption}
+        <ul
+          ref={strip}
+          className="-mx-[18px] flex snap-x scroll-px-[18px] gap-2.5 overflow-x-auto px-[18px] pb-1"
+        >
+          {order.slice(1).map((i, k) => (
+            <li key={projects[i].id} className="shrink-0 snap-start">
+              <button
+                type="button"
+                onClick={() => go(k + 1)}
+                className="relative block h-[84px] w-[128px] overflow-hidden opacity-70 grayscale"
+                aria-label={t(
+                  `Elegir ${projects[i].title}`,
+                  `Choose ${projects[i].title}`,
+                )}
+              >
+                <Cover p={projects[i]} main={false} sizes="130px" />
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-2 pt-4 pb-1.5 text-[11px] font-bold text-white">
+                  {projects[i].title}
+                </span>
+              </button>
             </li>
           ))}
-          <li>
-            <a
-              href={site.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between border-b border-line py-4"
-            >
-              <span>
-                <small className="block text-[11px] text-soft">
-                  {t("Más en", "More on")}
-                </small>
-                <b className="text-2xl font-extrabold tracking-[-.035em]">
-                  GitHub
-                </b>
-              </span>
-              <ArrowOut />
-            </a>
-          </li>
-        </ol>
+        </ul>
+        <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
+          <a
+            href={site.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="label"
+          >
+            {t("Más en GitHub ↗", "More on GitHub ↗")}
+          </a>
+          <div className="w-[170px]">{nextBtn}</div>
+        </div>
       </div>
-      <ArrowDown className="absolute right-8 bottom-8 max-[700px]:right-[18px]" />
+
       <Detail k={open} onClose={close} onGo={setOpen} />
     </section>
   );
