@@ -219,7 +219,7 @@ export default function Nav() {
         aria-label={t("Menú de navegación", "Navigation menu")}
         inert={!open}
         className={cx(
-          "fixed inset-0 z-[99] bg-bg [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1),visibility_0s_.85s] before:pointer-events-none before:absolute before:inset-0 before:bg-[url(/img/cuero-oscuro.jpg)] before:bg-[length:420px] before:opacity-50 light:before:bg-[url(/img/cuero.jpg)] light:before:opacity-25 light:before:mix-blend-multiply",
+          "fixed inset-0 z-[99] bg-bg [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1),visibility_0s_.85s] before:pointer-events-none before:absolute before:inset-0 before:bg-[url(/img/lienzo-oscuro.jpg)] before:bg-[length:420px] before:opacity-50 light:before:bg-[url(/img/lienzo.jpg)] light:before:opacity-25 light:before:mix-blend-multiply",
           open
             ? "visible [clip-path:inset(0)] [transition:clip-path_.85s_cubic-bezier(.76,0,.24,1)]"
             : "invisible [clip-path:inset(0_0_100%_0)]",
