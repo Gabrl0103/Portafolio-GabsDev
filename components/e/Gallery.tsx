@@ -65,7 +65,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
           aspectRatio: ratio,
           width: `min(100%, calc(min(78svh, 760px) * ${ratio}))`,
         }}
-        className="relative mx-auto overflow-hidden rounded-[20px] bg-[color-mix(in_srgb,var(--pa)_16%,var(--bg2))]"
+        className="relative mx-auto overflow-hidden bg-fg/[.06]"
       >
         <Viewer key={i} m={cur} />
       </div>
@@ -84,9 +84,9 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
                   aria-pressed={k === i}
                   onClick={() => setI(k)}
                   className={cx(
-                    "relative block h-[64px] w-[100px] cursor-pointer overflow-hidden rounded-[10px] border-2 bg-bg2 p-0 transition-[border-color,opacity] duration-300",
+                    "relative block h-[64px] w-[100px] cursor-pointer overflow-hidden border-2 bg-fg/[.06] p-0 transition-[border-color,opacity] duration-300",
                     k === i
-                      ? "border-(--pa)"
+                      ? "border-fg"
                       : "border-transparent opacity-60 hover:opacity-100",
                   )}
                 >
@@ -100,7 +100,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
                       className="object-cover"
                     />
                   ) : (
-                    <span className="mono grid h-full place-items-center text-mut">
+                    <span className="label grid h-full place-items-center text-soft">
                       Video
                     </span>
                   )}

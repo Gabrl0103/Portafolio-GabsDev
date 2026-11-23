@@ -1,76 +1,75 @@
 /*
  * ===================================================================
- *  Configuración de colores del portafolio (rediseño)
+ *  Configuración de colores del portafolio (diseño editorial)
  * ===================================================================
  *  Cambia aquí la paleta y se actualiza todo el sitio. El bloque @theme
- *  las convierte en utilidades de Tailwind: bg-bg, text-fg, bg-olive…
+ *  las convierte en utilidades de Tailwind: bg-bg, text-fg, text-soft, border-line…
  *
- *  Paleta (oscuro / claro):
- *    bg      fondo de la página          #0F0D12 (negro con matiz morado) / #E4CFB8 (papel beige)
- *    bg2     fondo de tarjetas           #1C1622 (morado oscuro) / #D9C2A8
- *    fg      texto principal             #ECE9E2 / #111213
- *    soft    texto secundario            #B4B3AD / #4A4B4D
- *    mut     texto apagado y etiquetas   #7F8082 / #77787A
- *    line    bordes y divisiones         fg al 14 % / 15 %
- *    olive   acento oliva                #A9BC5B / #5F7A3A (salvia)
- *    orange  acento naranja              #E5532D / #B24A28 (terracota)
- *    cream   acento crema                #F1E6D3 / #9A7650 (caramelo)
- *  En el tema claro, Servicios y Contacto son bandas café oscuro (utilidad `banda` en app/globals.css).
- *    pill    texto sobre los acentos     #101113
+ *  El sitio alterna dos superficies:
+ *    papel   secciones claras (Sobre mí, Proyectos, Servicios, CV, Testimonios)
+ *    tinta   secciones oscuras (inicio y contacto), con la clase `tinta`
+ *
+ *    bg      fondo                       #E9E5DD papel  /  #111111 tinta
+ *    fg      texto principal             #111111        /  #E9E5DD
+ *    soft    texto secundario            #6D6A65        /  #9B978F
+ *    line    líneas y divisiones         texto al 20 %
+ *
+ *  Modo oscuro (sigue al sistema o al botón ◐ del menú, que guarda la
+ *  elección en data-theme): el papel pasa a carbón #1A1918 y la tinta a
+ *  negro #0B0B0B, así las secciones siguen distinguiéndose.
  * ===================================================================
  */
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg2: var(--bg2);
   --color-fg: var(--fg);
   --color-soft: var(--soft);
-  --color-mut: var(--mut);
   --color-line: var(--line);
-  --color-olive: var(--olive);
-  --color-orange: var(--orange);
-  --color-cream: var(--cream);
-  --color-pill: var(--pill);
 }
 
 @layer base {
-  /* Tema oscuro (por defecto) */
-  :root,
-  :root[data-theme="dark"] {
-    --bg: #0f0d12;
-    --bg2: #1c1622;
-    --fg: #ece9e2;
-    --soft: #b4b3ad;
-    --mut: #7f8082;
-    --line: rgba(236, 233, 226, 0.14);
-    /* Los mismos colores en R, G, B para transparencias: rgba(var(--fgr), .1) */
-    --fgr: 236, 233, 226;
-    --bgr: 15, 13, 18;
-
-    --olive: #a9bc5b;
-    --orange: #e5532d;
-    --cream: #f1e6d3;
-    --pill: #101113;
-    /* Trazo de los logos que dependen del tema */
-    --stk: #000;
-    color-scheme: dark;
-  }
-
-  /* Tema claro: beige de papel, como la portada de referencia (tiras de papel y fotografía en blanco y negro) */
-  :root[data-theme="light"] {
-    --bg: #e4cfb8;
-    --bg2: #d9c2a8;
-    --fg: #1a1512;
-    --soft: #4a3f36;
-    --mut: #7a6a5c;
-    --line: rgba(26, 21, 18, 0.16);
-    --fgr: 26, 21, 18;
-    --bgr: 228, 207, 184;
-    /* Acentos más profundos para que se lean sobre el papel: salvia, terracota y caramelo */
-    --olive: #5f7a3a;
-    --orange: #b24a28;
-    --cream: #9a7650;
-    --stk: #fff;
+  :root {
+    --paper: #e9e5dd;
+    --ink: #111111;
+    --bg: var(--paper);
+    --fg: var(--ink);
+    --soft: #6d6a65;
+    --line: rgba(17, 17, 17, 0.2);
+    /* secciones oscuras (inicio, contacto, menú) */
+    --t-bg: var(--ink);
+    --t-fg: var(--paper);
+    --t-soft: #9b978f;
+    --t-line: rgba(233, 229, 221, 0.2);
     color-scheme: light;
   }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1918;
+      --fg: var(--paper);
+      --soft: #9b978f;
+      --line: rgba(233, 229, 221, 0.16);
+      --t-bg: #0b0b0b;
+      --t-line: rgba(233, 229, 221, 0.16);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1a1918;
+    --fg: var(--paper);
+    --soft: #9b978f;
+    --line: rgba(233, 229, 221, 0.16);
+    --t-bg: #0b0b0b;
+    --t-line: rgba(233, 229, 221, 0.16);
+    color-scheme: dark;
+  }
+}
+
+/* Sección oscura: usa la paleta de tinta dentro de ella */
+@utility tinta {
+  --bg: var(--t-bg);
+  --fg: var(--t-fg);
+  --soft: var(--t-soft);
+  --line: var(--t-line);
+  background: var(--bg);
+  color: var(--fg);
 }

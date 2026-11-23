@@ -1,4 +1,4 @@
-import Home from "@/components/r/Home";
+import Home from "@/components/e/Home";
 
 export default function Page() {
   return <Home lang="es" />;
