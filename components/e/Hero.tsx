@@ -38,15 +38,17 @@ export default function Hero() {
 
       <div className="mx-8 mt-auto grid grid-cols-[.75fr_1.5fr_1fr] items-end gap-9 border-t border-line pt-8 pb-14 max-[900px]:mx-[18px] max-[900px]:mt-12 max-[900px]:grid-cols-1">
         <figure className="flex items-end gap-4">
-          <span className="relative block h-[214px] w-[170px] shrink-0 overflow-hidden">
-            <Image
-              src={site.portrait}
-              alt={t("Foto de Gabriel Guerrero", "Photo of Gabriel Guerrero")}
-              fill
-              sizes="170px"
-              className="bn object-cover object-[50%_18%]"
-              priority
-            />
+          <span className="block w-[184px] shrink-0 bg-[#f4f2ee] p-[11px] shadow-[0_18px_40px_-18px_rgba(0,0,0,.6)]">
+            <span className="relative block aspect-[4/5] overflow-hidden">
+              <Image
+                src="/images/gabriel-bn.webp"
+                alt={t("Foto de Gabriel Guerrero", "Photo of Gabriel Guerrero")}
+                fill
+                sizes="170px"
+                className="object-cover object-center"
+                priority
+              />
+            </span>
           </span>
           <figcaption className="label text-soft">
             {t("Foto", "Photo")}

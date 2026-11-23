@@ -75,15 +75,21 @@ export default function About() {
             ))}
           </ul>
         </div>
-        <div className="rv relative h-[520px] overflow-hidden max-[700px]:h-[420px]">
-          <Image
-            src={site.portrait}
-            alt=""
-            fill
-            sizes="(max-width: 900px) 100vw, 50vw"
-            className="bn object-cover object-[50%_20%]"
-          />
-        </div>
+        <figure className="rv self-start justify-self-center w-full max-w-[440px] bg-[#f7f5f1] p-[6%] pb-[4%] shadow-[0_30px_60px_-30px_rgba(17,17,17,.45)]">
+          <span className="relative block aspect-[4/5] overflow-hidden">
+            <Image
+              src="/images/gabriel-bn.webp"
+              alt=""
+              fill
+              sizes="(max-width: 900px) 100vw, 440px"
+              className="object-cover object-center"
+            />
+          </span>
+          <figcaption className="label mt-[5%] flex justify-between text-[#6d6a65]">
+            <span>Gabriel Guerrero</span>
+            <span>Pasto, 2026</span>
+          </figcaption>
+        </figure>
       </div>
       <ArrowDown className="absolute right-8 bottom-8 max-[700px]:right-[18px]" />
     </section>
