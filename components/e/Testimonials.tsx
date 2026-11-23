@@ -57,7 +57,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="relative px-8 pt-[22px] pb-28 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={4} label={sections[3].label} />
       <div
@@ -66,7 +66,7 @@ export default function Testimonials() {
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
-        className="grid grid-cols-[.9fr_1.1fr] gap-14 max-[900px]:grid-cols-1"
+        className="my-auto grid grid-cols-[.9fr_1.1fr] gap-14 max-[900px]:grid-cols-1"
       >
         <div>
           <h2 className="display rv text-[118px] max-[900px]:text-[64px]">

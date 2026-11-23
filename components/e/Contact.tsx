@@ -154,10 +154,10 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="tinta relative px-8 pt-[22px] pb-10 max-[700px]:px-[18px]"
+      className="tinta relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-10 max-[700px]:px-[18px]"
     >
       <PageHead n={6} label={sections[5].label} />
-      <div className="grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
+      <div className="my-auto grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
         <h2 className="display rv text-[150px] max-[900px]:text-[84px]">
           {t("Hable-", "Let's")}
           <br />
@@ -196,7 +196,7 @@ export default function Contact() {
           <div
             role="tablist"
             aria-label={t("Cómo contactarme", "How to reach me")}
-            className="mt-12 mb-7 flex gap-7 border-b border-line"
+            className="mt-9 mb-6 flex gap-7 border-b border-line"
           >
             {(
               [
@@ -252,7 +252,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <footer className="mt-24 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4 text-[12px]">
+      <footer className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4 text-[12px]">
         <span className="text-soft">
           ©{site.year} Gabriel Guerrero ·{" "}
           {t(

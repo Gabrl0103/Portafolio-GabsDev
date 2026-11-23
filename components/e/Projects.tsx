@@ -86,10 +86,10 @@ export default function Projects() {
   return (
     <section
       id="proyectos"
-      className="relative px-8 pt-[22px] pb-28 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={2} label={sections[1].label} />
-      <div className="grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
+      <div className="my-auto grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
         <div>
           <h2 className="display rv text-[118px] max-[900px]:text-[64px]">
             {t("Proyec-", "Pro-")}

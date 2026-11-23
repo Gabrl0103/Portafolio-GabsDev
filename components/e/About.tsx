@@ -14,15 +14,15 @@ export default function About() {
   return (
     <section
       id="acerca"
-      className="relative px-8 pt-[22px] pb-28 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={1} label={sections[0].label} />
-      <h2 className="display rv grid grid-cols-2 gap-14 text-[132px] max-[900px]:flex max-[900px]:gap-[.25em] max-[900px]:text-[64px]">
+      <h2 className="display rv mt-auto grid grid-cols-2 gap-14 text-[132px] max-[900px]:flex max-[900px]:gap-[.25em] max-[900px]:text-[64px]">
         <span>{t("Sobre", "About")}</span>
         <span>{t("mí.", "me.")}</span>
       </h2>
 
-      <div className="mt-9 grid grid-cols-2 items-end gap-14 max-[900px]:grid-cols-1">
+      <div className="mt-9 mb-auto grid grid-cols-2 items-end gap-14 max-[900px]:grid-cols-1">
         <div className="rv grid grid-cols-2 gap-7 max-[700px]:grid-cols-1">
           <div>
             <p className="label mb-2.5">{t("Quién soy", "Who I am")}</p>
@@ -75,7 +75,7 @@ export default function About() {
             ))}
           </ul>
         </div>
-        <figure className="rv self-start justify-self-center w-full max-w-[440px] bg-[#f7f5f1] p-[6%] pb-[4%] shadow-[0_30px_60px_-30px_rgba(17,17,17,.45)]">
+        <figure className="rv self-start justify-self-center w-full max-w-[390px] bg-[#f7f5f1] p-[6%] pb-[4%] shadow-[0_30px_60px_-30px_rgba(17,17,17,.45)]">
           <span className="relative block aspect-[4/5] overflow-hidden">
             <Image
               src="/images/gabriel-bn.webp"
