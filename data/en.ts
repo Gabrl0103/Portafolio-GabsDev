@@ -175,7 +175,15 @@ export const projectsEn: Record<string, ProjectText> = {
     description:
       "A desktop point-of-sale system for Neveo, an ice cream and açaí shop in Pasto: sales, tables, inventory, cash closing and a sales analyzer in one place.",
     kind: "Business project · Desktop",
-    primary: { label: "Code", note: "On request" },
+    alts: [
+      "Guided tour of Neveo POS: shift, tables, order, payment, reports and analysis",
+      "Tables: which are taken and how much each one owes",
+      "A table's order: catalog by category and the current order",
+      "Payment: method, cash received and change",
+      "Today's shift: sales by payment method and expected cash",
+      "Sales analysis: peak hours, best sellers and combo ideas",
+    ],
+    primary: { label: "GitHub" },
     secondary: { label: "Neveo on Instagram" },
     detail: {
       problema:

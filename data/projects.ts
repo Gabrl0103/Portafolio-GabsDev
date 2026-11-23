@@ -310,8 +310,52 @@ export const projects: Project[] = [
     tags: ["JavaScript", "Java", "CSS", "HTML", "Python"],
     art: "neveo",
     image: "/proyectos/neveo-pos/cover.webp",
+    // En Proyectos corre la app funcionando; en el detalle, el recorrido guiado y cinco capturas
+    preview: { src: "/proyectos/neveo-pos/demo.mp4", ratio: 1440 / 900 },
+    media: [
+      {
+        type: "video",
+        src: "/proyectos/neveo-pos/guia.mp4",
+        ratio: 1440 / 1080,
+        alt: "Recorrido guiado por Neveo POS: turno, mesas, pedido, cobro, reportes y análisis",
+        poster: "/proyectos/neveo-pos/guia.webp",
+      },
+      {
+        type: "image",
+        src: "/proyectos/neveo-pos/mesas.webp",
+        ratio: 1440 / 900,
+        alt: "Mesas: cuáles están ocupadas y cuánto debe cada una",
+      },
+      {
+        type: "image",
+        src: "/proyectos/neveo-pos/pedido.webp",
+        ratio: 1440 / 900,
+        alt: "Pedido de una mesa: catálogo por categorías y pedido actual",
+      },
+      {
+        type: "image",
+        src: "/proyectos/neveo-pos/cobro.webp",
+        ratio: 1440 / 900,
+        alt: "Cobro: método de pago, efectivo recibido y cambio",
+      },
+      {
+        type: "image",
+        src: "/proyectos/neveo-pos/turno.webp",
+        ratio: 1440 / 900,
+        alt: "Turno del día: ventas por método de pago y lo esperado en caja",
+      },
+      {
+        type: "image",
+        src: "/proyectos/neveo-pos/analisis.webp",
+        ratio: 1440 / 900,
+        alt: "Análisis de ventas: horas pico, lo más vendido e ideas de combos",
+      },
+    ],
     format: "desktop",
-    primary: { label: "Código", href: "", note: "A pedido" },
+    primary: {
+      label: "GitHub",
+      href: "https://github.com/Gabrl0103/Servicios-Hosteleria-Neveo",
+    },
     secondary: { label: "Instagram de Neveo", href: site.instagram },
     detail: {
       problema:
