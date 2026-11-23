@@ -372,6 +372,9 @@ export default function Projects() {
           <h3 className="mt-1 text-[clamp(24px,2.2vw,34px)] leading-none font-extrabold tracking-[-.04em]">
             {p.title}
           </h3>
+          <p className="mt-1.5 text-[13px] leading-snug text-soft">
+            {p.summary}
+          </p>
         </div>
         <button
           type="button"
