@@ -116,30 +116,51 @@ export default function Nav() {
 
         <nav
           aria-label={t("Secciones", "Sections")}
-          className="flex items-center gap-[clamp(14px,1.8vw,28px)] font-disp text-sm font-medium tracking-[-.01em] max-[1180px]:hidden"
+          className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-baseline gap-[18px] max-[1180px]:hidden"
         >
+          {/* Índice de números: la sección actual muestra su nombre en serif cursiva; las demás, al pasar el cursor */}
           {sections
             .filter((s) => s.top)
-            .map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                onClick={goTo(s.id)}
-                aria-current={active === s.id ? "true" : undefined}
-                className={cx(
-                  "trig relative py-1 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-current after:transition-transform after:duration-500 after:ease-expo",
-                  active === s.id
-                    ? "after:origin-left after:scale-x-100"
-                    : "after:origin-right after:scale-x-0 hover:after:origin-left hover:after:scale-x-100",
-                )}
-              >
-                <RollText text={s.label} />
-              </a>
-            ))}
+            .map((s, i) => {
+              const on = active === s.id;
+              return (
+                <a
+                  key={s.id}
+                  href={`#${s.id}`}
+                  onClick={goTo(s.id)}
+                  aria-current={on ? "true" : undefined}
+                  aria-label={s.label}
+                  className="group/n flex items-baseline gap-2 py-1"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      "font-mono text-[11px] font-medium tracking-[.08em] transition-[color,opacity] duration-300",
+                      on
+                        ? "text-(--nav-acento)"
+                        : "opacity-55 group-hover/n:opacity-100",
+                    )}
+                  >
+                    {pad(i + 1)}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      "overflow-hidden font-serif text-[19px] leading-none font-medium tracking-[-.02em] whitespace-nowrap italic transition-[max-width,opacity] duration-500 ease-expo",
+                      on
+                        ? "max-w-[9em] opacity-100"
+                        : "max-w-0 opacity-0 group-hover/n:max-w-[9em] group-hover/n:opacity-80",
+                    )}
+                  >
+                    {s.label}
+                  </span>
+                </a>
+              );
+            })}
           <a
             href={site.cv}
             download="CV-Gabriel-Guerrero.pdf"
-            className="rounded-full border border-current px-4 py-2"
+            className="ml-1.5 border-b border-current pb-0.5 font-mono text-[11px] font-medium tracking-[.12em] uppercase"
           >
             CV ↓
           </a>
@@ -158,7 +179,10 @@ export default function Nav() {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={t("Cambiar tema claro u oscuro", "Toggle light or dark theme")}
+            aria-label={t(
+              "Cambiar tema claro u oscuro",
+              "Toggle light or dark theme",
+            )}
             className="grid size-[38px] cursor-pointer place-items-center rounded-full border border-current bg-transparent"
           >
             <ThemeIcon />
@@ -170,7 +194,9 @@ export default function Nav() {
             aria-controls="menu"
             className="flex h-[38px] cursor-pointer items-center gap-2.5 rounded-full border border-current bg-transparent pr-4 pl-[18px]"
           >
-            <span className="mono">{open ? t("Cerrar", "Close") : t("Menú", "Menu")}</span>
+            <span className="mono">
+              {open ? t("Cerrar", "Close") : t("Menú", "Menu")}
+            </span>
             <svg
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -248,7 +274,9 @@ export default function Nav() {
             }}
             className="mono flex h-[46px] cursor-pointer items-center justify-center rounded-md border border-fg bg-fg text-bg transition-colors hover:border-orange hover:bg-orange hover:text-white"
           >
-            {copied ? t("¡Copiado!", "Copied!") : t("Copiar correo", "Copy email")}
+            {copied
+              ? t("¡Copiado!", "Copied!")
+              : t("Copiar correo", "Copy email")}
           </button>
           <a
             href={site.github}
