@@ -14,6 +14,7 @@ import { useT } from "@/lib/i18n";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import Gallery from "./Gallery";
+import { DemoScan, ProjectScan } from "./Track";
 import { ArrowOut, PageHead, goTo, pad } from "./parts";
 
 /** Abre el detalle de un proyecto desde cualquier parte del sitio */
@@ -430,6 +431,7 @@ export default function Projects() {
         style={{ "--sh": `${sh}px` } as React.CSSProperties}
         className="relative -mt-6 min-h-[560px] flex-1 max-[900px]:hidden"
       >
+        <ProjectScan stage={stage} active={inView && wide && open === null} />
         <div className="rv absolute top-0 left-0">
           <h2 className="display text-[clamp(52px,4.6vw,72px)]">
             {t("Proyec-", "Pro-")}
@@ -467,6 +469,7 @@ export default function Projects() {
               }
               aria-current={main || undefined}
               data-cover={main || undefined}
+              data-sat={main ? undefined : q.title}
               style={{
                 ...(main ? box(MAIN, BIG) : box(SLOTS[k - 1], SAT)),
                 transitionDelay: wrap
@@ -493,6 +496,7 @@ export default function Projects() {
                 auto={inView && wide}
                 sizes={main ? "34vw" : "20vw"}
               />
+              {main && <DemoScan name={q.title} active={inView && wide} />}
               <span className="label absolute top-2 left-2.5 text-white mix-blend-difference">
                 {pad(i + 1)}
               </span>
