@@ -52,29 +52,38 @@ function LinkTag({ l }: { l: ProjectLink }) {
   );
 }
 
-const demo = (p: Project) => p.media?.find((m) => m.type === "video")?.src;
+const demoMedia = (p: Project) => p.media?.find((m) => m.type === "video");
+const demo = (p: Project) => demoMedia(p)?.src;
 
 /**
- * Cuadros de la constelación (en % del escenario, según el boceto):
- * el centro es el proyecto elegido y #1…#6 los que esperan; "Próximo" lleva el #1 al centro.
+ * Cuadros de la constelación (según el boceto). Todos en 4:3, como las portadas;
+ * se miden con el alto del escenario (--sh, medido con ResizeObserver) para que nunca se crucen.
+ * [centro horizontal en %, arriba en % del alto]. El centro es el elegido; #1…#6 esperan su turno.
  */
-const MAIN = [31.1, 23.8, 33.5, 38.1];
-const SLOTS = [
-  [39.1, 1, 18.6, 17.3], // #1
-  [36, 77.7, 27.3, 20.8], // #2
-  [68, 62.9, 15.8, 17.3], // #3
-  [21.1, 10.4, 10.6, 14.4], // #4
-  [67.4, 7.9, 12.7, 15.8], // #5
-  [1.2, 31.7, 18, 19.8], // #6
+const SAT = 18.6; // alto de cada cuadro de alrededor (% del escenario)
+const BIG = 40; // alto del cuadro principal (% del escenario)
+const MAIN: [number, number] = [50, 21];
+// En fila de izquierda a derecha, en zigzag: a la derecha esperan los próximos (#1 → #3)
+// y a la izquierda van quedando los ya vistos (#6 es el más cercano al centro).
+// Con → todos se corren un lugar a la izquierda; con ← a la derecha.
+const SLOTS: [number, number][] = [
+  [72, 3], // #1 derecha, cerca
+  [75, 66], // #2 derecha, al medio
+  [90, 38], // #3 derecha, lejos
+  [10, 38], // #4 izquierda, lejos
+  [25, 66], // #5 izquierda, al medio
+  [28, 3], // #6 izquierda, cerca
 ];
-const HABLEMOS = [77.6, 31.2, 21.1, 24.3]; // #7
-const GITHUB = [11.8, 65.8, 19.9, 17.8];
-const box = (r: number[]) =>
+const HABLEMOS: [number, number] = [90, 80];
+const GITHUB: [number, number] = [10, 80];
+/** Lado de cada lugar: 0 centro, 1 derecha, -1 izquierda */
+const side = (k: number) => (k === 0 ? 0 : k <= 3 ? 1 : -1);
+const box = ([x, y]: [number, number], h: number, w = (h * 4) / 3) =>
   ({
-    left: `${r[0]}%`,
-    top: `${r[1]}%`,
-    width: `${r[2]}%`,
-    height: `${r[3]}%`,
+    left: `calc(${x}% - var(--sh) * ${w / 200})`,
+    top: `calc(var(--sh) * ${y / 100})`,
+    width: `calc(var(--sh) * ${w / 100})`,
+    height: `calc(var(--sh) * ${h / 100})`,
   }) as React.CSSProperties;
 
 /** Portada de un proyecto; en el principal, la demo se reproduce al pasar el cursor */
@@ -94,6 +103,7 @@ function Cover({
   const v = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const src = demo(p);
+  const ratio = demoMedia(p)?.ratio ?? 16 / 10;
   const play = () => {
     if (!main || !v.current) return;
     v.current.currentTime = 0;
@@ -132,19 +142,40 @@ function Cover({
         />
       )}
       {src && (
-        <video
-          ref={v}
-          src={src}
-          muted
-          loop
-          playsInline
-          preload={auto ? "metadata" : "none"}
-          aria-hidden="true"
+        // Demos verticales (apps de celular) se ven dentro de un teléfono; las horizontales llenan el cuadro
+        <span
           className={cx(
-            "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",
+            "absolute inset-0 grid place-items-center transition-opacity duration-500",
+            ratio < 0.9 && "bg-[#0b0b0b]",
             playing ? "opacity-100" : "opacity-0",
           )}
-        />
+        >
+          <span
+            style={ratio < 0.9 ? { aspectRatio: ratio } : undefined}
+            className={cx(
+              "relative block overflow-hidden",
+              ratio < 0.9
+                ? cx(
+                    "h-[90%] shadow-[0_20px_50px_-20px_rgba(0,0,0,.9)]",
+                    ratio < 0.7
+                      ? "rounded-[22px] border-[6px] border-[#2a2a2a]"
+                      : "rounded-md",
+                  )
+                : "h-full w-full",
+            )}
+          >
+            <video
+              ref={v}
+              src={src}
+              muted
+              loop
+              playsInline
+              preload={auto ? "metadata" : "none"}
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </span>
+        </span>
       )}
       <span
         className={cx(
@@ -175,11 +206,76 @@ export default function Projects() {
   const [open, setOpen] = useState<number | null>(null);
   const close = useCallback(() => setOpen(null), []);
   const strip = useRef<HTMLUListElement>(null);
-  const go = (k: number) => {
+  const sec = useRef<HTMLElement>(null);
+  // alto del escenario: de él salen el tamaño y la posición de los cuadros
+  const stage = useRef<HTMLDivElement>(null);
+  const [sh, setSh] = useState(680);
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) =>
+      setSh(Math.round(e.contentRect.height)),
+    );
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  // El detalle se abre creciendo desde el cuadro del proyecto
+  const [from, setFrom] = useState<string | null>(null);
+  const openAt = (i: number, el: HTMLElement) => {
+    // el cuadro principal visible (escritorio o celular); si no, el botón tocado
+    const card =
+      [
+        ...(sec.current?.querySelectorAll<HTMLElement>("[data-cover]") ?? []),
+      ].find((c) => c.offsetParent) ?? el;
+    const r = card.getBoundingClientRect();
+    setFrom(
+      `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 6px)`,
+    );
+    // un cuadro después, para que el panel parta desde ahí
+    requestAnimationFrame(() => requestAnimationFrame(() => setOpen(i)));
+  };
+  const [back, setBack] = useState(false);
+  const [prevOrder, setPrevOrder] = useState(order);
+  const [step, setStep] = useState(0);
+  // k: lugar del proyecto que pasa al centro. Los de la derecha llegan corriéndose
+  // hacia la izquierda; los de la izquierda, hacia la derecha.
+  const go = (k: number, prev = k > 3) => {
     if (k <= 0) return;
+    setBack(prev);
     setMoved(true);
+    setStep((x) => x + 1);
+    setPrevOrder(order);
     setOrder((o) => [...o.slice(k), ...o.slice(0, k)]);
   };
+
+  // ← y → cambian de proyecto cuando la sección ocupa la pantalla
+  useEffect(() => {
+    let seen = false;
+    const io = new IntersectionObserver(
+      ([e]) => (seen = e.intersectionRatio > 0.55),
+      {
+        threshold: [0, 0.55, 1],
+      },
+    );
+    if (sec.current) io.observe(sec.current);
+    const onKey = (e: KeyboardEvent) => {
+      if (!seen || open !== null || e.altKey || e.metaKey || e.ctrlKey) return;
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(n - 1, true);
+      }
+    };
+    addEventListener("keydown", onKey);
+    return () => {
+      io.disconnect();
+      removeEventListener("keydown", onKey);
+    };
+  });
 
   // en celular la fila vuelve al inicio al cambiar de proyecto
   useEffect(() => {
@@ -200,36 +296,42 @@ export default function Projects() {
   const cur = order[0];
   const p = projects[cur];
   const caption = (
-    <div
-      key={p.id}
-      className="flex items-start justify-between gap-4 max-[900px]:flex-col max-[900px]:gap-3"
-    >
-      <div className="rise" style={{ animationDelay: moved ? "450ms" : "0ms" }}>
-        <p className="label text-soft">
-          {pad(cur + 1)} / {pad(n)} · {platform(p.kind)}
-        </p>
-        <h3 className="mt-1 text-[clamp(24px,2.2vw,34px)] leading-none font-extrabold tracking-[-.04em]">
-          {p.title}
-        </h3>
-        <p className="label mt-2 flex flex-wrap gap-x-3 gap-y-1">
-          <span className="text-soft">{p.tags.slice(0, 3).join(" · ")}</span>
-        </p>
-        <p className="label mt-2 flex flex-wrap gap-3">
+    <div key={p.id}>
+      <div className="flex items-start justify-between gap-4">
+        <div
+          className="rise min-w-0"
+          style={{ animationDelay: moved ? "450ms" : "0ms" }}
+        >
+          <p className="label text-soft">
+            {pad(cur + 1)} / {pad(n)} · {platform(p.kind)}
+          </p>
+          <h3 className="mt-1 text-[clamp(24px,2.2vw,34px)] leading-none font-extrabold tracking-[-.04em]">
+            {p.title}
+          </h3>
+        </div>
+        <button
+          type="button"
+          onClick={(e) => openAt(cur, e.currentTarget)}
+          className="pill pill-fill rise shrink-0 px-4! py-2.5!"
+          style={{ animationDelay: moved ? "600ms" : "0ms" }}
+        >
+          {t("Ver proyecto ↗", "View project ↗")}
+        </button>
+      </div>
+      <div
+        className="rise mt-2.5 space-y-1.5"
+        style={{ animationDelay: moved ? "550ms" : "0ms" }}
+      >
+        <p className="label text-soft">{p.tags.slice(0, 3).join(" · ")}</p>
+        <p className="label flex flex-wrap gap-x-3 gap-y-1">
           {links(p).map((l) => (
             <LinkTag key={l.label} l={l} />
           ))}
         </p>
       </div>
-      <button
-        type="button"
-        onClick={() => setOpen(cur)}
-        className="pill pill-fill rise shrink-0 px-4! py-2.5!"
-        style={{ animationDelay: moved ? "600ms" : "0ms" }}
-      >
-        {t("Ver proyecto ↗", "View project ↗")}
-      </button>
     </div>
   );
+
   const nextBtn = (
     <button
       type="button"
@@ -250,12 +352,17 @@ export default function Projects() {
   return (
     <section
       id="proyectos"
+      ref={sec}
       className="relative flex min-h-svh flex-col px-8 pt-[74px] pb-8 max-[700px]:px-[18px] max-[700px]:pt-[70px]"
     >
       <PageHead n={2} label={sections[1].label} />
 
       {/* Escritorio: la constelación del boceto */}
-      <div className="relative -mt-6 min-h-[600px] flex-1 max-[900px]:hidden">
+      <div
+        ref={stage}
+        style={{ "--sh": `${sh}px` } as React.CSSProperties}
+        className="relative -mt-6 min-h-[560px] flex-1 max-[900px]:hidden"
+      >
         <div className="rv absolute top-0 left-0">
           <h2 className="display text-[clamp(52px,4.6vw,72px)]">
             {t("Proyec-", "Pro-")}
@@ -263,7 +370,7 @@ export default function Projects() {
             {t("tos", "jects")}
           </h2>
           <p className="label mt-3 text-soft">
-            {t("Toca un cuadro para elegirlo", "Tap a box to choose it")}
+            {t("Toca un cuadro o usa ← →", "Tap a box or use ← →")}
           </p>
         </div>
 
@@ -271,24 +378,43 @@ export default function Projects() {
           const k = order.indexOf(i);
           const main = k === 0;
           // al avanzar, primero llega el del centro y después cada cuadro en orden
-          const delay = moved ? (k === n - 1 ? n * 80 : k * 80) : 0;
+          // el que da la vuelta (sale por un lado y entra por el otro) se desvanece y reaparece
+          const was = prevOrder.indexOf(i);
+          const wrap =
+            moved &&
+            (back
+              ? side(was) === 1 && side(k) === -1
+              : side(was) === -1 && side(k) === 1);
+          // todos se mueven casi juntos, como un tren: arranca primero el que va adelante
+          const x = k === 0 ? 50 : SLOTS[k - 1][0];
+          const delay = moved ? (back ? 100 - x : x) * 2.5 : 0;
           return (
             <button
               key={q.id}
               type="button"
-              onClick={() => (main ? setOpen(i) : go(k))}
+              onClick={(e) => (main ? openAt(i, e.currentTarget) : go(k))}
               aria-label={
                 main
                   ? t(`Ver ${q.title}`, `View ${q.title}`)
                   : t(`Elegir ${q.title}`, `Choose ${q.title}`)
               }
               aria-current={main || undefined}
+              data-cover={main || undefined}
               style={{
-                ...box(main ? MAIN : SLOTS[k - 1]),
-                transitionDelay: `${delay}ms`,
+                ...(main ? box(MAIN, BIG) : box(SLOTS[k - 1], SAT)),
+                transitionDelay: wrap
+                  ? "450ms, 450ms, 450ms, 450ms, 0ms, 0ms"
+                  : `${delay}ms`,
+                transitionDuration: wrap
+                  ? "0ms, 0ms, 0ms, 0ms, 1000ms, 1000ms"
+                  : undefined,
+                animation: wrap
+                  ? `${step % 2 ? "wrap-a" : "wrap-b"} .95s ease both`
+                  : undefined,
               }}
               className={cx(
                 "group absolute block text-left transition-[left,top,width,height,filter,opacity] duration-1000 ease-expo",
+                wrap && "z-[1]",
                 main
                   ? "z-[3] cursor-default"
                   : "z-[2] opacity-60 grayscale hover:opacity-100",
@@ -311,7 +437,7 @@ export default function Projects() {
         })}
 
         <div
-          style={{ ...box([MAIN[0], MAIN[1] + MAIN[3] + 1.6, MAIN[2], 13]) }}
+          style={{ ...box([MAIN[0], MAIN[1] + BIG + 2], 18, (BIG * 4) / 3) }}
           className="absolute"
           aria-live="polite"
         >
@@ -319,7 +445,7 @@ export default function Projects() {
         </div>
 
         <div
-          style={box(GITHUB)}
+          style={box(GITHUB, SAT, 26)}
           className="absolute flex flex-col justify-between border border-fg p-3.5"
         >
           <a
@@ -339,7 +465,7 @@ export default function Projects() {
             e.preventDefault();
             goTo("contacto");
           }}
-          style={box(HABLEMOS)}
+          style={box(HABLEMOS, SAT, 24)}
           className="group absolute flex flex-col justify-between border border-dashed border-line p-3.5 transition-colors hover:border-fg"
         >
           <span className="label text-soft">
@@ -359,8 +485,9 @@ export default function Projects() {
         <h2 className="display rv text-[56px]">{t("Proyectos", "Projects")}</h2>
         <button
           type="button"
-          onClick={() => setOpen(cur)}
-          className="relative block aspect-[16/10] w-full overflow-hidden"
+          onClick={(e) => openAt(cur, e.currentTarget)}
+          data-cover
+          className="relative block aspect-[4/3] w-full overflow-hidden"
           aria-label={t(`Ver ${p.title}`, `View ${p.title}`)}
         >
           <span key={p.id} className="unveil absolute inset-0 block">
@@ -404,7 +531,7 @@ export default function Projects() {
         </div>
       </div>
 
-      <Detail k={open} onClose={close} onGo={setOpen} />
+      <Detail k={open} from={from} onClose={close} onGo={setOpen} />
     </section>
   );
 }
@@ -412,10 +539,13 @@ export default function Projects() {
 /** Detalle del proyecto a pantalla completa, en papel */
 function Detail({
   k,
+  from,
   onClose,
   onGo,
 }: {
   k: number | null;
+  /** Recorte inicial (el cuadro desde donde se abre) */
+  from: string | null;
   onClose: () => void;
   onGo: (i: number) => void;
 }) {
@@ -484,10 +614,30 @@ function Detail({
       aria-label={p.title}
       inert={!isOpen}
       className={cx(
-        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg transition-[transform,visibility] duration-700 ease-expo max-[700px]:px-[18px]",
-        isOpen ? "visible translate-y-0" : "invisible translate-y-full",
+        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg transition-[clip-path,visibility] duration-[1000ms] ease-expo max-[700px]:px-[18px]",
+        isOpen ? "visible" : "invisible",
       )}
+      style={{
+        clipPath: isOpen
+          ? "inset(0px 0px 0px 0px round 0px)"
+          : (from ?? "inset(100% 0px 0px 0px round 0px)"),
+      }}
     >
+      {isOpen && cover(p) && (
+        <div
+          key={`c${seq}-${i}`}
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-10 animate-[cover-out_.6s_ease_.55s_both]"
+        >
+          <Image
+            src={cover(p)!}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
       <div key={`${seq}-${i}`}>
         <div
           className="label rise flex items-center justify-between border-b border-line pb-3"

@@ -185,6 +185,24 @@
     transform: none;
   }
 }
+/* Portada que cubre el detalle mientras se abre y luego se desvanece */
+@keyframes cover-out {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
+/* Proyecto que da la vuelta en la fila: se apaga, cambia de lado y vuelve */
+@keyframes wrap-a {
+  0% { opacity: 0.6; transform: none; }
+  45% { opacity: 0; transform: scale(0.9); }
+  55% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 0.6; transform: none; }
+}
+@keyframes wrap-b {
+  0% { opacity: 0.6; transform: none; }
+  45% { opacity: 0; transform: scale(0.9); }
+  55% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 0.6; transform: none; }
+}
 /* Cambio de mes del calendario */
 @keyframes cal-next {
   from {
