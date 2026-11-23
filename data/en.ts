@@ -91,7 +91,9 @@ export const projectsEn: Record<string, ProjectText> = {
       "Guided tour of Rumbo's screens on a smartwatch",
       "Destination confirmed: Parque infantil, 269 m and 4 minutes away on foot",
       "Upcoming turn alert: turn left in 37 m",
-      "Off route: the map shows the detour and the recalculated route",
+      "GPS map on route: your position and the path, with the next turn in 51 m",
+      "AI assistant: asked “how far is it?”, it answers “about 470 meters left”",
+      "End of the route: You've arrived! at Parque infantil",
     ],
     detail: {
       problema:

@@ -87,7 +87,7 @@ export const projects: Project[] = [
     ],
     art: "watch",
     image: "/proyectos/rumbo/cover.webp",
-    // En Proyectos corre la demo real; en el detalle, el recorrido guiado y tres capturas
+    // En Proyectos corre la demo real; en el detalle, el recorrido guiado y cinco capturas
     preview: { src: "/proyectos/rumbo/demo.mp4", ratio: 1, round: true },
     media: [
       {
@@ -113,10 +113,24 @@ export const projects: Project[] = [
       },
       {
         type: "image",
-        src: "/proyectos/rumbo/fuera-de-ruta.webp",
+        src: "/proyectos/rumbo/mapa.webp",
         ratio: 1,
         round: true,
-        alt: "Fuera de ruta: el mapa muestra el desvío y la ruta recalculada",
+        alt: "Mapa GPS en ruta: la posición y el camino, con el próximo giro a 51 m",
+      },
+      {
+        type: "image",
+        src: "/proyectos/rumbo/asistente.webp",
+        ratio: 1,
+        round: true,
+        alt: "Asistente con IA: a «¿cuánto falta para llegar?» responde «faltan unos 470 metros»",
+      },
+      {
+        type: "image",
+        src: "/proyectos/rumbo/llegada.webp",
+        ratio: 1,
+        round: true,
+        alt: "Fin del recorrido: ¡Llegaste! a Parque infantil",
       },
     ],
     format: "watch",
