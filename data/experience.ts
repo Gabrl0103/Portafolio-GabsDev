@@ -15,7 +15,7 @@ export const experience: Experience[] = [
     kind: "laboral",
     title: "Desarrollador web freelance",
     place: "Sencia, estudio de diseño interior",
-    start: "Oct 2026",
+    start: "",
     end: "Oct 2026",
     description:
       "Diseñé, desarrollé y desplegué una aplicación de briefings con formularios, panel privado, exportación a PDF y CSV y avisos por correo, en planes gratuitos.",
