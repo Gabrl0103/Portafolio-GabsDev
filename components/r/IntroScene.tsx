@@ -9,6 +9,7 @@ import { cx } from "../ui";
 import { btnF, lab } from "./btn";
 import GrainStar from "./GrainStar";
 import Tape, { TapeStrips } from "./Tape";
+import { scrollToSection } from "./theme";
 import GrainText from "./GrainText";
 
 /** Palabra que aparece desenfocada y sube cuando se abre el sitio (<html class="go">). */
@@ -16,6 +17,46 @@ const word =
   "inline-block translate-y-[.4em] opacity-0 blur-[14px] [transition:opacity_.9s_ease,filter_1s_ease,transform_1.1s_cubic-bezier(.16,1,.3,1)] in-[.go]:translate-y-0 in-[.go]:opacity-100 in-[.go]:blur-none";
 const fade =
   "translate-y-3.5 opacity-0 [transition:opacity_.9s_ease,transform_1.1s_cubic-bezier(.16,1,.3,1)] in-[.go]:translate-y-0 in-[.go]:opacity-100";
+
+/** Tarjetas flotantes con esquina redondeada que llevan a una sección (dx: hacia dónde salen al bajar). Todas del mismo color. */
+const TAGS = [
+  {
+    id: "acerca",
+    label: "Acerca de mí",
+    n: "01",
+    pos: "right-[5%] top-[25%] max-[900px]:right-[4%] max-[900px]:top-[19%]",
+    r: "-5deg",
+    w: ".9s",
+    d: "7s",
+    dl: "0s",
+    dx: 1,
+    dy: -0.4,
+  },
+  {
+    id: "proyectos",
+    label: "Proyectos",
+    n: "02",
+    pos: "right-[3%] top-[51%] max-[900px]:right-[4%] max-[900px]:top-[49%]",
+    r: "4deg",
+    w: "1.1s",
+    d: "8.5s",
+    dl: "-2s",
+    dx: 1,
+    dy: 0.5,
+  },
+  {
+    id: "contacto",
+    label: "Contacto",
+    n: "06",
+    pos: "right-[26%] top-[15%] max-[900px]:right-auto max-[900px]:left-[4%] max-[900px]:top-[50%]",
+    r: "-2deg",
+    w: "1.3s",
+    d: "6.5s",
+    dl: "-4s",
+    dx: 0.3,
+    dy: -1,
+  },
+];
 
 const STATEMENT =
   "Soy Gabriel, estudiante de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto. Construyo apps de escritorio, Android, Wear OS y web, y llevo el marketing y las redes de Neveo.";
@@ -101,6 +142,7 @@ export default function IntroScene() {
   const photo = useRef<HTMLDivElement>(null);
   const stmt = useRef<HTMLParagraphElement>(null);
   const fades = useRef<(HTMLElement | null)[]>([]);
+  const tags = useRef<(HTMLAnchorElement | null)[]>([]);
   const words = statement.split(/\s+/);
 
   useEffect(() => {
@@ -138,6 +180,11 @@ export default function IntroScene() {
       fades.current.forEach(
         (el) => el && (el.style.opacity = (1 - clamp(e1 * 2.2)).toFixed(3)),
       );
+      tags.current.forEach((el, i) => {
+        if (!el) return;
+        el.style.translate = `${(TAGS[i].dx * e1 * 40 * vw).toFixed(1)}px ${(TAGS[i].dy * e1 * 30 * vw).toFixed(1)}px`;
+        el.style.opacity = (1 - clamp(e1 * 1.6)).toFixed(3);
+      });
       if (hero.current)
         hero.current.style.opacity = (
           1 - clamp((p - OPEN * 0.35) / (OPEN * 0.45))
@@ -321,6 +368,36 @@ export default function IntroScene() {
                 {t("Descargar CV ↓", "Download CV ↓")}
               </a>
             </div>
+          </div>
+
+          {/* En celulares bajitos o muy angostos no caben sin tapar el texto */}
+          <div className="pointer-events-none absolute inset-0 z-[3] max-[360px]:hidden [@media(max-width:900px)_and_(max-height:760px)]:hidden">
+            {TAGS.map((tag, i) => (
+              <a
+                key={tag.id}
+                ref={(el) => void (tags.current[i] = el)}
+                href={`#${tag.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(tag.id);
+                }}
+                style={
+                  {
+                    rotate: tag.r,
+                    "--d": tag.d,
+                    animationDelay: tag.dl,
+                    transitionDelay: tag.w,
+                  } as React.CSSProperties
+                }
+                className={cx(
+                  "pointer-events-auto absolute isolate flex overflow-hidden bg-[#e9dccb] text-[#1a1512] shadow-[0_24px_50px_-28px_rgba(0,0,0,.7)] before:absolute before:inset-0 before:-z-1 before:bg-[url(/img/cuero.jpg)] before:bg-[length:300px] before:opacity-[.35] before:mix-blend-multiply light:bg-[#33281f] light:text-[#f1e6d3] light:before:bg-[url(/img/cuero-oscuro.jpg)] light:before:opacity-60 light:before:mix-blend-soft-light aspect-[1.55/1] w-[clamp(150px,15.5vw,236px)] animate-bob items-end justify-between rounded-[0_0_clamp(34px,3.8vw,62px)_0] px-[clamp(14px,1.4vw,22px)] py-[clamp(12px,1.2vw,18px)] font-disp text-[clamp(14px,1.15vw,17px)] font-medium opacity-0 [transform:scale(.6)] [transition:opacity_.7s,transform_1s_cubic-bezier(.3,1.6,.5,1)] in-[.go]:opacity-100 in-[.go]:[transform:none] hover:[transform:translateY(-8px)_rotate(-3deg)] max-[900px]:w-[150px]",
+                  tag.pos,
+                )}
+              >
+                <span>{label(tag.id)}</span>
+                <span>{tag.n}</span>
+              </a>
+            ))}
           </div>
 
           {/* Invitación a bajar: una línea que se llena y se vacía hacia abajo */}
