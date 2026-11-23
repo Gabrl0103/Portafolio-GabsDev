@@ -95,13 +95,6 @@ export const projects: Project[] = [
         alt: "Rumbo funcionando en un smartwatch: indicaciones, vibraciones y llegada",
         poster: "/proyectos/rumbo/reloj.webp",
       },
-      {
-        type: "video",
-        src: "/proyectos/rumbo/demo.mp4",
-        ratio: 1600 / 1000,
-        alt: "Recorrido por las pantallas de Rumbo, del destino por voz a la llegada",
-        poster: "/proyectos/rumbo/poster.webp",
-      },
     ],
     format: "watch",
     primary: {
