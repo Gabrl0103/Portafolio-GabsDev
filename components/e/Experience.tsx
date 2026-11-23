@@ -19,10 +19,10 @@ export default function Experience() {
   return (
     <section
       id="experiencia"
-      className="relative px-8 pt-[22px] pb-28 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={5} label={sections[4].label} />
-      <div className="grid grid-cols-2 items-end gap-14 max-[900px]:grid-cols-1">
+      <div className="mt-auto grid grid-cols-2 items-end gap-14 max-[900px]:grid-cols-1">
         <h2 className="display rv text-[200px] max-[900px]:text-[110px]">CV</h2>
 
         {/* La hoja del CV, dibujada (sin foto) */}
@@ -63,7 +63,7 @@ export default function Experience() {
         </a>
       </div>
 
-      <div className="rv mt-14 grid grid-cols-3 gap-8 max-[900px]:grid-cols-1">
+      <div className="rv mt-14 mb-auto grid grid-cols-3 gap-8 max-[900px]:grid-cols-1">
         {[
           [t("Experiencia", "Experience"), work],
           [t("Educación", "Education"), study],

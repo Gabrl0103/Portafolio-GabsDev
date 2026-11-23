@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { isEmail, sendMessage } from "@/lib/send";
+import { cx } from "../ui";
+import Calendar from "./Calendar";
 import { ArrowOut, PageHead, goTo } from "./parts";
 
 const field =
@@ -136,6 +138,7 @@ function Form() {
 /** Contacto (tinta): "Hablemos." en grande, los datos, el formulario y el pie. */
 export default function Contact() {
   const t = useT();
+  const [tab, setTab] = useState<"msg" | "cal">("msg");
   const { site, sections } = useContent();
   const rows: [string, string, string?][] = [
     ["WhatsApp", "+57 310 634 9957", `https://wa.me/${site.whatsapp}`],
@@ -151,10 +154,10 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="tinta relative px-8 pt-[22px] pb-10 max-[700px]:px-[18px]"
+      className="tinta relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-10 max-[700px]:px-[18px]"
     >
       <PageHead n={6} label={sections[5].label} />
-      <div className="grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
+      <div className="my-auto grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
         <h2 className="display rv text-[150px] max-[900px]:text-[84px]">
           {t("Hable-", "Let's")}
           <br />
@@ -189,17 +192,67 @@ export default function Contact() {
               )}
             </div>
           ))}
-          <p className="mt-9 mb-5 text-sm text-soft">
-            {t(
-              "O déjame un mensaje; respondo en menos de 24 horas.",
-              "Or leave me a message; I reply within 24 hours.",
+          {/* Mensaje o llamada */}
+          <div
+            role="tablist"
+            aria-label={t("Cómo contactarme", "How to reach me")}
+            className="mt-9 mb-6 flex gap-7 border-b border-line"
+          >
+            {(
+              [
+                ["msg", t("Escribir mensaje", "Write a message")],
+                ["cal", t("Agendar llamada", "Book a call")],
+              ] as const
+            ).map(([k, label]) => (
+              <button
+                key={k}
+                type="button"
+                role="tab"
+                id={`tab-${k}`}
+                aria-selected={tab === k}
+                aria-controls={`panel-${k}`}
+                onClick={() => setTab(k)}
+                className={cx(
+                  "relative -mb-px pb-3 text-[15px] font-bold tracking-[-.02em] transition-colors duration-300",
+                  tab === k ? "text-fg" : "text-soft hover:text-fg",
+                )}
+              >
+                {label}
+                <span
+                  aria-hidden="true"
+                  className={cx(
+                    "absolute bottom-0 left-0 h-[2px] w-full origin-left bg-fg transition-transform duration-500 ease-expo",
+                    tab === k ? "scale-x-100" : "scale-x-0",
+                  )}
+                />
+              </button>
+            ))}
+          </div>
+          <div
+            key={tab}
+            role="tabpanel"
+            id={`panel-${tab}`}
+            aria-labelledby={`tab-${tab}`}
+            className="rise"
+          >
+            {tab === "msg" ? (
+              <>
+                <p className="mb-5 text-sm text-soft">
+                  {t(
+                    "Cuéntame qué necesitas; respondo en menos de 24 horas.",
+                    "Tell me what you need; I reply within 24 hours.",
+                  )}
+                </p>
+                <Form />
+              </>
+            ) : (
+              <Calendar />
             )}
-          </p>
-          <Form />
+          </div>
         </div>
       </div>
 
-      <footer className="mt-24 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4 text-[12px]">
+      <footer className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4 text-[12px]">
         <span className="text-soft">
           ©{site.year} Gabriel Guerrero ·{" "}
           {t(

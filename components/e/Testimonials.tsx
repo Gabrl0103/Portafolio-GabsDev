@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { cx } from "../ui";
@@ -14,25 +14,62 @@ const initials = (name: string) =>
     .map((w) => w[0])
     .join("");
 
+/** Tiempo que se queda cada cita antes de pasar a la siguiente */
+const STAY = 7000;
+
 /**
  * Testimonios, solo tipografía: a la izquierda el índice de quienes opinan (con sus iniciales);
- * a la derecha la cita activa en grande. Se cambia al pasar el cursor, al tocar o con las flechas.
+ * a la derecha la cita activa, que entra palabra por palabra. Pasan solas con una barra de
+ * progreso; se detienen al pasar el cursor y se cambian al tocar o con las flechas.
  */
 export default function Testimonials() {
   const t = useT();
   const { testimonials, sections } = useContent();
   const [on, setOn] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [seen, setSeen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
   const cur = testimonials[on];
   const n = testimonials.length;
+
+  // Solo corre mientras la sección está en pantalla
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), {
+      threshold: 0.35,
+    });
+    if (box.current) io.observe(box.current);
+    return () => io.disconnect();
+  }, []);
+
+  const running =
+    seen &&
+    !paused &&
+    typeof window !== "undefined" &&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  useEffect(() => {
+    if (!running) return;
+    const id = setTimeout(() => setOn((x) => (x + 1) % n), STAY);
+    return () => clearTimeout(id);
+  }, [running, on, n]);
+
+  const words = cur.quote.split(" ");
   return (
     <section
       id="testimonios"
-      className="relative px-8 pt-[22px] pb-28 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={4} label={sections[3].label} />
-      <div className="grid grid-cols-[.9fr_1.1fr] gap-14 max-[900px]:grid-cols-1">
-        <div className="rv">
-          <h2 className="display text-[118px] max-[900px]:text-[64px]">
+      <div
+        ref={box}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+        className="my-auto grid grid-cols-[.9fr_1.1fr] gap-14 max-[900px]:grid-cols-1"
+      >
+        <div>
+          <h2 className="display rv text-[118px] max-[900px]:text-[64px]">
             {t("Lo que", "What they")}
             <br />
             {t("dicen", "say")}
@@ -42,16 +79,18 @@ export default function Testimonials() {
             aria-label={t("Quiénes opinan", "Who says it")}
           >
             {testimonials.map((q, i) => (
-              <li key={q.name} className="border-b border-line">
+              <li
+                key={q.name}
+                className="rv relative border-b border-line"
+                style={{ transitionDelay: `${150 + i * 110}ms` }}
+              >
                 <button
                   type="button"
-                  onMouseEnter={() => setOn(i)}
-                  onFocus={() => setOn(i)}
                   onClick={() => setOn(i)}
                   aria-pressed={on === i}
                   className={cx(
-                    "grid w-full grid-cols-[46px_44px_1fr] items-center gap-3 py-4 text-left transition-opacity",
-                    on === i ? "opacity-100" : "opacity-45 hover:opacity-80",
+                    "grid w-full grid-cols-[46px_44px_1fr] items-center gap-3 py-4 text-left transition-opacity duration-500",
+                    on === i ? "opacity-100" : "opacity-40 hover:opacity-80",
                   )}
                 >
                   <span className="label text-soft">
@@ -59,17 +98,37 @@ export default function Testimonials() {
                   </span>
                   <span
                     aria-hidden="true"
-                    className="label grid size-10 place-items-center rounded-full border border-fg font-semibold"
+                    className={cx(
+                      "label grid size-10 place-items-center rounded-full border border-fg font-semibold transition-colors duration-500",
+                      on === i && "bg-fg text-bg",
+                    )}
                   >
                     {initials(q.name)}
                   </span>
-                  <span>
+                  <span
+                    className={cx(
+                      "transition-transform duration-500 ease-expo",
+                      on === i && "translate-x-1.5",
+                    )}
+                  >
                     <b className="block text-[20px] font-extrabold tracking-[-.03em]">
                       {q.name}
                     </b>
                     <span className="label text-soft">{q.role}</span>
                   </span>
                 </button>
+                {/* Progreso hasta la siguiente cita */}
+                {on === i && (
+                  <span
+                    key={`${on}-${running}`}
+                    aria-hidden="true"
+                    className="absolute -bottom-px left-0 h-[2px] w-full origin-left bg-fg"
+                    style={{
+                      animation: `fill-x ${STAY}ms linear both`,
+                      animationPlayState: running ? "running" : "paused",
+                    }}
+                  />
+                )}
               </li>
             ))}
           </ol>
@@ -77,8 +136,9 @@ export default function Testimonials() {
 
         <figure className="rv flex flex-col" aria-live="polite">
           <span
+            key={`q${on}`}
             aria-hidden="true"
-            className="display text-[180px] leading-[.6]"
+            className="display word-in text-[180px] leading-[.6]"
           >
             “
           </span>
@@ -86,10 +146,19 @@ export default function Testimonials() {
             key={on}
             className="mt-6 text-[clamp(26px,2.6vw,40px)] leading-[1.15] font-semibold tracking-[-.03em] max-[700px]:text-[24px]"
           >
-            {cur.quote}
+            {words.map((w, i) => (
+              <span
+                key={i}
+                className="word-in"
+                style={{ animationDelay: `${120 + i * 28}ms` }}
+              >
+                {w}
+                {i < words.length - 1 && " "}
+              </span>
+            ))}
           </blockquote>
           <figcaption className="mt-8 flex items-end justify-between gap-6 border-t border-fg pt-4">
-            <span>
+            <span key={`c${on}`} className="rise">
               <b className="block text-lg font-extrabold tracking-[-.02em]">
                 {cur.name}
               </b>
@@ -100,6 +169,7 @@ export default function Testimonials() {
                 type="button"
                 aria-label={t("Anterior", "Previous")}
                 onClick={() => setOn((on - 1 + n) % n)}
+                className="transition-transform hover:-translate-x-1"
               >
                 ←
               </button>
@@ -108,6 +178,7 @@ export default function Testimonials() {
                 type="button"
                 aria-label={t("Siguiente", "Next")}
                 onClick={() => setOn((on + 1) % n)}
+                className="transition-transform hover:translate-x-1"
               >
                 →
               </button>

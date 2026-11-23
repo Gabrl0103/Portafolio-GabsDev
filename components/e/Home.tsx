@@ -6,6 +6,7 @@ import Header from "./Header";
 import Hero from "./Hero";
 import { Reveal } from "./parts";
 import Projects from "./Projects";
+import ScrollFx from "./ScrollFx";
 import Services from "./Services";
 import Testimonials from "./Testimonials";
 
@@ -14,6 +15,7 @@ export default function Home({ lang }: { lang: Lang }) {
   return (
     <LangProvider lang={lang}>
       <Reveal />
+      <ScrollFx />
       <Header />
       <main>
         <Hero />

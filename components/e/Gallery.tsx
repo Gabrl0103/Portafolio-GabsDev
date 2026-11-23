@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useT } from "@/lib/i18n";
 import type { ProjectMedia } from "@/types";
 import { cx } from "../ui";
@@ -18,18 +18,7 @@ function Viewer({ m }: { m: ProjectMedia }) {
         className="object-cover"
       />
     );
-  if (m.type === "video")
-    return (
-      <video
-        src={m.src}
-        poster={m.poster}
-        controls
-        playsInline
-        preload="metadata"
-        aria-label={m.alt}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-    );
+  if (m.type === "video") return <AutoVideo m={m} />;
   return (
     <iframe
       src={`https://www.youtube-nocookie.com/embed/${m.id}`}
@@ -37,6 +26,41 @@ function Viewer({ m }: { m: ProjectMedia }) {
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       className="absolute inset-0 h-full w-full border-0"
+    />
+  );
+}
+
+/**
+ * Video de la demo: arranca solo, en silencio y en bucle, sin barra.
+ * La barra aparece al pasar el cursor (o al tocarlo en celular).
+ */
+function AutoVideo({ m }: { m: Extract<ProjectMedia, { type: "video" }> }) {
+  const [bar, setBar] = useState(false);
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    v.play().catch(() => {});
+  }, []);
+  return (
+    <video
+      ref={ref}
+      src={m.src}
+      poster={m.poster}
+      muted
+      loop
+      autoPlay
+      playsInline
+      preload="auto"
+      controls={bar}
+      aria-label={m.alt}
+      onMouseEnter={() => setBar(true)}
+      onMouseLeave={() => setBar(false)}
+      onFocus={() => setBar(true)}
+      onBlur={() => setBar(false)}
+      onTouchStart={() => setBar(true)}
+      tabIndex={0}
+      className="absolute inset-0 h-full w-full object-cover"
     />
   );
 }
