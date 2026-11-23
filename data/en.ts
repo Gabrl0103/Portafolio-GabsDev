@@ -88,7 +88,7 @@ export const projectsEn: Record<string, ProjectText> = {
       "A Wear OS smartwatch app that guides blind and low-vision people with vibrations while they walk. You say your destination out loud and the watch takes you there with vibration patterns and spoken guidance.",
     kind: "Academic project · Wear OS",
     alts: [
-      "Guided tour of Rumbo's screens on a smartwatch",
+      "Rumbo running on the Wear OS emulator: destination, vibrations, route and rerouting",
       "Destination confirmed: Parque infantil, 269 m and 4 minutes away on foot",
       "Upcoming turn alert: turn left in 37 m",
       "GPS map on route: your position and the path, with the next turn in 51 m",
@@ -176,7 +176,7 @@ export const projectsEn: Record<string, ProjectText> = {
       "A desktop point-of-sale system for Neveo, an ice cream and açaí shop in Pasto: sales, tables, inventory, cash closing and a sales analyzer in one place.",
     kind: "Business project · Desktop",
     alts: [
-      "Guided tour of Neveo POS: shift, tables, order, payment, reports and analysis",
+      "Neveo POS running: shift, tables, order, payment, reports and analysis",
       "Tables: which are taken and how much each one owes",
       "A table's order: catalog by category and the current order",
       "Payment: method, cash received and change",

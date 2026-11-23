@@ -87,15 +87,14 @@ export const projects: Project[] = [
     ],
     art: "watch",
     image: "/proyectos/rumbo/cover.webp",
-    // En Proyectos corre la demo real; en el detalle, el recorrido guiado y cinco capturas
-    preview: { src: "/proyectos/rumbo/demo.mp4", ratio: 1, round: true },
     media: [
       {
         type: "video",
-        src: "/proyectos/rumbo/reloj.mp4",
-        ratio: 1440 / 1080,
-        alt: "Recorrido guiado por las pantallas de Rumbo en un smartwatch",
-        poster: "/proyectos/rumbo/reloj.webp",
+        src: "/proyectos/rumbo/demo.mp4",
+        ratio: 1,
+        round: true,
+        alt: "Rumbo funcionando en el emulador de Wear OS: destino, vibraciones, ruta y recálculo",
+        poster: "/proyectos/rumbo/destino.webp",
       },
       {
         type: "image",
@@ -310,15 +309,13 @@ export const projects: Project[] = [
     tags: ["JavaScript", "Java", "CSS", "HTML", "Python"],
     art: "neveo",
     image: "/proyectos/neveo-pos/cover.webp",
-    // En Proyectos corre la app funcionando; en el detalle, el recorrido guiado y cinco capturas
-    preview: { src: "/proyectos/neveo-pos/demo.mp4", ratio: 1440 / 900 },
     media: [
       {
         type: "video",
-        src: "/proyectos/neveo-pos/guia.mp4",
-        ratio: 1440 / 1080,
-        alt: "Recorrido guiado por Neveo POS: turno, mesas, pedido, cobro, reportes y análisis",
-        poster: "/proyectos/neveo-pos/guia.webp",
+        src: "/proyectos/neveo-pos/demo.mp4",
+        ratio: 1440 / 900,
+        alt: "Neveo POS funcionando: turno, mesas, pedido, cobro, reportes y análisis",
+        poster: "/proyectos/neveo-pos/mesas.webp",
       },
       {
         type: "image",
