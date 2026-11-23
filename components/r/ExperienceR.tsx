@@ -14,7 +14,7 @@ const GROUPS = [
   { kind: "academica", title: "Experiencia académica", en: "Education", c: "var(--olive)" },
 ] as const;
 
-/** Experiencia: línea de tiempo vertical en dos partes (laboral y académica), sobre el cuero y los tigres. */
+/** Experiencia: línea de tiempo vertical en dos partes (laboral y académica), sobre el lienzo y los tigres. */
 export default function ExperienceR() {
   const t = useT();
   const { experience } = useContent();
@@ -41,7 +41,7 @@ export default function ExperienceR() {
   return (
     <section
       id="experiencia"
-      className="cuero overflow-x-clip py-[clamp(90px,11vw,170px)] [--gc:var(--cream)] [--gx:85%] [--gy:35%] light:[--cuero-mezcla:multiply] light:[--cuero-op:.22]"
+      className="lienzo overflow-x-clip py-[clamp(90px,11vw,170px)] [--gc:var(--cream)] [--gx:85%] [--gy:35%] light:[--lienzo-mezcla:multiply] light:[--lienzo-op:.22]"
     >
       <div ref={wrap} className="wrap relative isolate">
         <div

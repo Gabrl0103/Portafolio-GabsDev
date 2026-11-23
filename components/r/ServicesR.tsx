@@ -72,7 +72,7 @@ export default function ServicesR() {
   const incl = t("Incluye", "Includes");
 
   return (
-    <section id="servicios" className="cuero banda [--gc:var(--olive)] [--gx:82%] [--gy:30%] py-[clamp(90px,11vw,170px)]">
+    <section id="servicios" className="lienzo banda [--gc:var(--olive)] [--gx:82%] [--gy:30%] py-[clamp(90px,11vw,170px)]">
       <div className="wrap">
         <div className={cx(lab, "rv")}>
           <b>(03)</b> {sections.find((s) => s.id === "servicios")?.label}
@@ -131,7 +131,7 @@ export default function ServicesR() {
             id="servicio-detalle"
             data-a="right"
             aria-live="polite"
-            className="rv cuero-tarjeta relative grid min-h-[clamp(380px,32vw,460px)] rounded-3xl border border-line bg-[rgba(var(--fgr),.04)] p-[clamp(26px,3vw,44px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] max-[900px]:hidden"
+            className="rv lienzo-tarjeta relative grid min-h-[clamp(380px,32vw,460px)] rounded-3xl border border-line bg-[rgba(var(--fgr),.04)] p-[clamp(26px,3vw,44px)] shadow-[0_40px_80px_-50px_rgba(0,0,0,.7)] max-[900px]:hidden"
           >
             <Tape v={1} className="-top-3 right-12 rotate-[4deg]" />
             {services.map((s, i) => {
