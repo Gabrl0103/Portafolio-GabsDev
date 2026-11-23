@@ -1,26 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Outfit } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter_Tight } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
-/** Etiquetas en mayúsculas */
-const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
-/** Letra principal (estilo rabanne): títulos, texto y menú */
-const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
-/**
- * Letra de los destacados (estilo VIDA): Fraunces negra con remates blandos (SOFT 100, WONK 1, opsz 144),
- * guardada ya fija en ese estilo para poder usarla también en el canvas del texto con grano.
- */
-const vida = localFont({ src: "./fonts/vida.woff2", variable: "--font-vida", weight: "900", style: "normal", display: "swap" });
+/** Única familia del sitio */
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
-  title: `${site.name} · Portafolio ${site.year}`,
+  title: `${site.name} Guerrero · Portafolio ${site.year}`,
   description:
     "Portafolio de Gabriel Guerrero, estudiante de Ingeniería de Software en Pasto. Apps web, móvil y de escritorio con Next.js, TypeScript y Tailwind CSS.",
+  alternates: { languages: { es: "/", en: "/en" } },
   openGraph: {
-    title: `${site.name} · Portafolio`,
-    description: "Diseño y construyo apps web, móvil y de escritorio.",
+    title: `${site.name} Guerrero · Portafolio`,
+    description:
+      "Del diseño al código en producción: apps de escritorio, Android, Wear OS y web.",
     locale: "es_CO",
     type: "website",
   },
@@ -28,21 +26,12 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0F0D12" },
-    { media: "(prefers-color-scheme: light)", color: "#E4CFB8" },
-  ],
+  themeColor: "#111111",
 };
-
-/** Fija el tema antes de pintar para evitar parpadeo. */
-const themeScript = `(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.setAttribute('data-theme',t);}catch(e){r.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${mono.variable} ${outfit.variable} ${vida.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="es" className={interTight.variable}>
       <body>{children}</body>
     </html>
   );
