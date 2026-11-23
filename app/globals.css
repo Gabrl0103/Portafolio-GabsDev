@@ -47,27 +47,41 @@
   padding: 12px 20px;
   font-size: 13px;
   font-weight: 600;
-  transition: background-color 0.3s, color 0.3s;
-  &:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+  &:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
 }
 @utility pill-fill {
   background: var(--fg);
   color: var(--bg);
   border-color: var(--fg);
-  &:hover { background: transparent; color: var(--fg); }
+  &:hover {
+    background: transparent;
+    color: var(--fg);
+  }
 }
 
 /* Aparece al entrar en pantalla (Reveal.tsx añade .vis) */
 @utility rv {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.9s ease, transform 1.1s var(--ease-expo);
-  &.vis { opacity: 1; transform: none; }
+  transition:
+    opacity 0.9s ease,
+    transform 1.1s var(--ease-expo);
+  &.vis {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @layer base {
   html {
-    background: var(--ink);
+    background: var(--t-bg);
     scroll-behavior: smooth;
     overflow-x: clip;
   }
@@ -79,16 +93,66 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
   }
-  h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl { margin: 0; padding: 0; }
-  ul, ol { list-style: none; }
-  a { color: inherit; text-decoration: none; }
-  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-  :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-  ::selection { background: var(--ink); color: var(--paper); }
-  section[id] { scroll-margin-top: 0; }
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  ul,
+  ol,
+  dl {
+    margin: 0;
+    padding: 0;
+  }
+  ul,
+  ol {
+    list-style: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  section[id] {
+    scroll-margin-top: 0;
+  }
+}
+
+/* Cambio de tema suave (lo activa ThemeToggle solo mientras cambia) */
+.theme-anim,
+.theme-anim * {
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; scroll-behavior: auto !important; }
-  .rv { opacity: 1 !important; transform: none !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+  .rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

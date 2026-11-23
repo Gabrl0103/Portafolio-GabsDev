@@ -65,7 +65,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
           aspectRatio: ratio,
           width: `min(100%, calc(min(78svh, 760px) * ${ratio}))`,
         }}
-        className="relative mx-auto overflow-hidden bg-[rgba(17,17,17,.06)]"
+        className="relative mx-auto overflow-hidden bg-fg/[.06]"
       >
         <Viewer key={i} m={cur} />
       </div>
@@ -84,7 +84,7 @@ export default function Gallery({ media }: { media: ProjectMedia[] }) {
                   aria-pressed={k === i}
                   onClick={() => setI(k)}
                   className={cx(
-                    "relative block h-[64px] w-[100px] cursor-pointer overflow-hidden border-2 bg-[rgba(17,17,17,.06)] p-0 transition-[border-color,opacity] duration-300",
+                    "relative block h-[64px] w-[100px] cursor-pointer overflow-hidden border-2 bg-fg/[.06] p-0 transition-[border-color,opacity] duration-300",
                     k === i
                       ? "border-fg"
                       : "border-transparent opacity-60 hover:opacity-100",

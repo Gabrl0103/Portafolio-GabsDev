@@ -13,6 +13,10 @@
  *    fg      texto principal             #111111        /  #E9E5DD
  *    soft    texto secundario            #6D6A65        /  #9B978F
  *    line    líneas y divisiones         texto al 20 %
+ *
+ *  Modo oscuro (sigue al sistema o al botón ◐ del menú, que guarda la
+ *  elección en data-theme): el papel pasa a carbón #1A1918 y la tinta a
+ *  negro #0B0B0B, así las secciones siguen distinguiéndose.
  * ===================================================================
  */
 
@@ -31,16 +35,41 @@
     --fg: var(--ink);
     --soft: #6d6a65;
     --line: rgba(17, 17, 17, 0.2);
+    /* secciones oscuras (inicio, contacto, menú) */
+    --t-bg: var(--ink);
+    --t-fg: var(--paper);
+    --t-soft: #9b978f;
+    --t-line: rgba(233, 229, 221, 0.2);
     color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1918;
+      --fg: var(--paper);
+      --soft: #9b978f;
+      --line: rgba(233, 229, 221, 0.16);
+      --t-bg: #0b0b0b;
+      --t-line: rgba(233, 229, 221, 0.16);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1a1918;
+    --fg: var(--paper);
+    --soft: #9b978f;
+    --line: rgba(233, 229, 221, 0.16);
+    --t-bg: #0b0b0b;
+    --t-line: rgba(233, 229, 221, 0.16);
+    color-scheme: dark;
   }
 }
 
-/* Sección oscura: invierte la paleta dentro de ella */
+/* Sección oscura: usa la paleta de tinta dentro de ella */
 @utility tinta {
-  --bg: var(--ink);
-  --fg: var(--paper);
-  --soft: #9b978f;
-  --line: rgba(233, 229, 221, 0.2);
+  --bg: var(--t-bg);
+  --fg: var(--t-fg);
+  --soft: var(--t-soft);
+  --line: var(--t-line);
   background: var(--bg);
   color: var(--fg);
 }

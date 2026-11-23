@@ -10,7 +10,7 @@ import { openProject } from "./Projects";
 /** Sobre mí: título partido en dos columnas, texto en columnas, cifras y la foto grande. */
 export default function About() {
   const t = useT();
-  const { site, sections, now, openTo, stats, projects } = useContent();
+  const { sections, now, openTo, stats, projects } = useContent();
   return (
     <section
       id="acerca"

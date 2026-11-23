@@ -92,7 +92,7 @@ export default function Projects() {
           </h2>
           {/* Captura del proyecto activo */}
           <div className="sticky top-20 mt-9 max-[900px]:hidden">
-            <div className="relative aspect-[4/3] overflow-hidden bg-[rgba(17,17,17,.06)]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-fg/[.06]">
               {projects.map((p, i) => {
                 const src = cover(p);
                 return src ? (

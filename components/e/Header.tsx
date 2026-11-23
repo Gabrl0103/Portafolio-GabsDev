@@ -5,6 +5,7 @@ import { useContent } from "@/lib/content";
 import { otherLangHref, useLang, useT } from "@/lib/i18n";
 import { cx } from "../ui";
 import { goTo, pad } from "./parts";
+import ThemeToggle from "./ThemeToggle";
 
 /**
  * Barra fija arriba: nombre, enlaces numerados a todas las secciones, idioma y CV.
@@ -57,6 +58,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <a
             href={otherLangHref(lang)}
             hrefLang={lang === "en" ? "es" : "en"}
@@ -121,6 +123,7 @@ export default function Header() {
             </li>
           ))}
         </ol>
+        <ThemeToggle full className="label mt-6 self-start" />
         <div className="mt-auto flex gap-3">
           <a
             href={site.cv}
