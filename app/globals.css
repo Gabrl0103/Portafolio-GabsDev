@@ -20,6 +20,21 @@
   --ease-quint: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-back: cubic-bezier(0.3, 1.5, 0.5, 1);
   --animate-bob: bob var(--d, 7s) ease-in-out infinite;
+  --animate-late: late 2s ease-in-out infinite;
+  --animate-baja: baja 2.2s var(--ease-quint) infinite;
+
+  /* Punto de disponibilidad que late */
+  @keyframes late {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--olive) 60%, transparent); }
+    50% { box-shadow: 0 0 0 7px transparent; }
+  }
+  /* Línea de "Sigue bajando": se llena de arriba abajo y se vacía hacia abajo */
+  @keyframes baja {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
 
   --animate-brillo: brillo 4.5s ease-in-out infinite;
 
