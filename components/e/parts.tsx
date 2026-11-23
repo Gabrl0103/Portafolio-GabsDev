@@ -105,7 +105,17 @@ export function goTo(id: string) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (id === "inicio")
     return scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  document
-    .getElementById(id)
-    ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  // Posición natural de la sección (suma de las anteriores): sirve también cuando
+  // las secciones están pegadas (modo apilar), donde su posición en pantalla engaña
+  const el = document.getElementById(id);
+  if (!el) return;
+  let top = el.offsetTop;
+  if (el.parentElement?.tagName === "MAIN") {
+    top = (el.parentElement as HTMLElement).offsetTop;
+    for (const s of el.parentElement.children) {
+      if (s === el) break;
+      top += (s as HTMLElement).offsetHeight;
+    }
+  }
+  scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
 }
