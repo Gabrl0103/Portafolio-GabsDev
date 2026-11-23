@@ -63,16 +63,21 @@ const demo = (p: Project) => demoMedia(p)?.src;
 const SAT = 18.6; // alto de cada cuadro de alrededor (% del escenario)
 const BIG = 40; // alto del cuadro principal (% del escenario)
 const MAIN: [number, number] = [50, 21];
+// En fila de izquierda a derecha, en zigzag: a la derecha esperan los próximos (#1 → #3)
+// y a la izquierda van quedando los ya vistos (#6 es el más cercano al centro).
+// Con → todos se corren un lugar a la izquierda; con ← a la derecha.
 const SLOTS: [number, number][] = [
-  [50, 0], // #1 arriba del principal
-  [50, 81.4], // #2 abajo, después de los datos
-  [76.5, 64], // #3
-  [27.5, 6], // #4
-  [74.5, 4], // #5
-  [9, 34], // #6
+  [72, 3], // #1 derecha, cerca
+  [75, 66], // #2 derecha, al medio
+  [90, 38], // #3 derecha, lejos
+  [10, 38], // #4 izquierda, lejos
+  [25, 66], // #5 izquierda, al medio
+  [28, 3], // #6 izquierda, cerca
 ];
-const HABLEMOS: [number, number] = [90.5, 34]; // #7
-const GITHUB: [number, number] = [22, 64];
+const HABLEMOS: [number, number] = [90, 80];
+const GITHUB: [number, number] = [10, 80];
+/** Lado de cada lugar: 0 centro, 1 derecha, -1 izquierda */
+const side = (k: number) => (k === 0 ? 0 : k <= 3 ? 1 : -1);
 const box = ([x, y]: [number, number], h: number, w = (h * 4) / 3) =>
   ({
     left: `calc(${x}% - var(--sh) * ${w / 200})`,
@@ -230,10 +235,16 @@ export default function Projects() {
     requestAnimationFrame(() => requestAnimationFrame(() => setOpen(i)));
   };
   const [back, setBack] = useState(false);
-  const go = (k: number, prev = false) => {
+  const [prevOrder, setPrevOrder] = useState(order);
+  const [step, setStep] = useState(0);
+  // k: lugar del proyecto que pasa al centro. Los de la derecha llegan corriéndose
+  // hacia la izquierda; los de la izquierda, hacia la derecha.
+  const go = (k: number, prev = k > 3) => {
     if (k <= 0) return;
     setBack(prev);
     setMoved(true);
+    setStep((x) => x + 1);
+    setPrevOrder(order);
     setOrder((o) => [...o.slice(k), ...o.slice(0, k)]);
   };
 
@@ -367,15 +378,16 @@ export default function Projects() {
           const k = order.indexOf(i);
           const main = k === 0;
           // al avanzar, primero llega el del centro y después cada cuadro en orden
-          const delay = !moved
-            ? 0
-            : back
-              ? k === 0
-                ? 0
-                : (n - k) * 80
-              : k === n - 1
-                ? n * 80
-                : k * 80;
+          // el que da la vuelta (sale por un lado y entra por el otro) se desvanece y reaparece
+          const was = prevOrder.indexOf(i);
+          const wrap =
+            moved &&
+            (back
+              ? side(was) === 1 && side(k) === -1
+              : side(was) === -1 && side(k) === 1);
+          // todos se mueven casi juntos, como un tren: arranca primero el que va adelante
+          const x = k === 0 ? 50 : SLOTS[k - 1][0];
+          const delay = moved ? (back ? 100 - x : x) * 2.5 : 0;
           return (
             <button
               key={q.id}
@@ -390,10 +402,19 @@ export default function Projects() {
               data-cover={main || undefined}
               style={{
                 ...(main ? box(MAIN, BIG) : box(SLOTS[k - 1], SAT)),
-                transitionDelay: `${delay}ms`,
+                transitionDelay: wrap
+                  ? "450ms, 450ms, 450ms, 450ms, 0ms, 0ms"
+                  : `${delay}ms`,
+                transitionDuration: wrap
+                  ? "0ms, 0ms, 0ms, 0ms, 1000ms, 1000ms"
+                  : undefined,
+                animation: wrap
+                  ? `${step % 2 ? "wrap-a" : "wrap-b"} .95s ease both`
+                  : undefined,
               }}
               className={cx(
                 "group absolute block text-left transition-[left,top,width,height,filter,opacity] duration-1000 ease-expo",
+                wrap && "z-[1]",
                 main
                   ? "z-[3] cursor-default"
                   : "z-[2] opacity-60 grayscale hover:opacity-100",
