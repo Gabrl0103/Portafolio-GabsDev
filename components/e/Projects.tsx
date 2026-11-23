@@ -70,7 +70,8 @@ const useWide = () =>
     () => matchMedia(WIDE).matches,
     () => true,
   );
-const demoMedia = (p: Project) => p.media?.find((m) => m.type === "video");
+const demoMedia = (p: Project) =>
+  p.preview ?? p.media?.find((m) => m.type === "video");
 const demo = (p: Project) => demoMedia(p)?.src;
 
 /**
