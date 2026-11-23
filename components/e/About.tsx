@@ -102,8 +102,15 @@ export default function About() {
               w={860}
               h={1075}
               points={[
-                [66, 42, 18],
-                [50, 64, 22],
+                [66, 42, 18], // ojo
+                [13, 15, 14], // fondo, arriba a la izquierda
+                [88, 28, 12], // fondo, a la derecha
+                [12, 81, 16, "dark"], // suéter
+                [62, 91, 12, "dark"], // cierre del suéter
+              ]}
+              links={[
+                [1, 0],
+                [0, 2],
               ]}
             />
           </span>

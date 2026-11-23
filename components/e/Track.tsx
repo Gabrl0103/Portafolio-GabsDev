@@ -71,11 +71,14 @@ const wobble = (seed: number, j: number, amp = 2) =>
  */
 export function FaceTrack({
   points,
+  links = [],
   w,
   h,
 }: {
-  /** [x %, y %, tamaño px] sobre la foto */
-  points: [number, number, number][];
+  /** [x %, y %, tamaño px] sobre la foto; con "dark", en tinta (para zonas claras como la ropa) */
+  points: [number, number, number, "dark"?][];
+  /** Pares de puntos unidos por una línea punteada */
+  links?: [number, number][];
   /** Tamaño real de la imagen, para que las coordenadas sean de píxeles reales */
   w: number;
   h: number;
@@ -90,30 +93,32 @@ export function FaceTrack({
     if (ref.current) io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  const [a, b] = points;
   return (
     <div
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 font-mono text-[8.5px] leading-none text-white"
+      className="pointer-events-none absolute inset-0 font-mono text-[8.5px] leading-none text-white [text-shadow:0_0_3px_rgba(0,0,0,.45)]"
     >
       <svg className="absolute inset-0 h-full w-full overflow-visible">
-        <line
-          x1={`${a[0]}%`}
-          y1={`${a[1]}%`}
-          x2={`${b[0]}%`}
-          y2={`${b[1]}%`}
-          stroke="currentColor"
-          strokeWidth=".8"
-          strokeDasharray="2 3"
-          pathLength={1}
-          className={cx(
-            "transition-[opacity] duration-700",
-            on ? "opacity-70 delay-700" : "opacity-0",
-          )}
-        />
+        {links.map(([p1, p2], i) => (
+          <line
+            key={i}
+            x1={`${points[p1][0]}%`}
+            y1={`${points[p1][1]}%`}
+            x2={`${points[p2][0]}%`}
+            y2={`${points[p2][1]}%`}
+            stroke="currentColor"
+            strokeWidth=".8"
+            strokeDasharray="2 3"
+            style={{ transitionDelay: on ? `${700 + i * 300}ms` : "0ms" }}
+            className={cx(
+              "transition-[opacity] duration-700",
+              on ? "opacity-60" : "opacity-0",
+            )}
+          />
+        ))}
       </svg>
-      {points.map(([x, y, s], i) => (
+      {points.map(([x, y, s, dark], i) => (
         <div
           key={i}
           style={{
@@ -124,13 +129,14 @@ export function FaceTrack({
           }}
           className={cx(
             "absolute transition-[opacity,scale] duration-500",
+            dark && "text-[#111] [text-shadow:none]",
             on ? "scale-100 opacity-100" : "scale-125 opacity-0",
           )}
         >
           <TrackBox size={s} />
           <span
             className="absolute top-0 whitespace-nowrap opacity-90"
-            style={{ left: s + 5 }}
+            style={x > 75 ? { right: s + 5 } : { left: s + 5 }}
           >
             x: {Math.round((x / 100) * w) + wobble(i + 3, j)} y:{" "}
             {Math.round((y / 100) * h) + wobble(i + 5, j)}
