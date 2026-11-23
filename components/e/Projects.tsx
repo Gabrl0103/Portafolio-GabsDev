@@ -128,8 +128,9 @@ function Cover({
   const ratio = demoMedia(p)?.ratio ?? 16 / 10;
   const on = main && !!auto;
   // 4:3 como el cuadro (p. ej. el reloj de Rumbo): llena el cuadro sin marco
-  const frame =
-    Math.abs(ratio - 4 / 3) < 0.05
+  const frame = demoMedia(p)?.round
+    ? "round"
+    : Math.abs(ratio - 4 / 3) < 0.05
       ? "full"
       : ratio < 0.7
         ? "phone"
@@ -178,6 +179,8 @@ function Cover({
               frame === "full"
                 ? "h-full w-full"
                 : "shadow-[0_24px_50px_-20px_rgba(0,0,0,.9)]",
+              frame === "round" &&
+                "h-[88%] rounded-full border-[6px] border-[#2a2a2a]",
               frame === "phone" &&
                 "h-[90%] rounded-[22px] border-[6px] border-[#2a2a2a]",
               frame === "card" && "h-[90%] rounded-md",

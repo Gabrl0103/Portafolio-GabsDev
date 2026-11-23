@@ -30,6 +30,8 @@ export type ProjectMedia = (
 ) & {
   /** Ancho / alto del archivo: el visor toma esta forma para que no queden franjas vacías (p. ej. 1440 / 900). */
   ratio?: number;
+  /** Pantalla redonda (reloj): se muestra recortada en círculo */
+  round?: boolean;
 };
 
 export interface Project {
