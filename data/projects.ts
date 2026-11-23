@@ -90,9 +90,17 @@ export const projects: Project[] = [
     media: [
       {
         type: "video",
+        src: "/proyectos/rumbo/demo.mp4",
+        ratio: 1,
+        round: true,
+        alt: "Rumbo funcionando en el emulador de Wear OS: destino, vibraciones, ruta y recálculo",
+        poster: "/proyectos/rumbo/demo.webp",
+      },
+      {
+        type: "video",
         src: "/proyectos/rumbo/reloj.mp4",
         ratio: 1440 / 1080,
-        alt: "Rumbo funcionando en el reloj: destino por voz, patrones de vibración, ruta, giro próximo y recálculo",
+        alt: "Recorrido guiado por las pantallas de Rumbo en un smartwatch",
         poster: "/proyectos/rumbo/reloj.webp",
       },
     ],

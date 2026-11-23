@@ -88,7 +88,8 @@ export const projectsEn: Record<string, ProjectText> = {
       "A Wear OS smartwatch app that guides blind and low-vision people with vibrations while they walk. You say your destination out loud and the watch takes you there with vibration patterns and spoken guidance.",
     kind: "Academic project · Wear OS",
     alts: [
-      "Rumbo running on the watch: spoken destination, vibration patterns, route, upcoming turn and rerouting",
+      "Rumbo running on the Wear OS emulator: destination, vibrations, route and rerouting",
+      "Guided tour of Rumbo's screens on a smartwatch",
     ],
     detail: {
       problema:
