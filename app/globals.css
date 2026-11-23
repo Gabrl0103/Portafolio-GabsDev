@@ -185,6 +185,11 @@
     transform: none;
   }
 }
+/* Portada que cubre el detalle mientras se abre y luego se desvanece */
+@keyframes cover-out {
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
+}
 /* Cambio de mes del calendario */
 @keyframes cal-next {
   from {
