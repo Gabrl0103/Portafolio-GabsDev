@@ -224,7 +224,8 @@ export default function Projects() {
   const [order, setOrder] = useState(() => projects.map((_, i) => i));
   const [moved, setMoved] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const close = useCallback(() => setOpen(null), []);
+  const closeRef = useRef<() => void>(() => {});
+  const close = useCallback(() => closeRef.current(), []);
   const strip = useRef<HTMLUListElement>(null);
   const sec = useRef<HTMLElement>(null);
   // la demo del principal corre solo mientras la sección está en pantalla
@@ -251,16 +252,34 @@ export default function Projects() {
   }, []);
   // El detalle se abre creciendo desde el cuadro del proyecto
   const [from, setFrom] = useState<string | null>(null);
-  const openAt = (i: number, el: HTMLElement) => {
-    // el cuadro principal visible (escritorio o celular); si no, el botón tocado
+  /** Recorte con la forma del cuadro principal visible (escritorio o celular) */
+  const rectOf = (el?: HTMLElement) => {
     const card =
       [
         ...(sec.current?.querySelectorAll<HTMLElement>("[data-cover]") ?? []),
       ].find((c) => c.offsetParent) ?? el;
+    if (!card) return null;
     const r = card.getBoundingClientRect();
-    setFrom(
-      `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 6px)`,
-    );
+    return `inset(${r.top}px ${innerWidth - r.right}px ${innerHeight - r.bottom}px ${r.left}px round 6px)`;
+  };
+  // Al cerrar, el panel vuelve a encogerse hacia el cuadro principal tal como está ahora
+  useEffect(() => {
+    closeRef.current = () => {
+      setFrom(rectOf());
+      setOpen(null);
+    };
+  });
+  // Si dentro del detalle se pasa a otro proyecto, la constelación lo deja al centro
+  const show = (i: number) => {
+    setOrder((o) => {
+      const k = o.indexOf(i);
+      return k > 0 ? [...o.slice(k), ...o.slice(0, k)] : o;
+    });
+    setMoved(false);
+    setOpen(i);
+  };
+  const openAt = (i: number, el: HTMLElement) => {
+    setFrom(rectOf(el));
     // un cuadro después, para que el panel parta desde ahí
     requestAnimationFrame(() => requestAnimationFrame(() => setOpen(i)));
   };
@@ -566,7 +585,7 @@ export default function Projects() {
         </div>
       </div>
 
-      <Detail k={open} from={from} onClose={close} onGo={setOpen} />
+      <Detail k={open} from={from} onClose={close} onGo={show} />
     </section>
   );
 }
@@ -649,16 +668,30 @@ function Detail({
       aria-label={p.title}
       inert={!isOpen}
       className={cx(
-        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg transition-[clip-path,visibility] duration-[1000ms] ease-expo max-[700px]:px-[18px]",
+        "fixed inset-0 z-[70] overflow-auto bg-bg px-8 pt-6 pb-16 text-fg max-[700px]:px-[18px]",
         isOpen ? "visible" : "invisible",
       )}
       style={{
         clipPath: isOpen
           ? "inset(0px 0px 0px 0px round 0px)"
           : (from ?? "inset(100% 0px 0px 0px round 0px)"),
+        opacity: isOpen ? 1 : 0,
+        // Abrir: crece rápido y frena. Cerrar: el contenido se va primero, el panel
+        // se encoge con suavidad hacia el cuadro y al final se desvanece sobre él.
+        transition: isOpen
+          ? "clip-path 1000ms cubic-bezier(.16,1,.3,1), opacity 0ms, visibility 0ms"
+          : "clip-path 850ms cubic-bezier(.65,0,.35,1) 120ms, opacity 380ms ease 620ms, visibility 0ms 1000ms",
       }}
     >
-      <div key={`${seq}-${i}`}>
+      <div
+        key={`${seq}-${i}`}
+        className={cx(
+          "transition-[opacity,translate] ease-out",
+          isOpen
+            ? "translate-y-0 opacity-100 duration-0"
+            : "-translate-y-3 opacity-0 duration-300",
+        )}
+      >
         <div
           className="label rise flex items-center justify-between border-b border-line pb-3"
           style={d(250)}
