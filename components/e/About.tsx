@@ -6,6 +6,7 @@ import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { ArrowDown, PageHead } from "./parts";
 import { openProject } from "./Projects";
+import { FaceTrack } from "./Track";
 
 /** Sobre mí: título partido en dos columnas, texto en columnas, cifras y la foto grande. */
 export default function About() {
@@ -96,6 +97,14 @@ export default function About() {
               fill
               sizes="(max-width: 900px) 100vw, 440px"
               className="object-cover object-center"
+            />
+            <FaceTrack
+              w={860}
+              h={1075}
+              points={[
+                [66, 42, 18],
+                [50, 64, 22],
+              ]}
             />
           </span>
           <figcaption className="label mt-[5%] flex justify-between text-[#6d6a65]">
