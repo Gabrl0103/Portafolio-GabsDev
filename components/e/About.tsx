@@ -32,6 +32,12 @@ export default function About() {
                 "I like understanding the problem, designing it and leaving it working for the people who will use it.",
               )}
             </p>
+            <p className="mt-4 text-[14px] leading-[1.55] text-soft">
+              {t(
+                "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto, y he construido apps web, Android, Wear OS y de escritorio. También soy socio de Neveo, una heladería de frozen yogurt y açaí: llevo su marketing y sus redes sociales, y desarrollé su sistema de punto de venta.",
+                "I'm in my fifth semester of Software Engineering at Universidad Cooperativa de Colombia, in Pasto, and I've built web, Android, Wear OS and desktop apps. I'm also a partner at Neveo, a frozen yogurt and açaí shop: I run its marketing and social media, and I built its point-of-sale system.",
+              )}
+            </p>
           </div>
           <dl className="text-[13px] text-soft">
             {now.map((n) => (
@@ -63,6 +69,13 @@ export default function About() {
             ))}
             <dt className="label mb-1 text-fg">{t("Abierto a", "Open to")}</dt>
             <dd>{openTo.join(" · ")}</dd>
+            <dt className="label mt-3.5 mb-1 text-fg">
+              {t("Tecnologías", "Tech stack")}
+            </dt>
+            <dd>
+              TypeScript · React · Next.js · Tailwind CSS · Node.js · Java ·
+              Spring Boot · Kotlin · PostgreSQL · Python
+            </dd>
           </dl>
           <ul className="col-span-full mt-5 grid grid-cols-3 border-t border-fg max-[700px]:col-span-1">
             {stats.map((s) => (
