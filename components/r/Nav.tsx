@@ -146,7 +146,7 @@ export default function Nav() {
                   <span
                     aria-hidden="true"
                     className={cx(
-                      "overflow-hidden font-serif text-[19px] leading-none font-medium tracking-[-.02em] whitespace-nowrap italic transition-[max-width,opacity] duration-500 ease-expo",
+                      "overflow-hidden font-serif text-[18px] leading-none font-black tracking-[-.02em] whitespace-nowrap transition-[max-width,opacity] duration-500 ease-expo",
                       on
                         ? "max-w-[9em] opacity-100"
                         : "max-w-0 opacity-0 group-hover/n:max-w-[9em] group-hover/n:opacity-80",

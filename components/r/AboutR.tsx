@@ -40,7 +40,7 @@ function Phrase({ text }: { text: string }) {
     <>
       {text.split(/(\*[^*]+\*)/).map((part, i) =>
         part.startsWith("*") ? (
-          <em key={i} className="font-serif font-medium tracking-[-.035em] italic">
+          <em key={i} className="font-serif font-black tracking-[-.035em]">
             {part.slice(1, -1)}
           </em>
         ) : (

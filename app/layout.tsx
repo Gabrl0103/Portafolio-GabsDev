@@ -1,18 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, Inter_Tight, JetBrains_Mono, Outfit } from "next/font/google";
+import { JetBrains_Mono, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import { site } from "@/data/site";
 import "./globals.css";
 
-/** Texto corrido */
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["400", "500"] });
-/** Títulos */
-const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 /** Etiquetas en mayúsculas */
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500"] });
-/** Texto con grano ("Gabriel" gigante y la intro) */
-const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: "800" });
-/** Serif clásica: nombres de los proyectos y palabras en cursiva de los títulos */
-const serif = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], style: ["normal", "italic"] });
+/** Letra principal (estilo rabanne): títulos, texto y menú */
+const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800"] });
+/**
+ * Letra de los destacados (estilo VIDA): Fraunces negra con remates blandos (SOFT 100, WONK 1, opsz 144),
+ * guardada ya fija en ese estilo para poder usarla también en el canvas del texto con grano.
+ */
+const vida = localFont({ src: "./fonts/vida.woff2", variable: "--font-vida", weight: "900", style: "normal", display: "swap" });
 
 export const metadata: Metadata = {
   title: `${site.name} · Portafolio ${site.year}`,
@@ -39,7 +39,7 @@ const themeScript = `(function(){var r=document.documentElement;r.classList.add(
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${inter.variable} ${tight.variable} ${mono.variable} ${outfit.variable} ${serif.variable}`} suppressHydrationWarning>
+    <html lang="es" className={`${mono.variable} ${outfit.variable} ${vida.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

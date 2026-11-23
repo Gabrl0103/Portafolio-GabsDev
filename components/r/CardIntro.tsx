@@ -3,7 +3,7 @@
 import { site } from "@/data/site";
 import { useLang, useT } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
-import { grain } from "@/lib/grain";
+import { grain, loadGrainFont } from "@/lib/grain";
 
 const SEEN = "intro-vista";
 const rnd = (a: number, b: number) => a + Math.random() * (b - a);
@@ -120,7 +120,7 @@ export default function CardIntro() {
       started = true;
       build();
     };
-    document.fonts?.ready.then(start, start);
+    loadGrainFont().then(start, start);
     timers.push(setTimeout(start, 2600));
     const onKey = (e: KeyboardEvent) => ["Enter", "Escape", " "].includes(e.key) && skipRef.current();
     addEventListener("keydown", onKey);

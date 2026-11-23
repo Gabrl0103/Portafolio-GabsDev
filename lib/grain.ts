@@ -3,8 +3,8 @@
  * como tinta sobre papel. Devuelve un canvas listo para copiar o convertir en imagen.
  */
 export function grain(text: string, fs: number, rgb: [number, number, number]) {
-  const family = getComputedStyle(document.body).getPropertyValue("--font-outfit").trim() || "Arial Black";
-  const font = `800 ${fs}px ${family}, "Arial Black", system-ui, sans-serif`;
+  const family = getComputedStyle(document.body).getPropertyValue("--font-vida").trim() || "Georgia";
+  const font = `900 ${fs}px ${family}, Georgia, serif`;
   const m = document.createElement("canvas").getContext("2d")!;
   m.font = font;
   const w = Math.ceil(m.measureText(text).width);
@@ -41,6 +41,12 @@ export function grain(text: string, fs: number, rgb: [number, number, number]) {
   }
   bx.putImageData(d, 0, 0);
   return b;
+}
+
+/** Carga la letra del grano antes de dibujar (el canvas no la pide por sí solo). */
+export function loadGrainFont(): Promise<unknown> {
+  const family = getComputedStyle(document.body).getPropertyValue("--font-vida").trim();
+  return family && document.fonts ? document.fonts.load(`900 64px ${family}`).catch(() => null) : Promise.resolve();
 }
 
 /** "rgb(236, 233, 226)" → [236, 233, 226] */
