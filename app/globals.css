@@ -2,13 +2,13 @@
 /* Configuración de colores: paleta y tema claro/oscuro */
 @import "../styles/colors.css";
 
-/* Familias: font-sans (texto), font-disp (títulos), font-mono (etiquetas), font-grain (texto con grano), font-serif (nombres de proyectos) */
+/* Familias: font-sans y font-disp (Outfit, estilo rabanne), font-mono (etiquetas), font-grain y font-serif (letra VIDA: "Gabriel" con grano, nombres de proyectos y palabras destacadas) */
 @theme inline {
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-disp: var(--font-tight), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-disp: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --font-grain: var(--font-outfit), "Arial Black", system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-grain: var(--font-vida), Georgia, serif;
+  --font-serif: var(--font-vida), Georgia, serif;
 }
 
 /* Tema claro como variante: light:hidden… */
@@ -65,7 +65,7 @@
 }
 /* Título grande de sección */
 @utility big {
-  font: 500 clamp(44px, 8.6vw, 150px) / 0.92 var(--font-disp);
+  font: 600 clamp(44px, 8.6vw, 150px) / 0.92 var(--font-disp);
   letter-spacing: -0.05em;
 }
 /*

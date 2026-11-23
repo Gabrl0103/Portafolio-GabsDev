@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { grain, rgbOf } from "@/lib/grain";
+import { grain, loadGrainFont, rgbOf } from "@/lib/grain";
 
 /**
  * Texto con grano dibujado en un canvas. El tamaño y el color salen de las clases
@@ -44,7 +44,7 @@ export default function GrainText({
       clearTimeout(t);
       t = setTimeout(draw, 60);
     };
-    document.fonts?.ready.then(draw);
+    loadGrainFont().then(draw);
     draw();
     addEventListener("resize", later);
     const mo = new MutationObserver(later);
