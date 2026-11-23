@@ -1,13 +1,19 @@
 import { site } from "@/data/site";
 
-/** Si defines NEXT_PUBLIC_FORMSPREE_ID se envía por Formspree; si no, se abre la app de correo con el texto listo. */
-export const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+/** Formulario de Formspree que recibe los mensajes (se puede cambiar con NEXT_PUBLIC_FORMSPREE_ID). */
+export const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID || "xaeolaez";
 
-export async function sendMessage(subject: string, fields: Record<string, string>) {
+export async function sendMessage(
+  subject: string,
+  fields: Record<string, string>,
+) {
   if (FORMSPREE_ID) {
     const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
       method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ _subject: subject, ...fields }),
     });
     if (!res.ok) throw new Error("No se pudo enviar");
@@ -21,4 +27,5 @@ export async function sendMessage(subject: string, fields: Record<string, string
   return "mailto" as const;
 }
 
-export const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+export const isEmail = (v: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
