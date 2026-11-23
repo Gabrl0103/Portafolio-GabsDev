@@ -134,6 +134,88 @@
   }
 }
 
+/* Palabras que suben una a una (testimonios, títulos del detalle) */
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.55em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@utility word-in {
+  display: inline-block;
+  animation: word-in 0.8s var(--ease-expo) both;
+}
+/* Entra desde abajo con opacidad (contenido del detalle de proyecto) */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility rise {
+  animation: rise 1s var(--ease-expo) both;
+}
+/* Imagen que se descubre de abajo hacia arriba */
+@keyframes unveil {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@utility unveil {
+  animation: unveil 1.2s var(--ease-expo) both;
+}
+@keyframes zoom-out {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: none;
+  }
+}
+/* Cambio de mes del calendario */
+@keyframes cal-next {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cal-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Barra de progreso del testimonio automático */
+@keyframes fill-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* Cambio de tema suave (lo activa ThemeToggle solo mientras cambia) */
 .theme-anim,
 .theme-anim * {
@@ -141,6 +223,53 @@
     background-color 0.5s ease,
     color 0.5s ease,
     border-color 0.5s ease !important;
+}
+
+/* ===== Opciones de paso entre secciones (ScrollFx, ?scroll=) ===== */
+html[data-scroll] main > section {
+  background: var(--bg);
+}
+
+/* apilar: la sección se queda y la siguiente sube encima; la de abajo se aleja y oscurece */
+html[data-scroll="apilar"] main > section {
+  position: sticky;
+  transform: scale(calc(1 - 0.05 * var(--p, 0)));
+  transform-origin: 50% 100%;
+  box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, calc(0.35 * var(--e, 0)));
+}
+html[data-scroll="apilar"] main > section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: #000;
+  opacity: calc(0.55 * var(--p, 0));
+}
+
+/* imán: el scroll se detiene al inicio de cada sección */
+html[data-scroll="iman"] {
+  scroll-snap-type: y proximity;
+}
+html[data-scroll="iman"] main > section {
+  scroll-snap-align: start;
+}
+
+/* telón: sobre negro, cada sección entra como una lámina con esquinas y se abre */
+html[data-scroll="telon"] main {
+  background: var(--t-bg);
+}
+html[data-scroll="telon"] main > section {
+  position: relative;
+  clip-path: inset(
+    0 calc((1 - var(--e, 1)) * 6%) 0 calc((1 - var(--e, 1)) * 6%) round
+      calc((1 - var(--e, 1)) * 36px) calc((1 - var(--e, 1)) * 36px) 0 0
+  );
+}
+html[data-scroll="telon"] main > section > * {
+  transform: translateY(calc((1 - var(--e, 1)) * 60px));
+}
+html[data-scroll="telon"] main > section:first-child {
+  clip-path: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

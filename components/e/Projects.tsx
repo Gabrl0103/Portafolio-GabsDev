@@ -62,7 +62,13 @@ export default function Projects() {
   const t = useT();
   const { projects, sections, site } = useContent();
   const [on, setOn] = useState(0);
+  const [prev, setPrev] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+  const hover = (i: number) => {
+    if (i === on) return;
+    setPrev(on);
+    setOn(i);
+  };
   const close = useCallback(() => setOpen(null), []);
 
   useEffect(() => {
@@ -92,6 +98,7 @@ export default function Projects() {
           </h2>
           {/* Captura del proyecto activo */}
           <div className="sticky top-20 mt-9 max-[900px]:hidden">
+            {/* La captura nueva se descubre de abajo hacia arriba sobre la anterior */}
             <div className="relative aspect-[4/3] overflow-hidden bg-fg/[.06]">
               {projects.map((p, i) => {
                 const src = cover(p);
@@ -103,16 +110,35 @@ export default function Projects() {
                     fill
                     sizes="50vw"
                     className={cx(
-                      "bn object-cover transition-opacity duration-500",
-                      on === i ? "opacity-100" : "opacity-0",
+                      "bn object-cover",
+                      prev === i ? "opacity-100" : "opacity-0",
                     )}
                   />
                 ) : null;
               })}
+              {cover(cur) && (
+                <div
+                  key={cur.id}
+                  className="unveil absolute inset-0 overflow-hidden"
+                >
+                  <Image
+                    src={cover(cur)!}
+                    alt=""
+                    fill
+                    sizes="50vw"
+                    className="bn animate-[zoom-out_1.4s_var(--ease-expo)_both] object-cover"
+                  />
+                </div>
+              )}
+              <span className="display absolute right-4 bottom-3 overflow-hidden text-[64px] leading-none text-white mix-blend-difference">
+                <span key={cur.id} className="rise block">
+                  {pad(on + 1)}
+                </span>
+              </span>
             </div>
-            <div className="label mt-2 flex justify-between">
-              <span>
-                {pad(on + 1)} — {cur.title}
+            <div className="label mt-2 flex justify-between overflow-hidden">
+              <span key={cur.id} className="rise">
+                {cur.title}
               </span>
               <span className="text-soft">{platform(cur.kind)}</span>
             </div>
@@ -121,12 +147,24 @@ export default function Projects() {
 
         <ol className="border-t border-line">
           {projects.map((p, i) => (
-            <li key={p.id} className="border-b border-line">
+            <li
+              key={p.id}
+              className="rv relative border-b border-line"
+              style={{ transitionDelay: `${i * 70}ms` }}
+            >
+              {/* Línea que se dibuja bajo el proyecto activo */}
+              <span
+                aria-hidden="true"
+                className={cx(
+                  "absolute -bottom-px left-0 h-[2px] w-full origin-left bg-fg transition-transform duration-700 ease-expo",
+                  on === i ? "scale-x-100" : "scale-x-0",
+                )}
+              />
               <div
                 role="button"
                 tabIndex={0}
-                onMouseEnter={() => setOn(i)}
-                onFocus={() => setOn(i)}
+                onMouseEnter={() => hover(i)}
+                onFocus={() => hover(i)}
                 onClick={() => setOpen(i)}
                 onKeyDown={(e) =>
                   (e.key === "Enter" || e.key === " ") &&
@@ -142,11 +180,22 @@ export default function Projects() {
                   </p>
                   <h3
                     className={cx(
-                      "text-[26px] font-extrabold tracking-[-.035em] decoration-2 underline-offset-[5px]",
-                      on === i && "underline",
+                      "flex items-center gap-2 text-[26px] font-extrabold tracking-[-.035em] transition-transform duration-500 ease-expo",
+                      on === i && "translate-x-2",
                     )}
                   >
                     {p.title}
+                    <span
+                      aria-hidden="true"
+                      className={cx(
+                        "text-[18px] transition-[opacity,translate] duration-500 ease-expo",
+                        on === i
+                          ? "translate-x-0 opacity-100"
+                          : "-translate-x-2 opacity-0",
+                      )}
+                    >
+                      ↗
+                    </span>
                   </h3>
                 </div>
                 <p className="text-right text-[13px] leading-[1.45] text-soft max-[700px]:text-left">
@@ -184,13 +233,21 @@ export default function Projects() {
         </ol>
       </div>
       <ArrowDown className="absolute right-8 bottom-8 max-[700px]:right-[18px]" />
-      <Detail k={open} onClose={close} />
+      <Detail k={open} onClose={close} onGo={setOpen} />
     </section>
   );
 }
 
 /** Detalle del proyecto a pantalla completa, en papel */
-function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
+function Detail({
+  k,
+  onClose,
+  onGo,
+}: {
+  k: number | null;
+  onClose: () => void;
+  onGo: (i: number) => void;
+}) {
   const t = useT();
   const { projects } = useContent();
   const [mounted, setMounted] = useState(false);
@@ -198,6 +255,13 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
   if (k !== null && k !== last) setLast(k);
   const p = projects[k ?? last];
   const isOpen = k !== null;
+  // Cuenta cada apertura, así las animaciones de entrada se repiten
+  const [seq, setSeq] = useState(0);
+  const [wasOpen, setWasOpen] = useState(false);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+    if (isOpen) setSeq((x) => x + 1);
+  }
   const panel = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
 
@@ -211,6 +275,7 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
     const prev = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     if (panel.current) panel.current.scrollTop = 0;
+    // (también al pasar al siguiente proyecto: ver efecto de abajo)
     const id = setTimeout(
       () => closeBtn.current?.focus({ preventScroll: true }),
       400,
@@ -225,7 +290,15 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
     };
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (k !== null && panel.current)
+      panel.current.scrollTo({ top: 0, behavior: "smooth" });
+  }, [k]);
+
   if (!mounted) return null;
+  const i = k ?? last;
+  const next = (i + 1) % projects.length;
+  const d = (ms: number) => ({ animationDelay: `${ms}ms` });
   const rows: [keyof Project["detail"], string, string][] = [
     ["problema", "Problema", "Problem"],
     ["solucion", "Solución", "Solution"],
@@ -244,61 +317,106 @@ function Detail({ k, onClose }: { k: number | null; onClose: () => void }) {
         isOpen ? "visible translate-y-0" : "invisible translate-y-full",
       )}
     >
-      <div className="label flex items-center justify-between border-b border-line pb-3">
-        <span>
-          {t("Proyecto", "Project")} {pad((k ?? last) + 1)} /{" "}
-          {pad(projects.length)} — {platform(p.kind)}
-        </span>
-        <button
-          ref={closeBtn}
-          type="button"
-          onClick={onClose}
-          className="pill px-3.5! py-2!"
+      <div key={`${seq}-${i}`}>
+        <div
+          className="label rise flex items-center justify-between border-b border-line pb-3"
+          style={d(250)}
         >
-          {t("Cerrar", "Close")} ✕
+          <span>
+            {t("Proyecto", "Project")} {pad(i + 1)} / {pad(projects.length)} —{" "}
+            {platform(p.kind)}
+          </span>
+          <button
+            ref={closeBtn}
+            type="button"
+            onClick={onClose}
+            className="pill px-3.5! py-2!"
+          >
+            {t("Cerrar", "Close")} ✕
+          </button>
+        </div>
+        <div className="mt-10 grid grid-cols-[1.1fr_1fr] gap-14 max-[900px]:grid-cols-1">
+          <div>
+            <h2 className="display text-[clamp(56px,8vw,128px)]">
+              {p.title.split(" ").map((w, j) => (
+                <span
+                  key={j}
+                  className="inline-block overflow-hidden pb-[.08em] align-top"
+                >
+                  <span className="word-in mr-[.18em]" style={d(380 + j * 90)}>
+                    {w}
+                  </span>
+                </span>
+              ))}
+            </h2>
+            <div className="unveil mt-8" style={d(550)}>
+              {p.media?.length ? (
+                <Gallery key={p.id} media={p.media} />
+              ) : cover(p) ? (
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={cover(p)!}
+                    alt=""
+                    fill
+                    sizes="55vw"
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div>
+            <p
+              className="rise text-[clamp(18px,1.6vw,23px)] leading-[1.4] font-medium tracking-[-.01em]"
+              style={d(600)}
+            >
+              {p.description}
+            </p>
+            <p className="label rise mt-5 text-soft" style={d(680)}>
+              {p.tags.join(" · ")}
+            </p>
+            <dl className="mt-8 border-t border-fg">
+              {rows.map(([key, es, en], j) => (
+                <div
+                  key={key}
+                  className="rise grid grid-cols-[120px_1fr] gap-4 border-b border-line py-4 max-[700px]:grid-cols-1 max-[700px]:gap-1"
+                  style={d(740 + j * 90)}
+                >
+                  <dt className="label text-soft">{t(es, en)}</dt>
+                  <dd className="text-[15px]">{p.detail[key]}</dd>
+                </div>
+              ))}
+            </dl>
+            <div
+              className="label rise mt-7 flex flex-wrap gap-5"
+              style={d(1100)}
+            >
+              {links(p).map((l) => (
+                <LinkTag key={l.label} l={l} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Pasar al siguiente proyecto */}
+        <button
+          type="button"
+          onClick={() => onGo(next)}
+          className="group mt-20 flex w-full items-end justify-between border-t border-fg pt-5 text-left"
+        >
+          <span>
+            <span className="label block text-soft">
+              {t("Siguiente proyecto", "Next project")} · {pad(next + 1)}
+            </span>
+            <span className="display mt-2 block text-[clamp(44px,6vw,96px)] transition-transform duration-700 ease-expo group-hover:translate-x-3">
+              {projects[next].title}
+            </span>
+          </span>
+          <ArrowOut
+            size={56}
+            className="shrink-0 transition-transform duration-700 ease-expo group-hover:translate-x-1 group-hover:-translate-y-1"
+          />
         </button>
-      </div>
-      <div className="mt-10 grid grid-cols-[1.1fr_1fr] gap-14 max-[900px]:grid-cols-1">
-        <div>
-          <h2 className="display text-[clamp(56px,8vw,128px)]">{p.title}</h2>
-          <div className="mt-8">
-            {p.media?.length ? (
-              <Gallery key={p.id} media={p.media} />
-            ) : cover(p) ? (
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src={cover(p)!}
-                  alt=""
-                  fill
-                  sizes="55vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-          </div>
-        </div>
-        <div>
-          <p className="text-[clamp(18px,1.6vw,23px)] leading-[1.4] font-medium tracking-[-.01em]">
-            {p.description}
-          </p>
-          <p className="label mt-5 text-soft">{p.tags.join(" · ")}</p>
-          <dl className="mt-8 border-t border-fg">
-            {rows.map(([key, es, en]) => (
-              <div
-                key={key}
-                className="grid grid-cols-[120px_1fr] gap-4 border-b border-line py-4 max-[700px]:grid-cols-1 max-[700px]:gap-1"
-              >
-                <dt className="label text-soft">{t(es, en)}</dt>
-                <dd className="text-[15px]">{p.detail[key]}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="label mt-7 flex flex-wrap gap-5">
-            {links(p).map((l) => (
-              <LinkTag key={l.label} l={l} />
-            ))}
-          </div>
-        </div>
       </div>
     </div>,
     document.body,
