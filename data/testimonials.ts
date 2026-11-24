@@ -13,8 +13,8 @@ export const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "Neveo, frozen yogurt y açaí",
-    role: "Cliente de marketing y redes · Pasto",
+    name: "Manuela G.",
+    role: "Neveo, frozen yogurt y açaí · Marketing y redes",
     quote:
       "El trabajo de Gabriel es algo que me deja sin palabras, porque siempre es una persona que te colabora, te ayuda a innovar y te propone nuevas ideas. Lo recomiendo 100 %: en mis negocios ha hecho que me actualice y que sea más fácil llegar a mis clientes.",
     rating: 5,
