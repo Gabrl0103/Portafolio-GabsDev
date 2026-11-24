@@ -424,7 +424,7 @@ export default function Projects() {
     <section
       id="proyectos"
       ref={sec}
-      className="relative flex min-h-svh flex-col px-8 pt-[74px] pb-8 max-[700px]:px-[18px] max-[700px]:pt-[70px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[94px] pb-8 max-[700px]:px-[18px] max-[700px]:pt-[94px]"
     >
       <PageHead n={2} label={sections[1].label} />
 

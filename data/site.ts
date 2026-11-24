@@ -10,11 +10,15 @@ export const site = {
   semester: "5.º semestre",
   /** Personal: no caduca como el institucional (gabriel.guerrerom@campusucc.edu.co). */
   email: "gabrielgum2006@gmail.com",
+  /** Abre Gmail con un mensaje nuevo para ti (mailto depende de tener una app de correo configurada) */
+  emailCompose:
+    "https://mail.google.com/mail/?view=cm&fs=1&to=gabrielgum2006@gmail.com",
   /** Con indicativo y sin "+" ni espacios. */
   whatsapp: "573106349957",
   github: "https://github.com/Gabrl0103",
   /** Perfil de LinkedIn (vacío = no se muestra el ícono) */
-  linkedin: "https://www.linkedin.com/in/gabriel-guerrero-429949380/" as string,
+  linkedin:
+    "https://www.linkedin.com/in/gabriel-guerrero-martinez-429949380" as string,
   /** Instagram de Neveo: se muestra en el proyecto Neveo POS, no en tus redes personales. */
   instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",

@@ -57,7 +57,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[94px] max-[700px]:pt-[94px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={4} label={sections[3].label} />
       <div

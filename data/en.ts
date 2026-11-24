@@ -295,8 +295,7 @@ export const testimonialsEn = [
       "Gabriel works at Neveo in customer service and social media, performing his duties well with responsibility, excellent teamwork, problem solving and tolerance.",
   },
   {
-    name: "Neveo, frozen yogurt & açaí",
-    role: "Marketing and social media client · Pasto",
+    role: "Neveo, frozen yogurt & açaí · Marketing and social media",
     quote:
       "Gabriel's work leaves me speechless, because he's always someone who helps you, pushes you to innovate and brings new ideas. I recommend him 100%: in my businesses he has helped me keep up to date and made it easier to reach my customers.",
   },

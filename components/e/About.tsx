@@ -16,7 +16,7 @@ export default function About() {
   return (
     <section
       id="acerca"
-      className="relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-24 max-[700px]:px-[18px]"
+      className="relative flex min-h-svh flex-col px-8 pt-[94px] max-[700px]:pt-[94px] pb-24 max-[700px]:px-[18px]"
     >
       <PageHead n={1} label={sections[0].label} />
       <h2 className="display rv mt-auto grid grid-cols-2 gap-14 text-[132px] max-[900px]:flex max-[900px]:gap-[.25em] max-[900px]:text-[64px]">
