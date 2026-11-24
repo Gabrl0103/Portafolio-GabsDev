@@ -307,7 +307,7 @@ export const testimonialsEn = [
     role: "Neveo, frozen yogurt & açaí · Marketing and social media",
     quote:
       "Gabriel's work leaves me speechless, because he's always someone who helps you, pushes you to innovate and brings new ideas. I recommend him 100%: in my businesses he has helped me keep up to date and made it easier to reach my customers.",
-    highlight: "I recommend him 100%",
+    highlight: "I recommend him 100%:",
   },
   {
     role: "Interior design studio · Client",
