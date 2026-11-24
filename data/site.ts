@@ -14,7 +14,7 @@ export const site = {
   whatsapp: "573106349957",
   github: "https://github.com/Gabrl0103",
   /** Perfil de LinkedIn (vacío = no se muestra el ícono) */
-  linkedin: "" as string,
+  linkedin: "https://www.linkedin.com/in/gabriel-guerrero-429949380/" as string,
   /** Instagram de Neveo: se muestra en el proyecto Neveo POS, no en tus redes personales. */
   instagram: "https://instagram.com/neveo_",
   cv: "/cv.pdf",
