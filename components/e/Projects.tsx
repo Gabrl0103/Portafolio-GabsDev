@@ -49,12 +49,15 @@ function LinkTag({ l }: { l: ProjectLink }) {
   return (
     <a
       href={l.href}
-      target="_blank"
+      // los instaladores (APK, EXE) se descargan; lo demás abre en otra pestaña
+      {...(/\.(apk|exe|zip)$/.test(l.href)
+        ? { download: true }
+        : { target: "_blank" })}
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
       className="border-b-[1.5px] border-fg pb-px font-bold"
     >
-      {l.label} ↗
+      {l.label} {/\.(apk|exe|zip)$/.test(l.href) ? "↓" : "↗"}
     </a>
   );
 }

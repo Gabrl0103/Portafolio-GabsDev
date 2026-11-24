@@ -260,7 +260,7 @@ export const projects: Project[] = [
       label: "GitHub",
       href: "https://github.com/Gabrl0103/Willay-Firemap",
     },
-    secondary: { label: "Descargar APK", href: "" },
+    secondary: { label: "Descargar APK", href: "/descargas/atalaya.apk" },
     detail: {
       problema:
         "La información sobre el riesgo de incendios forestales en Nariño está dispersa y no es fácil de consultar desde el celular.",
