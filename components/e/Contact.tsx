@@ -7,6 +7,7 @@ import { isEmail, sendMessage } from "@/lib/send";
 import { cx } from "../ui";
 import Calendar from "./Calendar";
 import Footer from "./Footer";
+import Mark from "./Mark";
 import { ArrowOut, PageHead } from "./parts";
 
 const field =
@@ -248,10 +249,13 @@ export default function Contact() {
             {tab === "msg" ? (
               <>
                 <p className="mb-5 text-sm text-soft">
-                  {t(
-                    "Cuéntame qué necesitas; respondo en menos de 24 horas.",
-                    "Tell me what you need; I reply within 24 hours.",
-                  )}
+                  {t("Cuéntame qué necesitas; ", "Tell me what you need; ")}
+                  <Mark>
+                    {t(
+                      "respondo en menos de 24 horas.",
+                      "I reply within 24 hours.",
+                    )}
+                  </Mark>
                 </p>
                 <Form />
               </>

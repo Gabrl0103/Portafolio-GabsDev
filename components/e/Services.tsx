@@ -5,6 +5,7 @@ import TechIcon from "@/components/TechIcon";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { cx } from "../ui";
+import Mark from "./Mark";
 import { ArrowDown, PageHead, pad } from "./parts";
 
 /**
@@ -30,8 +31,18 @@ export default function Services() {
           </h2>
           <p className="mt-6 max-w-[26em] text-[13px] text-soft">
             {t(
-              "Sitios y apps completas, del formulario al panel de administración, desplegadas y listas para usar. Toca un servicio para ver qué incluye.",
-              "Complete websites and apps, from the form to the admin dashboard, deployed and ready to use. Tap a service to see what it includes.",
+              "Sitios y apps completas, del formulario al panel de administración, ",
+              "Complete websites and apps, from the form to the admin dashboard, ",
+            )}
+            <Mark>
+              {t(
+                "desplegadas y listas para usar.",
+                "deployed and ready to use.",
+              )}
+            </Mark>
+            {t(
+              " Toca un servicio para ver qué incluye.",
+              " Tap a service to see what it includes.",
             )}
           </p>
         </div>
