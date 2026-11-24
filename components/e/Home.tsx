@@ -7,6 +7,7 @@ import Hero from "./Hero";
 import { Reveal } from "./parts";
 import Projects from "./Projects";
 import ScrollFx from "./ScrollFx";
+import { CursorTrack } from "./Track";
 import Services from "./Services";
 import Testimonials from "./Testimonials";
 
@@ -16,6 +17,7 @@ export default function Home({ lang }: { lang: Lang }) {
     <LangProvider lang={lang}>
       <Reveal />
       <ScrollFx />
+      <CursorTrack />
       <Header />
       <main>
         <Hero />

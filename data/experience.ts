@@ -5,7 +5,7 @@ export const experience: Experience[] = [
   {
     kind: "laboral",
     title: "Marketing y redes sociales",
-    place: "Neveo, heladería y açaí · Pasto",
+    place: "Neveo, frozen yogurt y açaí · Pasto",
     start: "Jul 2025",
     end: "Hoy",
     description:

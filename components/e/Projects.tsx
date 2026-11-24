@@ -14,6 +14,7 @@ import { useT } from "@/lib/i18n";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import Gallery from "./Gallery";
+import { DemoScan, ProjectScan } from "./Track";
 import { ArrowOut, PageHead, goTo, pad } from "./parts";
 
 /** Abre el detalle de un proyecto desde cualquier parte del sitio */
@@ -48,12 +49,15 @@ function LinkTag({ l }: { l: ProjectLink }) {
   return (
     <a
       href={l.href}
-      target="_blank"
+      // los instaladores (APK, EXE) se descargan; lo demás abre en otra pestaña
+      {...(/\.(apk|exe|zip)$/.test(l.href)
+        ? { download: true }
+        : { target: "_blank" })}
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
       className="border-b-[1.5px] border-fg pb-px font-bold"
     >
-      {l.label} ↗
+      {l.label} {/\.(apk|exe|zip)$/.test(l.href) ? "↓" : "↗"}
     </a>
   );
 }
@@ -372,6 +376,9 @@ export default function Projects() {
           <h3 className="mt-1 text-[clamp(24px,2.2vw,34px)] leading-none font-extrabold tracking-[-.04em]">
             {p.title}
           </h3>
+          <p className="mt-1.5 text-[13px] leading-snug text-soft">
+            {p.summary}
+          </p>
         </div>
         <button
           type="button"
@@ -427,6 +434,7 @@ export default function Projects() {
         style={{ "--sh": `${sh}px` } as React.CSSProperties}
         className="relative -mt-6 min-h-[560px] flex-1 max-[900px]:hidden"
       >
+        <ProjectScan stage={stage} active={inView && wide && open === null} />
         <div className="rv absolute top-0 left-0">
           <h2 className="display text-[clamp(52px,4.6vw,72px)]">
             {t("Proyec-", "Pro-")}
@@ -464,6 +472,7 @@ export default function Projects() {
               }
               aria-current={main || undefined}
               data-cover={main || undefined}
+              data-sat={main ? undefined : q.title}
               style={{
                 ...(main ? box(MAIN, BIG) : box(SLOTS[k - 1], SAT)),
                 transitionDelay: wrap
@@ -490,6 +499,7 @@ export default function Projects() {
                 auto={inView && wide}
                 sizes={main ? "34vw" : "20vw"}
               />
+              {main && <DemoScan name={q.title} active={inView && wide} />}
               <span className="label absolute top-2 left-2.5 text-white mix-blend-difference">
                 {pad(i + 1)}
               </span>

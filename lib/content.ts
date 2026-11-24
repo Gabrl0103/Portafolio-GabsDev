@@ -32,10 +32,12 @@ function projectsInEnglish(): Project[] {
     return {
       ...p,
       description: t.description,
+      summary: t.summary ?? p.summary,
       kind: t.kind,
       tags: t.tags ?? p.tags,
       detail: t.detail,
       media: p.media?.map((m) => ({ ...m, alt: t.alts?.[alt++] ?? m.alt })),
+      demo: p.demo && { ...p.demo, ...t.demo },
       primary: p.primary && { ...p.primary, ...t.primary },
       secondary: p.secondary && { ...p.secondary, ...t.secondary },
     };

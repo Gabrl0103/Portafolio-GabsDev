@@ -39,6 +39,8 @@ export interface Project {
   title: string;
   /** Nombre corto para la pestaña del carrusel. */
   short: string;
+  /** Una línea: qué es el proyecto (se ve bajo el proyecto elegido en Proyectos) */
+  summary: string;
   description: string;
   /** Etiqueta superior: "Proyecto universitario", "Marca propia"… */
   kind: string;

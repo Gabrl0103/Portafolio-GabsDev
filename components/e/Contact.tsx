@@ -6,7 +6,8 @@ import { useT } from "@/lib/i18n";
 import { isEmail, sendMessage } from "@/lib/send";
 import { cx } from "../ui";
 import Calendar from "./Calendar";
-import { ArrowOut, PageHead, goTo } from "./parts";
+import Footer from "./Footer";
+import { ArrowOut, PageHead } from "./parts";
 
 const field =
   "w-full border-0 border-b border-line bg-transparent pt-1 pb-2.5 text-[16px] text-fg outline-none placeholder:text-soft focus:border-fg aria-[invalid=true]:border-fg";
@@ -143,6 +144,15 @@ export default function Contact() {
   const rows: [string, string, string?][] = [
     ["WhatsApp", "+57 310 634 9957", `https://wa.me/${site.whatsapp}`],
     ["GitHub", site.github.replace("https://", ""), site.github],
+    ...(site.linkedin
+      ? ([
+          [
+            "LinkedIn",
+            site.linkedin.replace(/^https:\/\/(www\.)?/, ""),
+            site.linkedin,
+          ],
+        ] as [string, string, string][])
+      : []),
     [
       t("Horario", "Hours"),
       t(
@@ -252,41 +262,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <footer className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4 text-[12px]">
-        <span className="text-soft">
-          ©{site.year} Gabriel Guerrero ·{" "}
-          {t(
-            "Hecho con Next.js, TypeScript y Tailwind",
-            "Built with Next.js, TypeScript and Tailwind",
-          )}
-        </span>
-        <nav
-          aria-label={t("Enlaces rápidos", "Quick links")}
-          className="flex flex-wrap gap-x-5 gap-y-2"
-        >
-          {sections.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                goTo(s.id);
-              }}
-            >
-              {s.label}
-            </a>
-          ))}
-          <a
-            href="#inicio"
-            onClick={(e) => {
-              e.preventDefault();
-              goTo("inicio");
-            }}
-          >
-            ↑ {t("Arriba", "Top")}
-          </a>
-        </nav>
-      </footer>
+      <Footer />
     </section>
   );
 }
