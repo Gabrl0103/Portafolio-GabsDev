@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { cx } from "../ui";
+import Mark from "./Mark";
 import { ArrowDown, PageHead } from "./parts";
 
 const initials = (name: string) =>
@@ -53,7 +54,21 @@ export default function Testimonials() {
     return () => clearTimeout(id);
   }, [running, on, n]);
 
-  const words = cur.quote.split(" ");
+  // la cita, partida en antes / frase resaltada / después
+  const hi = cur.highlight ? cur.quote.indexOf(cur.highlight) : -1;
+  const pre = (hi >= 0 ? cur.quote.slice(0, hi) : cur.quote).trim();
+  const mark = hi >= 0 ? cur.highlight! : "";
+  const post = hi >= 0 ? cur.quote.slice(hi + mark.length).trim() : "";
+  const preW = pre ? pre.split(" ") : [];
+  const markW = mark ? mark.split(" ") : [];
+  const postW = post ? post.split(" ") : [];
+  const wordDelay = (i: number) => ({ animationDelay: `${120 + i * 28}ms` });
+  const Word = ({ w, i, sep }: { w: string; i: number; sep: boolean }) => (
+    <span className="word-in" style={wordDelay(i)}>
+      {w}
+      {sep && "\u00a0"}
+    </span>
+  );
   return (
     <section
       id="testimonios"
@@ -146,15 +161,28 @@ export default function Testimonials() {
             key={on}
             className="mt-6 text-[clamp(26px,2.6vw,40px)] leading-[1.15] font-semibold tracking-[-.03em] max-[700px]:text-[24px]"
           >
-            {words.map((w, i) => (
-              <span
-                key={i}
-                className="word-in"
-                style={{ animationDelay: `${120 + i * 28}ms` }}
-              >
-                {w}
-                {i < words.length - 1 && " "}
-              </span>
+            {preW.map((w, i) => (
+              <Word key={`a${i}`} w={w} i={i} sep />
+            ))}
+            {markW.length > 0 && (
+              <>
+                <Mark
+                  wordClass="word-in"
+                  wordStyle={(k) => wordDelay(preW.length + k)}
+                  delay={120 + (preW.length + markW.length) * 28 + 450}
+                >
+                  {mark}
+                </Mark>
+                {postW.length > 0 && !/^[,.;:!?)]/.test(post) && " "}
+              </>
+            )}
+            {postW.map((w, i) => (
+              <Word
+                key={`b${i}`}
+                w={w}
+                i={preW.length + markW.length + i}
+                sep={i < postW.length - 1}
+              />
             ))}
           </blockquote>
           <figcaption className="mt-8 flex items-end justify-between gap-6 border-t border-fg pt-4">

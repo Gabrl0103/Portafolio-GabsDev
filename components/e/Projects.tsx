@@ -14,6 +14,7 @@ import { useT } from "@/lib/i18n";
 import type { Project, ProjectLink } from "@/types";
 import { cx } from "../ui";
 import Gallery from "./Gallery";
+import { WithMark } from "./Mark";
 import { DemoScan, ProjectScan } from "./Track";
 import { ArrowOut, PageHead, goTo, pad } from "./parts";
 
@@ -377,7 +378,7 @@ export default function Projects() {
             {p.title}
           </h3>
           <p className="mt-1.5 text-[13px] leading-snug text-soft">
-            {p.summary}
+            <WithMark text={p.summary} mark={p.summaryMark} delay={700} />
           </p>
         </div>
         <button
