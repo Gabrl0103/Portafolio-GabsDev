@@ -103,6 +103,7 @@ export const projectsEn: Record<string, ProjectText> = {
       "AI assistant: asked “how far is it?”, it answers “about 470 meters left”",
       "End of the route: You've arrived! at Parque infantil",
     ],
+    demo: { label: "Download APK (Wear OS)" },
     detail: {
       problema:
         "Walking around the city without sight means relying on another person or on apps designed to look at a screen. Rumbo aims to give autonomy with a device people already wear on their wrist.",

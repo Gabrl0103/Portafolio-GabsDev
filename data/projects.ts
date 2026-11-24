@@ -153,6 +153,10 @@ export const projects: Project[] = [
       },
     ],
     format: "watch",
+    demo: {
+      label: "Descargar APK (Wear OS)",
+      href: "/descargas/rumbo.apk",
+    },
     primary: {
       label: "GitHub",
       href: "https://github.com/Gabrl0103/smartwatch-app",
