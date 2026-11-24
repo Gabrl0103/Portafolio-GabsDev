@@ -41,7 +41,7 @@ export default function Footer() {
       href: `https://wa.me/${site.whatsapp}`,
       path: siWhatsapp.path,
     },
-    { label: t("Correo", "Email"), href: `mailto:${site.email}`, path: MAIL },
+    { label: t("Correo", "Email"), href: site.emailCompose, path: MAIL },
   ].filter((l) => l.href);
   const jump = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -59,7 +59,7 @@ export default function Footer() {
             <li key={l.label}>
               <a
                 href={l.href}
-                target={l.href.startsWith("mailto:") ? undefined : "_blank"}
+                target="_blank"
                 rel="noopener noreferrer"
                 aria-label={l.label}
                 title={l.label}

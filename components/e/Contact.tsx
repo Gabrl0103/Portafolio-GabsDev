@@ -165,7 +165,7 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="tinta relative flex min-h-svh flex-col px-8 pt-[74px] max-[700px]:pt-[70px] pb-10 max-[700px]:px-[18px]"
+      className="tinta relative flex min-h-svh flex-col px-8 pt-[94px] max-[700px]:pt-[94px] pb-10 max-[700px]:px-[18px]"
     >
       <PageHead n={6} label={sections[5].label} />
       <div className="my-auto grid grid-cols-2 gap-14 max-[900px]:grid-cols-1">
@@ -177,7 +177,9 @@ export default function Contact() {
         <div className="rv">
           <p className="label mb-2 text-soft">{t("Correo", "Email")}</p>
           <a
-            href={`mailto:${site.email}`}
+            href={site.emailCompose}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-between gap-4 border-b border-line pb-4 text-[clamp(22px,2.3vw,32px)] font-bold tracking-[-.025em] break-all"
           >
             {site.email}

@@ -23,7 +23,9 @@ export default function Hero() {
         </span>
         <span>{site.city}</span>
         <a
-          href={`mailto:${site.email}`}
+          href={site.emailCompose}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-right normal-case max-[700px]:text-left"
         >
           {site.email} ↗
