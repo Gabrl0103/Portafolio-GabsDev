@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
+import Mark from "./Mark";
 import { goTo } from "./parts";
 
 /**
@@ -57,10 +58,8 @@ export default function Hero() {
           </figcaption>
         </figure>
         <p className="claim text-[clamp(30px,3vw,48px)] max-[700px]:text-[30px]">
-          {t(
-            "Del diseño al código en producción:",
-            "From design to code in production:",
-          )}{" "}
+          {t("Del diseño al código ", "From design to code ")}
+          <Mark delay={600}>{t("en producción:", "in production:")}</Mark>{" "}
           <b className="font-extrabold">
             {t(
               "apps de escritorio, Android, Wear OS y web.",

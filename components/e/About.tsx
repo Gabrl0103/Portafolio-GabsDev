@@ -6,6 +6,7 @@ import { useContent } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { ArrowDown, PageHead } from "./parts";
 import { openProject } from "./Projects";
+import Mark from "./Mark";
 import { FaceTrack } from "./Track";
 
 /** Sobre mí: título partido en dos columnas, texto en columnas, cifras y la foto grande. */
@@ -29,14 +30,28 @@ export default function About() {
             <p className="label mb-2.5">{t("Quién soy", "Who I am")}</p>
             <p className="text-[21px] leading-[1.2] font-semibold tracking-[-.02em]">
               {t(
-                "Me gusta entender el problema, diseñarlo y dejarlo funcionando para quien lo va a usar.",
-                "I like understanding the problem, designing it and leaving it working for the people who will use it.",
+                "Me gusta entender el problema, diseñarlo y ",
+                "I like understanding the problem, designing it and ",
+              )}
+              <Mark delay={300}>
+                {t("dejarlo funcionando", "leaving it working")}
+              </Mark>
+              {t(
+                " para quien lo va a usar.",
+                " for the people who will use it.",
               )}
             </p>
             <p className="mt-4 text-[14px] leading-[1.55] text-soft">
               {t(
-                "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto, y he construido apps web, Android, Wear OS y de escritorio. También soy socio de Neveo, una heladería de frozen yogurt y açaí: llevo su marketing y sus redes sociales, y desarrollé su sistema de punto de venta.",
-                "I'm in my fifth semester of Software Engineering at Universidad Cooperativa de Colombia, in Pasto, and I've built web, Android, Wear OS and desktop apps. I'm also a partner at Neveo, a frozen yogurt and açaí shop: I run its marketing and social media, and I built its point-of-sale system.",
+                "Estudio quinto semestre de Ingeniería de Software en la Universidad Cooperativa de Colombia, en Pasto, y he construido apps web, Android, Wear OS y de escritorio. También soy ",
+                "I'm in my fifth semester of Software Engineering at Universidad Cooperativa de Colombia, in Pasto, and I've built web, Android, Wear OS and desktop apps. I'm also ",
+              )}
+              <Mark delay={900}>
+                {t("socio de Neveo,", "a partner at Neveo,")}
+              </Mark>
+              {t(
+                " una heladería de frozen yogurt y açaí: llevo su marketing y sus redes sociales, y desarrollé su sistema de punto de venta.",
+                " a frozen yogurt and açaí shop: I run its marketing and social media, and I built its point-of-sale system.",
               )}
             </p>
           </div>

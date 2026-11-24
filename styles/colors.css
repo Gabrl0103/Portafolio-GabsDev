@@ -35,6 +35,9 @@
     --fg: var(--ink);
     --soft: #6d6a65;
     --line: rgba(17, 17, 17, 0.2);
+    /* resaltado de las frases clave (Mark.tsx) y su texto */
+    --mark: #7471e0;
+    --mark-fg: #ffffff;
     /* secciones oscuras (inicio, contacto, menú) */
     --t-bg: var(--ink);
     --t-fg: var(--paper);
