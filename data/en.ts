@@ -45,6 +45,7 @@ type ProjectText = {
   kind: string;
   tags?: string[];
   alts?: string[];
+  demo?: { label: string; note?: string };
   primary?: { label: string; note?: string };
   secondary?: { label: string; note?: string };
   detail: {
@@ -78,6 +79,7 @@ export const projectsEn: Record<string, ProjectText> = {
       "Goal: pick the role you want to reach and your readiness level",
       "Skills: the whole catalog with what you master, are learning and still need",
     ],
+    demo: { label: "Download for Windows" },
     detail: {
       problema:
         "People shaping their careers have no clear way to see what they know, what they are missing and how close they are to the jobs they want.",

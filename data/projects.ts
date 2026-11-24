@@ -66,6 +66,10 @@ export const projects: Project[] = [
         alt: "Habilidades: todo el catálogo con lo que dominas, lo que aprendes y lo que falta",
       },
     ],
+    demo: {
+      label: "Descargar para Windows",
+      href: "https://github.com/Gabrl0103/SKILLMAP-BACKEND/releases/tag/v1.0-entrega",
+    },
     primary: {
       label: "GitHub · Frontend",
       href: "https://github.com/Gabrl0103/SKILLMAP-FRONTEND",
