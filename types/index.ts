@@ -41,6 +41,8 @@ export interface Project {
   short: string;
   /** Una línea: qué es el proyecto (se ve bajo el proyecto elegido en Proyectos) */
   summary: string;
+  /** Parte del resumen que se resalta (debe aparecer tal cual en summary) */
+  summaryMark?: string;
   description: string;
   /** Etiqueta superior: "Proyecto universitario", "Marca propia"… */
   kind: string;
@@ -72,6 +74,8 @@ export interface Testimonial {
   name: string;
   role: string;
   quote: string;
+  /** Frase de la cita que se resalta (debe aparecer tal cual en quote) */
+  highlight?: string;
   /** Foto en /public/images. Si no existe se muestran las iniciales. */
   photo?: string;
   rating?: 1 | 2 | 3 | 4 | 5;

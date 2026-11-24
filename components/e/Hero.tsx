@@ -72,9 +72,16 @@ export default function Hero() {
         <div>
           <p className="text-[13px] text-soft">
             {t(
-              "Estudio Ingeniería de Software en la Universidad Cooperativa de Colombia y busco prácticas y proyectos freelance para seguir creciendo.",
-              "I study Software Engineering at Universidad Cooperativa de Colombia and I'm looking for internships and freelance projects to keep growing.",
+              "Estudio Ingeniería de Software en la Universidad Cooperativa de Colombia y busco ",
+              "I study Software Engineering at Universidad Cooperativa de Colombia and I'm looking for ",
             )}
+            <Mark delay={1400}>
+              {t(
+                "prácticas y proyectos freelance",
+                "internships and freelance projects",
+              )}
+            </Mark>
+            {t(" para seguir creciendo.", " to keep growing.")}
           </p>
           <div className="mt-[18px] flex flex-wrap gap-2.5">
             <a

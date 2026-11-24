@@ -33,6 +33,7 @@ function projectsInEnglish(): Project[] {
       ...p,
       description: t.description,
       summary: t.summary ?? p.summary,
+      summaryMark: t.summaryMark ?? p.summaryMark,
       kind: t.kind,
       tags: t.tags ?? p.tags,
       detail: t.detail,

@@ -13,6 +13,7 @@ export const projects: Project[] = [
     short: "Cenit",
     summary:
       "Tu ruta de habilidades hacia el rol que quieres, según ofertas reales.",
+    summaryMark: "según ofertas reales",
     description:
       "App de escritorio que funciona como un GPS de tu carrera: mapea las habilidades que ya tienes y las que quieres aprender, y con IA analiza ofertas laborales para medir qué tan compatible eres con el puesto. Mi proyecto universitario más ambicioso.",
     kind: "Proyecto universitario · Escritorio",
@@ -94,6 +95,7 @@ export const projects: Project[] = [
     short: "Rumbo",
     summary:
       "Navegación a pie por vibraciones en el reloj para personas ciegas.",
+    summaryMark: "para personas ciegas",
     description:
       "App para smartwatch Wear OS que guía por vibraciones a personas ciegas o con baja visión mientras caminan. Dices el destino en voz alta y el reloj te lleva con patrones de vibración y guía hablada.",
     kind: "Proyecto académico · Wear OS",
@@ -176,6 +178,7 @@ export const projects: Project[] = [
     title: "Asqua",
     short: "Asqua",
     summary: "Aventura en tercera persona con niveles generados por IA.",
+    summaryMark: "generados por IA",
     description:
       "Videojuego de aventura y acción en tercera persona: Ilse recorre una plaza durante varias noches con un farol, devuelve la Esperanza a cada zona y se defiende de criaturas de sombra. Desde la quinta noche, los niveles los genera un sistema con IA que se adapta a cómo juegas.",
     kind: "Proyecto académico · Videojuego · En equipo",
@@ -211,6 +214,7 @@ export const projects: Project[] = [
     title: "Atalaya",
     short: "Atalaya",
     summary: "Riesgo de incendio forestal por municipio en Nariño.",
+    summaryMark: "Riesgo de incendio forestal",
     description:
       "App Android que muestra el riesgo de incendios forestales por municipio en Nariño, Colombia. Es un indicador para informar y prevenir, no una predicción.",
     kind: "Proyecto académico · Android",
@@ -284,6 +288,7 @@ export const projects: Project[] = [
     title: "Briefings Sencia",
     short: "Sencia",
     summary: "Briefings en línea para un estudio de diseño interior.",
+    summaryMark: "Briefings en línea",
     description:
       "Aplicación web para un estudio de diseño interior que reemplazó el briefing que se enviaba por WhatsApp: formularios que guardan, avisan y ordenan cada solicitud en un panel privado.",
     kind: "Proyecto para cliente · Web",
@@ -355,6 +360,7 @@ export const projects: Project[] = [
     title: "Neveo POS",
     short: "Neveo POS",
     summary: "Punto de venta para una heladería de frozen yogurt y açaí.",
+    summaryMark: "Punto de venta",
     description:
       "Sistema de escritorio de punto de venta para Neveo, una heladería de frozen yogurt y açaí en Pasto: ventas, mesas, inventario, cierre de caja y un analizador de ventas en un solo lugar.",
     kind: "Proyecto para negocio · Escritorio",
@@ -421,6 +427,7 @@ export const projects: Project[] = [
     title: "ServiciosYa",
     short: "ServiciosYa",
     summary: "Paga y analiza tus servicios públicos en un solo lugar.",
+    summaryMark: "en un solo lugar",
     description:
       "Plataforma web para centralizar y pagar los servicios públicos del hogar (agua, energía, gas e internet). Lee las facturas con una foto y usa IA para analizar el consumo. Proyecto en equipo de cuarto semestre.",
     kind: "Proyecto académico · Web · En equipo",
