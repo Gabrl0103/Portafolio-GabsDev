@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useContent } from "@/lib/content";
 import { otherLangHref, useLang, useT } from "@/lib/i18n";
 import { cx } from "../ui";
@@ -25,6 +25,46 @@ export default function Header() {
     return () => removeEventListener("keydown", onKey);
   }, [open]);
 
+  // Franja detrás de la barra con el color de la sección que pasa por debajo:
+  // así el texto que sube nunca se cruza con los enlaces de la barra.
+  const bar = useRef<HTMLElement>(null);
+  const band = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      const h = bar.current?.offsetHeight ?? 64;
+      if (band.current) band.current.style.height = `${h + 14}px`;
+      const el = document
+        .elementsFromPoint(innerWidth / 2, h + 2)
+        .find((e) => !e.closest("header") && e !== band.current);
+      const sec = el?.closest<HTMLElement>("section, footer, [role=dialog]");
+      if (!band.current) return;
+      // sin fondo propio (p. ej. con "reducir movimiento"), el del cuerpo
+      let c = sec ? getComputedStyle(sec).backgroundColor : "";
+      if (!c || c === "transparent" || c === "rgba(0, 0, 0, 0)")
+        c = getComputedStyle(document.body).backgroundColor;
+      band.current.style.backgroundColor = c;
+    };
+    const on = () => {
+      if (!raf) raf = requestAnimationFrame(paint);
+    };
+    paint();
+    addEventListener("scroll", on, { passive: true });
+    addEventListener("resize", on);
+    const mo = new MutationObserver(on);
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      removeEventListener("scroll", on);
+      removeEventListener("resize", on);
+      mo.disconnect();
+    };
+  }, []);
+
   const link = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setOpen(false);
@@ -33,7 +73,15 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-8 py-5 text-[12px] text-white mix-blend-difference max-[700px]:px-[18px]">
+      <div
+        ref={band}
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[49] h-[78px] bg-bg transition-[background-color] duration-300 [mask-image:linear-gradient(#000_calc(100%-14px),transparent)]"
+      />
+      <header
+        ref={bar}
+        className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-8 py-5 text-[12px] text-white mix-blend-difference max-[700px]:px-[18px]"
+      >
         <a
           href="#inicio"
           onClick={link("inicio")}
